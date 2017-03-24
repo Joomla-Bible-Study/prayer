@@ -1,0 +1,1 @@
+-- DROP TABLE `#__prayer`;-- DROP TABLE `#__prayer_subscribe`;-- DROP TABLE `#__prayer_devotions`;-- DROP TABLE `#__prayer_links`;

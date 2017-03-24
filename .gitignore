@@ -1,0 +1,7 @@
+# IntelliJ project files
+.idea
+out
+gen
+.DS_Store
+.gitignore
+.idea/fileTemplates/
