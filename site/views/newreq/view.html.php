@@ -21,10 +21,10 @@ class PrayerViewNewReq extends JViewLegacy
 {
 	function display($tpl = null)
 	{
-		global $pcConfig;
 		$lang = Jfactory::getLanguage();
 		$lang->load('com_prayer', JPATH_SITE);
 		$uri = JFactory::getURI();
+
 		// Set pathway information
 		$this->assign('action', $uri->toString());
 		$pctitle = JText::_('PCTITLE');

@@ -22,7 +22,6 @@ class PrayerControllerPrayer extends PrayerController
 {
 	function newreqsubmit()
 	{
-		global $pcConfig, $prayer;
 		JRequest::checkToken() or jexit('Invalid Token');
 		$app           = JFactory::getApplication();
 		$pc_rights     = $prayer->pc_rights;
@@ -230,7 +229,6 @@ class PrayerControllerPrayer extends PrayerController
 
 	function pcCaptchaValidate($returnto, $itemid, $modtype, $task)
 	{
-		global $pcConfig, $prayer;
 		$JVersion = new JVersion();
 		if ($pcConfig['config_captcha'] == '1')
 		{
@@ -243,7 +241,8 @@ class PrayerControllerPrayer extends PrayerController
 				}
 				else
 				{
-					$returnurl = JRoute::_('index.php?option=com_prayer&task=' . $task . '&Itemid=' . $itemid . '&return_msg=' . htmlentities(JText::_('PCINVALIDCODE')));
+					$returnurl = JRoute::_('index.php?option=com_prayer&task=' . $task . '&Itemid=' . $itemid . '&return_msg=' .
+						htmlentities(JText::_('PCINVALIDCODE')));
 					$this->setRedirect(JRoute::_($returnurl, false));
 				}
 			}
@@ -266,7 +265,7 @@ class PrayerControllerPrayer extends PrayerController
 		}
 		elseif ($pcConfig['config_captcha'] == '6' && $pcConfig['config_recap_pubkey'] != "" && $pcConfig['config_recap_privkey'] != "")
 		{
-			require_once(JPATH_ROOT . '/components/COM_PRAYER/assets/captcha/recaptchalib.php');
+			require_once(JPATH_ROOT . '/components/com_prayer/assets/captcha/recaptchalib.php');
 			$privatekey = $pcConfig['config_recap_privkey'];
 			$resp       = recaptcha_check_answer($privatekey, $_SERVER["REMOTE_ADDR"], $_POST["recaptcha_challenge_field"], $_POST["recaptcha_response_field"]);
 			if (!$resp->is_valid)
@@ -313,8 +312,8 @@ class PrayerControllerPrayer extends PrayerController
 
 	function subscribesubmit()
 	{
-		global $pcConfig, $prayer;
-		JRequest::checkToken() or jexit('Invalid Token');
+		$pcConfig = JComponentHelper::getParams('com_prayer')->toArray();
+		JSession::checkToken() or jexit('Invalid Token');
 		$app           = JFactory::getApplication();
 		$pc_rights     = $prayer->pc_rights;
 		$mod           = JRequest::getVar('mod', null, 'get', 'string');
@@ -492,7 +491,6 @@ class PrayerControllerPrayer extends PrayerController
 
 	function unsubscribesubmit()
 	{
-		global $db, $pcConfig, $prayer;
 		JRequest::checkToken() or jexit('Invalid Token');
 		$mod           = JRequest::getVar('mod', null, 'get', 'string');
 		$modtype       = JRequest::getVar('modtype', null, 'get', 'string');
@@ -616,7 +614,6 @@ class PrayerControllerPrayer extends PrayerController
 
 	function editrequest()
 	{
-		global $db, $pcConfig, $prayer;
 		$itemid = $prayer->PCgetItemid();
 		$db     = JFactory::getDBO();
 		$app    = JFactory::getApplication();
@@ -641,7 +638,6 @@ class PrayerControllerPrayer extends PrayerController
 
 	function closeedit()
 	{
-		global $db, $prayer;
 		$itemid = $prayer->PCgetItemid();
 		$last   = JRequest::getVar('last', null, 'post', 'string');
 		$id     = JRequest::getVar('id', null, 'post', 'int');
@@ -653,7 +649,6 @@ class PrayerControllerPrayer extends PrayerController
 
 	function delrequest()
 	{
-		global $db, $pcConfig, $prayer;
 		if ($pcConfig['config_comments'] == 1)
 		{
 			$jcomments = JPATH_SITE . '/components/com_jcomments/jcomments.php';
@@ -699,7 +694,6 @@ class PrayerControllerPrayer extends PrayerController
 
 	function editdelrequest()
 	{
-		global $db, $pcConfig, $prayer;
 		if ($pcConfig['config_comments'] == 1)
 		{
 			$jcomments = JPATH_SITE . '/components/com_jcomments/jcomments.php';
@@ -742,7 +736,6 @@ class PrayerControllerPrayer extends PrayerController
 
 	function pubrequest()
 	{
-		global $db, $pcConfig, $prayer;
 		jimport('joomla.plugin.helper');
 		$itemid  = $prayer->PCgetItemid();
 		$db      = JFactory::getDBO();
@@ -786,7 +779,6 @@ class PrayerControllerPrayer extends PrayerController
 
 	function unpubrequest()
 	{
-		global $db, $prayer;
 		JRequest::checkToken() or jexit('Invalid Token');
 		$db       = JFactory::getDBO();
 		$itemid   = $prayer->PCgetItemid();

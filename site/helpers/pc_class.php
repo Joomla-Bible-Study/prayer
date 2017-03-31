@@ -17,7 +17,6 @@ Copyright      2006-2014 - Mike Leeper (MLWebTechnologies)
 ****************************************************************************************
 No direct access*/
 defined('_JEXEC') or die('Restricted access');
-global $pc_rights;
 
 class prayer
 {
@@ -25,7 +24,6 @@ class prayer
 
 	function intializePCRights()
 	{
-		global $pcConfig;
 		$config_moderator_list = strip_tags($pcConfig['config_moderator_user_list']);
 		$moderatorArray        = preg_split('/[,]/', $config_moderator_list, -1, PREG_SPLIT_NO_EMPTY);
 		$user                  = JFactory::getUser();
@@ -51,7 +49,6 @@ class prayer
 
 	function getTranslation($ulang, $reqid)
 	{
-		global $pcConfig;
 		$translator = $pcConfig['config_show_translate'];
 		?>
         <script type="text/javascript">var langtranmsg = "<?php echo JText::_('PCSELECTTRANS');?>";</script><?php
@@ -68,12 +65,12 @@ class prayer
 				echo "<select style=\"font-size:7pt;\" id=\"tol\" value=\"\" onChange=\"javascript:getTranslator('" . $ulang . "');\"></select>";
 			}
 			$document = JFactory::getDocument();
-			$document->addScript('components/COM_PRAYER/assets/js/gtranslate.js');
+			$document->addScript('components/com_prayer/assets/js/gtranslate.js');
 		}
         elseif ($translator == 2 || $translator == 5)
 		{
 			//Microsoft Bing Translator
-			echo "<br /><a href=\"http://www.bing.com/translator//\"><img src=\"" . JURI::base() . "components/COM_PRAYER/assets/fe-images/bing-logo.png\" style=\"height:15px;margin-top:2px;vertical-align:middle;border:0;\" title=\"Bing Translator\" /></a><span style=\"color:orange;font-size:7pt;font-weight:bold;\">Translator</span>&nbsp;";
+			echo "<br /><a href=\"http://www.bing.com/translator//\"><img src=\"" . JURI::base() . "components/com_prayer/assets/fe-images/bing-logo.png\" style=\"height:15px;margin-top:2px;vertical-align:middle;border:0;\" title=\"Bing Translator\" /></a><span style=\"color:orange;font-size:7pt;font-weight:bold;\">Translator</span>&nbsp;";
 			if ($translator == 2)
 			{
 				echo "<select style=\"font-size:7pt;\" id=\"tol\" value=\"\" onChange=\"javascript:getTranslator2(" . $reqid . ",'" . JURI::base() . "');\" title=\"" . JText::_('PCPOPUPBLOCKER') . "\"></select>";
@@ -83,13 +80,12 @@ class prayer
 				echo "<select style=\"font-size:7pt;\" id=\"tol\" value=\"\" onChange=\"javascript:getTranslator();\"></select>";
 			}
 			$document = JFactory::getDocument();
-			$document->addScript('components/COM_PRAYER/assets/js/mstranslate.js');
+			$document->addScript('components/com_prayer/assets/js/mstranslate.js');
 		}
 	}
 
 	function PCgetButtons($showrequest, $editonly = false)
 	{
-		global $pcConfig;
 		$user   = JFactory::getUser();
 		$itemid = $this->PCgetItemid();
 		jimport('joomla.environment.browser');
@@ -176,7 +172,6 @@ class prayer
 
 	function PCgetProfileBox($requestarr, $showavatar = true)
 	{
-		global $pcConfig;
 		$user      = JFactory::getUser();
 		$db        = JFactory::getDBO();
 		$livesite  = JURI::base();
@@ -194,7 +189,7 @@ class prayer
 					return;
 				}
 			}
-			global $_CB_framework, $_CB_database, $ueConfig, $_SERVER;
+
 			include_once(JPATH_ADMINISTRATOR . '/components/com_comprofiler/plugin.foundation.php');
 			cbimport('cb.tabs');
 			cbimport('cb.database');
@@ -396,7 +391,7 @@ class prayer
 						}
 						$pmIMG   = '<img src="' . $livesite . 'components/com_comprofiler/images/pm.gif" border="0" alt="' . _UE_PM_USER . '" title="' . _UE_PM_USER . '" />';
 						$_CB_PMS = new cbPMS();
-						global $_CB_PMS;
+
 						$resultArray = $_CB_PMS->getPMSlinks($reqid, $_CB_framework->myId(), "", "", 1);
 						$imgMode     = 1;
 						if (count($resultArray) > 0)
@@ -528,7 +523,6 @@ class prayer
 
 	function PCgetProfileLink($requestarr, $showavatar = true)
 	{
-		global $pcConfig;
 		jimport('joomla.filesystem.folder');
 		$requester = ucfirst($requestarr->requester);
 		$reqemail  = $requestarr->email;
@@ -540,7 +534,6 @@ class prayer
 		$cprofiler = JFolder::exists('components/com_comprofiler');
 		if ($pcConfig['config_community'] == 1 && $cprofiler && $userid > 0)
 		{
-			global $_CB_framework, $_CB_database, $ueConfig, $_SERVER;
 			include_once(JPATH_ADMINISTRATOR . '/components/com_comprofiler/plugin.foundation.php');
 			cbimport('cb.tabs');
 			cbimport('cb.database');
@@ -656,7 +649,6 @@ class prayer
 
 	function PCgetComments($showrequest, $showcomments = false)
 	{
-		global $pcConfig;
 		$return     = "";
 		$dispatcher = JDispatcher::getInstance();
 		$document   = JFactory::getDocument();
@@ -842,7 +834,6 @@ class prayer
 
 	function PCgetEditorBox($text = null)
 	{
-		global $pcConfig, $editorcontent;
 		$conf                    = JFactory::getConfig();
 		$config_show_xtd_buttons = $pcConfig['config_show_xtd_buttons'];
 		$config_editor           = $pcConfig['config_editor'];
@@ -896,7 +887,6 @@ class prayer
 
 	function PCgetSizeRequest($showrequest)
 	{
-		global $pcConfig;
 		$itemid            = $this->PCgetItemid();
 		$showrequest->text = preg_replace("'<\/?p[^>]*>'si", '', $showrequest->text);
 		if (($pcConfig['config_req_length'] > 0) && (strlen($showrequest->text) > $pcConfig['config_req_length']))
@@ -996,7 +986,6 @@ class prayer
 
 	function PCgetSocialBookmarks($bmshowreq)
 	{
-		global $pcConfig;
 		$service   = $pcConfig['config_bm_service'];
 		$serviceid = $pcConfig['config_bm_service_id'];
 		$usegcode  = $pcConfig['config_use_gcode'];
@@ -1093,7 +1082,6 @@ class prayer
 
 	function PCgetAuth($page = null, $edit_own = null)
 	{
-		global $pcConfig;
 		$itemid               = $this->PCgetItemid();
 		$user                 = JFactory::getUser();
 		$returnmsg            = JRequest::getVar('return_msg', null, 'get', 'string');
@@ -1138,7 +1126,6 @@ class prayer
 
 	function PCgetCaptchaImg($action = "pccomp", $form = 'adminForm')
 	{
-		global $pcConfig;
 		$JVersion = new JVersion();
 		$livesite = JURI::base();
 		?>
@@ -1159,9 +1146,9 @@ class prayer
 				$insertimg .= '<div style="padding-left:10px;"><br />';
 				$imgid     = 'sec_image';
 			}
-			$insertimg         .= '<img src="' . $livesite . 'components/COM_PRAYER/assets/captcha/prayer.captcha.inc.php?action=' . $action . '" id="' . $imgid . '" border="1" />';
+			$insertimg         .= '<img src="' . $livesite . 'components/com_prayer/assets/captcha/prayer.captcha.inc.php?action=' . $action . '" id="' . $imgid . '" border="1" />';
 			$insertimg         .= '&nbsp;&nbsp;';
-			$imgpath           = 'components/COM_PRAYER/assets/fe-images/';
+			$imgpath           = 'components/com_prayer/assets/fe-images/';
 			$bparams           = array();
 			$bparams['width']  = '15';
 			$bparams['border'] = '0';
@@ -1198,7 +1185,7 @@ class prayer
 			{
 				$recapext = 'gif';
 			}
-			require_once(JPATH_ROOT . '/components/COM_PRAYER/assets/captcha/recaptchalib.php');
+			require_once(JPATH_ROOT . '/components/com_prayer/assets/captcha/recaptchalib.php');
 			$insertimg .= '<style type="text/css">#recaptcha_image img {width:175px;border:1px solid #ccc;}</style>';
 			$insertimg .= "<script type=\"text/javascript\">var widgetname = 'recaptcha_widget_" . $action . "';var RecaptchaOptions={theme:'custom', custom_theme_widget: widgetname, lang: '" . $recaplang . "'};</script>";
 			$insertimg .= '<div id="recaptcha_widget_' . $action . '" style="display:none">';
@@ -1247,7 +1234,7 @@ class prayer
 				{
 					$recapext = 'gif';
 				}
-				require_once(JPATH_ROOT . '/components/COM_PRAYER/assets/captcha/recaptchalib.php');
+				require_once(JPATH_ROOT . '/components/com_prayer/assets/captcha/recaptchalib.php');
 				$insertimg .= '<style type="text/css">#recaptcha_image img {width:175px;border:1px solid #ccc;}</style>';
 				$insertimg .= "<script type=\"text/javascript\">var widgetname = 'recaptcha_widget_" . $action . "';var RecaptchaOptions={theme:'custom', custom_theme_widget: widgetname, lang: '" . $recaplang . "'};</script>";
 				$insertimg .= '<div id="recaptcha_widget_' . $action . '" style="display:none">';
@@ -1276,7 +1263,6 @@ class prayer
 
 	function PCCaptchaValidate($usercode, $page)
 	{
-		global $pcConfig;
 		$session     = JFactory::getSession();
 		$maxattempts = $pcConfig['config_captcha_maxattempts'];
 		$usercode    = strtolower($usercode);
@@ -1347,12 +1333,9 @@ class prayer
 
 	function PCcheckEmail($email)
 	{
-		global $pcConfig;
 		$config_domain_list = $pcConfig['config_domain_list'];
 		$domArray           = preg_split('/[,]/', $config_domain_list, -1, PREG_SPLIT_NO_EMPTY);
-		//	global $mxrecords;
-		//	if ( $email == '' ) return '';
-		//	if ( !getmxrr ( $domaintld , $mxrecords ) || !preg_match ( "(^[-\w\.]+$)" , $username ) )  return false;
+
 		list($username, $domaintld) = split("@", $email);
 		$domaintld = strtolower($domaintld);
 		if (!empty($domArray))
@@ -1374,7 +1357,6 @@ class prayer
 
 	function PCcheckBlockedEmail($email)
 	{
-		global $pcConfig;
 		$config_emailblock_list = $pcConfig['config_emailblock_list'];
 		$ebArray                = preg_split('/[,]/', strtolower($config_emailblock_list), -1, PREG_SPLIT_NO_EMPTY);
 		if (!empty($ebArray))
@@ -1396,7 +1378,6 @@ class prayer
 
 	function PCspamcheck($string)
 	{
-		global $pcConfig;
 		jimport('joomla.environment.browser');
 		$browser  = JBrowser::getInstance($_SERVER['HTTP_USER_AGENT']);
 		$JVersion = new JVersion();
@@ -1434,7 +1415,6 @@ class prayer
 
 	function PCbadword_replace($string)
 	{
-		global $pcConfig;
 		if ($pcConfig['config_use_wordfilter'] == 1)
 		{
 			$config_bad_words    = trim($pcConfig['config_bad_words']);
@@ -1537,15 +1517,14 @@ class prayer
 
 	function PCsendPM($newrequesterid, $newrequester, $newrequest, $newemail, $sendpriv, $lastId = null, $sessionid = null, $admin = false)
 	{
-		global $pcConfig;
 		$pcpmsclassname = 'PC' . ucfirst($pcConfig['config_pms_plugin']) . 'PMSPlugin';
-		if (!empty($pcConfig['config_pms_plugin']) && file_exists(JPATH_ROOT . '/administrator/components/COM_PRAYER/plugins/pms/plg.pms.' . $pcConfig['config_pms_plugin'] . '.php'))
+		if (!empty($pcConfig['config_pms_plugin']) && file_exists(JPATH_ROOT . '/administrator/components/com_prayer/plugins/pms/plg.pms.' . $pcConfig['config_pms_plugin'] . '.php'))
 		{
-			require_once(JPATH_ROOT . '/administrator/components/COM_PRAYER/helpers/pc_plugin_class.php');
-			$PCPluginHelper = new PCPluginHelper();
+			require_once(JPATH_ROOT . '/administrator/components/com_prayer/helpers/pc_plugin_class.php');
+			$PrayerPluginHelper = new PrayerPluginHelper();
 			$pluginfile     = 'plg.pms.' . $pcConfig['config_pms_plugin'] . '.php';
-			$PCPluginHelper->importPlugin('pms', $pluginfile);
-			$PCPMSPlugin = new $pcpmsclassname();
+			$PrayerPluginHelper->importPlugin('pms', $pluginfile);
+			$PrayerPMSPlugin = new $pcpmsclassname();
 		}
 		else
 		{
@@ -1553,11 +1532,11 @@ class prayer
 		}
 		if ($admin)
 		{
-			$PCPMSPlugin->admin_private_messaging($newrequesterid, $newrequester, $newrequest, $newemail, $lastId, $sessionid, $sendpriv);
+			$PrayerPMSPlugin->admin_private_messaging($newrequesterid, $newrequester, $newrequest, $newemail, $lastId, $sessionid, $sendpriv);
 		}
         elseif (!$sendpriv)
 		{
-			$PCPMSPlugin->send_private_messaging($newrequester, $newrequest, $newemail, $sendpriv, $lastId, $sessionid);
+			$PrayerPMSPlugin->send_private_messaging($newrequester, $newrequest, $newemail, $sendpriv, $lastId, $sessionid);
 		}
 	}
 
@@ -1581,7 +1560,6 @@ class prayer
 
 	function buildPCMenu($mod = false, $modparams = null)
 	{
-		global $itemid, $pcConfig;
 		$itemid = $this->PCgetItemid();
 		$user   = JFactory::getUser();
 		if (!is_null($modparams))
@@ -1662,7 +1640,6 @@ class prayer
 
 	function writePCImage()
 	{
-		global $pcConfig;
 		if (!$pcConfig['config_show_image']) return;
 		jimport('joomla.filesystem.folder');
 		$livesite = JURI::base();
@@ -1697,7 +1674,7 @@ class prayer
 						$height = (int) ($width / $coeff);
 					}
 				}
-				$image = $livesite . 'components/COM_PRAYER/assets/images/slideshow/' . $timg_name;
+				$image = $livesite . 'components/com_prayer/assets/images/slideshow/' . $timg_name;
 				?>
                 <script type="text/javascript">
 					var pcslidespeed =;<?php echo $pcConfig['config_slideshow_speed']?>*
@@ -1712,7 +1689,7 @@ class prayer
 				{
 					if (preg_match('/png$/i', $pcimag) || preg_match('/jpg$/i', $pcimag))
 					{
-						$the_pcimage = $livesite . 'components/COM_PRAYER/assets/images/slideshow/' . $pcimag;
+						$the_pcimage = $livesite . 'components/com_prayer/assets/images/slideshow/' . $pcimag;
 						?>
                         <script type="text/javascript">
 							pcslideimages[<?php echo $i; ?>] = "<?php echo $the_pcimage; ?>";
@@ -1763,14 +1740,13 @@ class prayer
 		else
 		{
 			echo '<div class="mosimage" align="center" style="float:right;padding:0">
-         <img class="pc-img" alt="" title="" border="0" src="components/COM_PRAYER/assets/images/' . $pcConfig['config_imagefile'] . '" />
+         <img class="pc-img" alt="" title="" border="0" src="components/com_prayer/assets/images/' . $pcConfig['config_imagefile'] . '" />
         </div>';
 		}
 	}
 
 	function writePCHeader($text, $override = false, $subtext = "")
 	{
-		global $pcConfig;
 		if (!$pcConfig['config_show_header_text'] && !$override) return;
 		$return = $this->PCkeephtml(htmlentities($text)) . '<br /><br />';
 		if (!empty($subtext)) $return .= $this->PCkeephtml($subtext);
@@ -1780,7 +1756,6 @@ class prayer
 
 	function writePCFooter()
 	{
-		global $pcConfig;
 		$user = JFactory::getUser();
 		$lang = JFactory::getLanguage();
 		$lang->load('com_prayer', JPATH_SITE);
@@ -1866,7 +1841,6 @@ class prayer
 
 	function PCgetTimeZoneData($data, $alt = null)
 	{
-		global $pcConfig;
 		$user               = JFactory::getUser();
 		$userid             = $user->get('id');
 		$juser              = new JUser($userid);

@@ -1,8 +1,1 @@
-<?xml version="1.0" encoding="utf-8"?>
-<metadata>
-	<view title="COM_PRAYERCENTER_SUBSCRIBE_VIEW_DEFAULT_TITLE">
-		<message>
-			<![CDATA[COM_PRAYERCENTER_SUBSCRIBE_VIEW_DEFAULT_DESC]]>
-		</message>
-	</view>
-</metadata>
+<?xml version="1.0" encoding="utf-8"?><metadata>	<view title="COM_PRAYER_SUBSCRIBE_VIEW_DEFAULT_TITLE">		<message>			<![CDATA[COM_PRAYER_SUBSCRIBE_VIEW_DEFAULT_DESC]]>		</message>	</view></metadata>

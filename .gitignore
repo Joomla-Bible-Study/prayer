@@ -5,3 +5,5 @@ gen
 .DS_Store
 .gitignore
 .idea/fileTemplates/
+/admin/prayer.script.php
+/admin/prayer.xml

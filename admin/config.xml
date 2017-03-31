@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <config>
-	<fields name="params" addfieldpath="/administrator/components/COM_PRAYER/elements">
+	<fields name="params" addfieldpath="/administrator/components/com_prayer/elements">
 		<fieldset name="general_settings"
 		          label="General"
 		          description=""
@@ -28,7 +28,7 @@
 			       description="The amount of time between image changes."/>
 			<field name="config_imagefile" type="pcimagelist" default="prayer.png" label="Image to Display"
 			       description="Image displayed on component frontend."
-			       directory="../components/COM_PRAYER/assets/images/" exclude="prayer.jpg,index.html" filter=""/>
+			       directory="../components/com_prayer/assets/images/" exclude="prayer.jpg,index.html" filter=""/>
 			<field name="config_show_menu" type="radio" class="btn-group" default="1" label="Show Menu"
 			       description="Choose yes to display menu on component frontend.">
 				<option value="0">JHIDE</option>
@@ -168,7 +168,7 @@
 			<field name="spacer3a" type="spacer"
 			       label="&lt;h3&gt;&lt;u&gt;View Request Page Settings&lt;/u&gt;&lt;/h3&gt;"/>
 			<field name="config_show_translate" type="list" default="3" label="Show Language Translator"
-			       description="Show Language Translator option. This will allow the viewer to translate the prayer request temporarily into one of several supported languages. All popup translator options are free services but may be affected by popup blockers.  As of December 1, 2011, Google Translate v2 - Inline is a paid service and requires an API key.  Visit the link, http://code.google.com/intl/en/ and click on API Console and then API Access to create one.  Click on Billing to register for service.  Edit the components/COM_PRAYER/assets/js/gtranslate.js file to add the API Key.  Microsoft Bing Translator - Inline is free for the first 2000 transactions/month, afterwards it is a paid service.  It requires an Application ID.  First, Subscribe to the Microsoft Translator API by clicking this link https://datamarket.azure.com/dataset/1899a118-d202-492c-aa16-ba21c33c06cb and choose the subscription option for your site.  Then, register the prayer application by visiting this link https://datamarket.azure.com/developer/applications/.  Then, obtain the Application ID by visiting this link https://ssl.bing.com/webmaster/developers/appids.aspx.   Edit the components/COM_PRAYER/assets/js/mstranslate.js file to add the Application ID.  Inline services will make translations within the prayer request box on the View Prayer Request page.">
+			       description="Show Language Translator option. This will allow the viewer to translate the prayer request temporarily into one of several supported languages. All popup translator options are free services but may be affected by popup blockers.  As of December 1, 2011, Google Translate v2 - Inline is a paid service and requires an API key.  Visit the link, http://code.google.com/intl/en/ and click on API Console and then API Access to create one.  Click on Billing to register for service.  Edit the components/com_prayer/assets/js/gtranslate.js file to add the API Key.  Microsoft Bing Translator - Inline is free for the first 2000 transactions/month, afterwards it is a paid service.  It requires an Application ID.  First, Subscribe to the Microsoft Translator API by clicking this link https://datamarket.azure.com/dataset/1899a118-d202-492c-aa16-ba21c33c06cb and choose the subscription option for your site.  Then, register the prayer application by visiting this link https://datamarket.azure.com/developer/applications/.  Then, obtain the Application ID by visiting this link https://ssl.bing.com/webmaster/developers/appids.aspx.   Edit the components/com_prayer/assets/js/mstranslate.js file to add the Application ID.  Inline services will make translations within the prayer request box on the View Prayer Request page.">
 				<option value="0">JHIDE</option>
 				<option value="1">Show - Google Translate v2 - Popup</option>
 				<option value="2">Show - Microsoft Bing Translator - Popup</option>

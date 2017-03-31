@@ -16,13 +16,13 @@ Copyright      2006-2014 - Mike Leeper (MLWebTechnologies)
 ****************************************************************************************
 No direct access*/
 defined('_JEXEC') or die('Restricted access');
-global $prayer, $editorcontent;
+
 jimport('joomla.filesystem.folder');
 $JVersion = new JVersion();
 $livesite = JURI::base();
 $prayer->PCgetAuth('post');
 $document = JFactory::getDocument();
-$document->addScript('components/COM_PRAYER/assets/js/pc.js');
+$document->addScript('components/com_prayer/assets/js/pc.js');
 $conf          = JFactory::getConfig();
 $config_editor = $this->config_editor;
 if ($config_editor == 'default')
