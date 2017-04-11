@@ -28,6 +28,13 @@ JHtml::addIncludePath(JPATH_ADMINISTRATOR . '/components/com_prayer/helpers/html
 
 JHtml::stylesheet('media/com_prayer/css/general.css');
 
+// If phrase is not found in specific language file, load english language file:
+$language = JFactory::getLanguage();
+$language->load('com_prayer', JPATH_ADMINISTRATOR . '/components/com_prayer', 'en-GB', true);
+$language->load('com_prayer',  JPATH_ADMINISTRATOR . '/components/com_prayer', null, true);
+$language->load('com_prayer', JPATH_SITE . '/components/com_prayer', 'en-GB', true);
+$language->load('com_prayer',  JPATH_SITE . '/components/com_prayer', null, true);
+
 // Include the JLog class.
 jimport('joomla.log.log');
 JLog::addLogger(
