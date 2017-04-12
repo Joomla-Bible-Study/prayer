@@ -1,1 +1,1 @@
-<?php/** * prayer Component * * @license http://www.gnu.org/copyleft/gpl.html GNU/GPL * */defined('_JEXEC') or die('Restricted access');jexit('test Reqs');class PrayerControllerReqs extends JControllerAdmin{}
+<?php/** * prayer Component * * @license http://www.gnu.org/copyleft/gpl.html GNU/GPL * */defined('_JEXEC') or die('Restricted access');jexit('test Reqs');class PrayerControllerReqs extends JControllerLegacy{}
