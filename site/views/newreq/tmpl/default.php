@@ -149,5 +149,5 @@ echo '<input type="hidden" name="task" value="newreqsubmit" />';
 echo JHTML::_('form.token');
 echo '</form>';
 echo '</div><br />';
-$prayer->writePCFooter();
+$prayer->PrayerFooter();
 ?>

@@ -26,6 +26,8 @@ JLoader::discover('PrayerTable', JPATH_ADMINISTRATOR . '/components/com_prayer/t
 JLoader::register('PrayerHelper', JPATH_ADMINISTRATOR . '/components/com_prayer/helpers/prayer.php');
 JHtml::addIncludePath(JPATH_ADMINISTRATOR . '/components/com_prayer/helpers/html/');
 
+// var_dump(JLoader::getClassList());
+
 JHtml::stylesheet('media/com_prayer/css/general.css');
 
 // If phrase is not found in specific language file, load english language file:

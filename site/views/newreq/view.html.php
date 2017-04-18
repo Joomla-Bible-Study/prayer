@@ -27,7 +27,7 @@ class PrayerViewNewReq extends JViewLegacy
 
 		// Set pathway information
 		$this->assign('action', $uri->toString());
-		$pctitle = JText::_('PCTITLE');
+		$pctitle = JText::_('PRAYERTITLE');
 		$this->assignRef('title', $pctitle);
 		$this->assignRef('config_show_page_headers', $pcConfig['config_show_page_headers']);
 		$pcdirections = nl2br(JText::_('PCREQDIRECTIONS'));

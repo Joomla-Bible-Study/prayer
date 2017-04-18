@@ -26,9 +26,9 @@
 			       description="The amount of time it takes for the image to change."/>
 			<field name="config_slideshow_duration" type="text" size="10" default="5" label="Slideshow Duration"
 			       description="The amount of time between image changes."/>
-			<field name="config_imagefile" type="pcimagelist" default="prayer.png" label="Image to Display"
+			<field name="config_imagefile" type="imagelist" default="prayer.png" label="Image to Display"
 			       description="Image displayed on component frontend."
-			       directory="../components/com_prayer/assets/images/" exclude="prayer.jpg,index.html" filter=""/>
+			       directory="../media/com_prayer/images/" exclude="prayer.jpg,index.html" filter=""/>
 			<field name="config_show_menu" type="radio" class="btn-group" default="1" label="Show Menu"
 			       description="Choose yes to display menu on component frontend.">
 				<option value="0">JHIDE</option>
@@ -276,7 +276,7 @@
 				<option value="2">Private Messaging</option>
 				<option value="3">Both</option>
 			</field>
-			<field name="config_moderator_select" type="pcuserselect"
+			<field name="config_moderator_select" type="userselect"
 			       onchange="if(document.adminForm.jform_params_config_moderator_user_list.value.indexOf(document.getElementById('jform_params_config_moderator_select_id').value) > -1){}else{if(document.adminForm.jform_params_config_moderator_user_list.value==''){document.adminForm.jform_params_config_moderator_user_list.value+=document.getElementById('jform_params_config_moderator_select_extuser').value;}else{document.adminForm.jform_params_config_moderator_user_list.value+=(',')+document.getElementById('jform_params_config_moderator_select_extuser').value;}};"
 			       label="User Selection"/>
 			<field name="config_moderator_user_list" type="textarea" rows="3" cols="40" default=""
@@ -297,7 +297,7 @@
 			</field>
 			<field name="config_email_list" type="textarea" rows="3" cols="40" default=""
 			       label="Email Distribution List" description="Email distribution list (separate by comma)."/>
-			<field name="config_pms_select" type="pcuserselect"
+			<field name="config_pms_select" type="userselect"
 			       onchange="if(document.adminForm.jform_params_config_pms_list.value.indexOf(document.getElementById('jform_params_config_pms_select_id').value) > -1){}else{if(document.adminForm.jform_params_config_pms_user_list.value==''){document.adminForm.jform_params_config_pms_list.value+=document.getElementById('jform_params_config_pms_select_extuser').value;}else{document.adminForm.jform_params_config_pms_user_list.value+=(',')+document.getElementById('jform_params_config_pms_select_extuser').value;}}"
 			       label="User Selection"/>
 			<field name="config_pms_user_list" type="textarea" rows="3" cols="40" default=""
@@ -347,9 +347,9 @@
 				<option value="2">Daily</option>
 				<option value="3">Weekly</option>
 			</field>
-			<field name="config_sendtime" type="pctimelist" default="09:00:00" label="Request Notification Time"
+			<field name="config_sendtime" type="timelist" default="09:00:00" label="Request Notification Time"
 			       description="Time of day prayer request notifications will be sent. Used when Email Frequency is set to Daily."/>
-			<field name="config_sendday" type="pcdaylist" default="0" label="Request Notification Day"
+			<field name="config_sendday" type="daylist" default="0" label="Request Notification Day"
 			       description="Day of week prayer request notification will be sent. Used when Email Frequency is set to Weeky."/>
 		</fieldset>
 		<fieldset name="3rd_party_integration"
@@ -378,7 +378,7 @@
 			<field name="config_allowed_plugins" type="textarea" rows="3" cols="40" default="scripturelinks"
 			       label="Content Plugins Allowed"
 			       description="Joomla content plugins allowed to apply to viewing prayer requests on prayer listing. (Separate by comma)."/>
-			<field name="config_pms_plugin" type="pcpmslist" default="0" label="Private Messaging"
+			<field name="config_pms_plugin" type="pmslist" default="0" label="Private Messaging"
 			       description="Private messaging system used to distibute approved prayer request."/>
 			<field name="config_bm_service" type="list" default="0" label="Social Bookmark Service"
 			       description="Service used to generate the social bookmark links enabled in the Prayer Listing Page section of this configuration page.">
@@ -398,10 +398,7 @@
 			<field name="config_google_id" type="text" size="20" default="" label="Google Analytics ID"
 			       description="Google ID used in association with Google Analytics service (UA-xxxxxx-x)."/>
 		</fieldset>
-		<fieldset name="content_protection"
-		          label="Content Protection"
-		          description=""
-		>
+		<fieldset name="content_protection" label="Content Protection" description="">
 			<field name="spacer8a" type="spacer" class="text"
 			       label="&lt;h3&gt;&lt;u&gt;Spam Prevention&lt;/u&gt;&lt;/h3&gt;"/>
 			<field name="config_use_spamcheck" type="radio" class="btn-group" default="1" label="Use Spam Prevention"
@@ -455,10 +452,7 @@
 			<field name="config_replace_word" type="text" size="20" default="****" label="Bad Word Replacement"
 			       description="Bad words are replaced with this string."/>
 		</fieldset>
-		<fieldset name="miscellaneous"
-		          label="Miscellaneous"
-		          description=""
-		>
+		<fieldset name="miscellaneous" label="Miscellaneous" description="">
 			<field name="spacer9a" type="spacer" class="text"
 			       label="&lt;h3&gt;&lt;u&gt;RSS Feeds&lt;/u&gt;&lt;/h3&gt;"/>
 			<field name="config_show_rss" type="radio" class="btn-group" default="1" label="Show RSS Feed Icon"

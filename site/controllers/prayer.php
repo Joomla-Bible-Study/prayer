@@ -16,17 +16,25 @@ Copyright      2006-2014 - Mike Leeper (MLWebTechnologies)
 ****************************************************************************************
 No direct access*/
 defined('_JEXEC') or die('Restricted access');
-jimport('joomla.application.component.controller');
 
 class PrayerControllerPrayer extends PrayerController
 {
-	function newreqsubmit()
+	private $prayer;
+
+	public function __construct($config = array())
 	{
-		JRequest::checkToken() or jexit('Invalid Token');
+		$this->prayer = new PrayerSitePrayer;
+
+		parent::__construct($config);
+	}
+
+	public function newreqsubmit()
+	{
+		JSession::checkToken() or jexit('Invalid Token');
 		$app           = JFactory::getApplication();
-		$pc_rights     = $prayer->pc_rights;
-		$mod           = JRequest::getVar('mod', null, 'get', 'string');
-		$modtype       = JRequest::getVar('modtype', null, 'get', 'string');
+		$pc_rights     = $this->prayer->pc_rights;
+		$mod           = $app->input->getString('mod');
+		$modtype       = $app->input->getString('modtype');
 		$returntoarray = preg_split('/\&return/', $_SERVER['HTTP_REFERER'], -1, PREG_SPLIT_NO_EMPTY);
 		$returnto      = $returntoarray[0];
 		jimport('joomla.date.date');
@@ -34,158 +42,197 @@ class PrayerControllerPrayer extends PrayerController
 		jimport('joomla.filter.output');
 		$user           = JFactory::getUser();
 		$db             = JFactory::getDBO();
-		$itemid         = $prayer->PCgetItemid();
-		$dateset        = new JDate();
+		$itemid         = $this->prayer->PCgetItemid();
+		$dateset        = new JDate;
 		$time           = $dateset->format('H:i:s');
 		$date           = $dateset->format('Y-m-d');
 		$session        = JFactory::getSession();
 		$sessionid      = $session->get('session.token');
-		$newtitle       = JRequest::getVar('newtitle', null, 'post', 'string', JREQUEST_ALLOWHTML);
-		$newrequest     = JRequest::getVar('newrequest', null, 'post', 'string', JREQUEST_ALLOWHTML);
-		$newrequester   = JRequest::getVar('newrequester', null, 'post', 'string');
-		$newrequesterid = JRequest::getVar('requesterid', null, 'post', 'int');
-		$newemail       = JRequest::getVar('newemail', null, 'post', 'string');
-		$newtopic       = JRequest::getVar('newtopic', null, 'post', 'int');
+		$newtitle       = $app->input->getString('newtitle');
+		$newrequest     = $app->input->getString('newrequest');
+		$newrequester   = $app->input->getInt('requesterid');
+		$newemail       = $app->input->getString('newemail');
+		$newtopic       = $app->input->getInt('newtopic');
+		$newrequesterid = $app->input->getInt('newrequesterid');
+
 		if (!empty($newemail) && JMailHelper::isEmailAddress($newemail))
 		{
-			if (!$prayer->PCcheckEmail($newemail))
+			if (!$this->prayer->PCcheckEmail($newemail))
 			{
 				if (isset($_GET['modtype']))
 				{
-					$this->setMessage(htmlentities(JText::_('PCINVALIDDOMAIN')), 'message');
+					$this->setMessage(htmlentities(JText::_('PRAYERINVALIDDOMAIN')), 'message');
 					$this->setRedirect(JRoute::_($returnto, false));
 				}
 				else
 				{
-					$returnurl = JRoute::_("index.php?option=com_prayer&task=newreq&Itemid=" . $itemid . '&return_msg=' . htmlentities(JText::_('PCINVALIDDOMAIN')));
+					$returnurl = JRoute::_("index.php?option=com_prayer&task=newreq&Itemid=" . (int) $itemid . '&return_msg=' .
+						htmlentities(JText::_('PRAYERINVALIDDOMAIN'))
+					);
 					$this->setRedirect(JRoute::_($returnurl, false));
 				}
 			}
-			if (!$prayer->PCcheckBlockedEmail($newemail))
+
+			if (!$this->prayer->PCcheckBlockedEmail($newemail))
 			{
 				if (isset($_GET['modtype']))
 				{
-					$this->setMessage(JText::_('PCINVALIDEMAIL'), 'message');
+					$this->setMessage(JText::_('PRAYERINVALIDEMAIL'), 'message');
 					$this->setRedirect(JRoute::_($returnto, false));
 				}
 				else
 				{
-					$returnurl = JRoute::_("index.php?option=com_prayer&task=newreq&Itemid=" . $itemid . '&return_msg=' . htmlentities(JText::_('PCINVALIDEMAIL')));
+					$returnurl = JRoute::_("index.php?option=com_prayer&task=newreq&Itemid=" . (int) $itemid . '&return_msg=' .
+						htmlentities(JText::_('PRAYERINVALIDEMAIL'))
+					);
 					$this->setRedirect(JRoute::_($returnurl, false));
 				}
 			}
 		}
+
 		if (!empty($newrequest))
 		{
-			if (!$pcConfig['config_captcha_bypass_4member'] || $pcConfig['config_captcha_bypass_4member'] && $user->guest)
+			if (!$this->prayer->pcConfig['config_captcha_bypass_4member'] || $this->prayer->pcConfig['config_captcha_bypass_4member'] && $user->guest)
 			{
 				$this->pcCaptchaValidate($returnto, $itemid, $modtype, 'newreq');
 			}
-			if ($prayer->PCspamcheck($newrequest) && $prayer->PCspamcheck($newrequester))
+
+			if ($this->prayer->PCspamcheck($newrequest) && $this->prayer->PCspamcheck($newrequester))
 			{
-				$newtitle     = $prayer->PCcleanText($newtitle);
-				$newrequest   = $prayer->PCcleanText($newrequest);
+				$newtitle     = $this->prayer->PCcleanText($newtitle);
+				$newrequest   = $this->prayer->PCcleanText($newrequest);
 				$newrequest   = addslashes($newrequest);
 				$newrequester = JFilterOutput::cleanText($newrequester);
 				$newemail     = JMailHelper::cleanAddress($newemail);
-				if (!JMailHelper::isEmailAddress($newemail) && $pcConfig['config_use_admin_alert'] == 1)
+
+				if (!JMailHelper::isEmailAddress($newemail) && $this->prayer->pcConfig['config_use_admin_alert'] == 1)
 				{
 					if (isset($_GET['modtype']))
 					{
-						$this->setMessage(htmlentities(JText::_('PCINVALIDEMAIL')), 'message');
+						$this->setMessage(htmlentities(JText::_('PRAYERINVALIDEMAIL')), 'message');
 						$this->setRedirect(JRoute::_($returnto, false));
 					}
 					else
 					{
-						$returnurl = JRoute::_('index.php?option=com_prayer&task=newreq&Itemid=' . $itemid . '&return_msg=' . htmlentities(JText::_('PCINVALIDEMAIL')));
+						$returnurl = JRoute::_('index.php?option=com_prayer&task=newreq&Itemid=' . (int) $itemid . '&return_msg=' .
+							htmlentities(JText::_('PRAYERINVALIDEMAIL'))
+						);
 						$this->setRedirect(JRoute::_($returnurl, false));
 					}
 				}
-				$sendpriv = JRequest::getVar('sendpriv', null, 'post', 'boolean');
+
+				$sendpriv = $app->input->getBool('sendpriv');
+
 				if ($newrequester == '')
 				{
-					$newrequester = htmlentities(JText::_('PCANONUSER'));
+					$newrequester = htmlentities(JText::_('PRAYERANONUSER'));
 				}
-				if ($pcConfig['config_use_wordfilter'] > 0)
+
+				if ($this->prayer->pcConfig['config_use_wordfilter'] > 0)
 				{
-					$newtitle     = $prayer->PCbadword_replace($newtitle);
-					$newrequest   = $prayer->PCbadword_replace($newrequest);
-					$newemail     = $prayer->PCbadword_replace($newemail);
-					$newrequester = $prayer->PCbadword_replace($newrequester);
+					$newtitle     = $this->prayer->PCbadword_replace($newtitle);
+					$newrequest   = $this->prayer->PCbadword_replace($newrequest);
+					$newemail     = $this->prayer->PCbadword_replace($newemail);
+					$newrequester = $this->prayer->PCbadword_replace($newrequester);
 				}
-				if ($pcConfig['config_use_admin_alert'] == 0 && $pc_rights->get('pc.publish'))
+
+				if ($this->prayer->pcConfig['config_use_admin_alert'] == 0 && $pc_rights->get('pc.publish'))
 				{
-					$sql = "INSERT INTO #__prayer (id,requesterid,requester,date,time,request,publishstate,archivestate,displaystate,sendto,email,adminsendto,sessionid,title,topic) VALUES (''," . (int) $newrequesterid . "," . $db->quote($db->escape($newrequester), false) . "," . $db->quote($db->escape($date), false) . "," . $db->quote($db->escape($time), false) . "," . $db->quote($db->escape($newrequest), false) . ",'1','0'," . (int) $sendpriv . ",'0000-00-00 00:00:00'," . $db->quote($db->escape($newemail), false) . ",'0000-00-00 00:00:00'," . $db->quote($db->escape($sessionid), false) . "," . $db->quote($db->escape($newtitle), false) . "," . (int) $newtopic . ")";
+					$sql = "INSERT INTO #__prayer (id,requesterid,requester,date,time,request,publishstate,archivestate,displaystate," .
+					"sendto,email,adminsendto,sessionid,title,topic) VALUES (''," .
+						(int) $newrequesterid . "," . $db->q($newrequester) . "," . $db->q($date) . "," . $db->q($time) . "," . $db->q($newrequest) .
+						",'1','0'," . (int) $sendpriv . ",'0000-00-00 00:00:00'," . $db->q($newemail) .
+						",'0000-00-00 00:00:00'," . (int) $db->q($sessionid) . "," .
+						$db->q($db->escape($newtitle), false) . "," . (int) $newtopic . ")";
+
 					$db->setQuery($sql);
-					if (!$db->query())
+
+					if (!$db->execute())
 					{
 						JError::raiseError(500, $db->stderr());
 					}
+
 					$lastId = $db->insertid();
 				}
-				elseif ($pcConfig['config_use_admin_alert'] > 0)
+				elseif ($this->prayer->pcConfig['config_use_admin_alert'] > 0)
 				{
-					$sql = "INSERT INTO #__prayer (id,requesterid,requester,date,time,request,publishstate,archivestate,displaystate,sendto,email,adminsendto,sessionid,title,topic) VALUES (''," . (int) $newrequesterid . "," . $db->quote($db->escape($newrequester), false) . "," . $db->quote($db->escape($date), false) . "," . $db->quote($db->escape($time), false) . "," . $db->quote($db->escape($newrequest), false) . ",'0','0'," . (int) $sendpriv . ",'0000-00-00 00:00:00'," . $db->quote($db->escape($newemail), false) . ",'0000-00-00 00:00:00'," . $db->quote($db->escape($sessionid), false) . "," . $db->quote($db->escape($newtitle), false) . "," . (int) $newtopic . ")";
+					$sql = "INSERT INTO #__prayer (id,requesterid,requester,date,time,request,publishstate,archivestate,displaystate,sendto" . 
+						",email,adminsendto,sessionid,title,topic) VALUES (''," . (int) $newrequesterid . "," .
+						$db->q($newrequester) . "," . $db->q($date) .
+						"," . $db->q($time) . "," . $db->q($newrequest) .
+						",'0','0'," . (int) $sendpriv . ",'0000-00-00 00:00:00'," . $db->q($newemail) .
+						",'0000-00-00 00:00:00'," . (int) $db->q($sessionid) . "," .
+						$db->q($newtitle) . "," . (int) $newtopic . ")";
 					$db->setQuery($sql);
-					if (!$db->query())
+
+					if (!$db->execute())
 					{
 						JError::raiseError(500, $db->stderr());
 					}
+
 					$lastId = $db->insertid();
 				}
+
 				// Notify Site Admin(s) and/or moderators on event of new request
-				if ($pcConfig['config_use_admin_alert'] > 1 && !$pc_rights->get('pc.publish'))
+				if ($this->prayer->pcConfig['config_use_admin_alert'] > 1 && !$pc_rights->get('pc.publish'))
 				{
-					if ($pcConfig['config_admin_distrib_type'] > 1 && $pcConfig['config_pms_plugin'])
+					if ($this->prayer->pcConfig['config_admin_distrib_type'] > 1 && $this->prayer->pcConfig['config_pms_plugin'])
 					{
-						$prayer->PCsendPM($newrequesterid, $newrequester, $newrequest, $newemail, $sendpriv, $lastId, $sessionid, true);
+						$this->prayer->PCsendPM($newrequesterid, $newrequester, $newrequest, $newemail, $sendpriv, $lastId, $sessionid, true);
 					}
 				}
-				elseif ($pcConfig['config_use_admin_alert'] < 2)
+				elseif ($this->prayer->pcConfig['config_use_admin_alert'] < 2)
 				{
-					if ($pcConfig['config_use_admin_alert'] == 1 && !empty($newemail))
+					if ($this->prayer->pcConfig['config_use_admin_alert'] == 1 && !empty($newemail))
 					{
 						if (JPluginHelper::isEnabled('system', 'prayercenteremail'))
 						{
 							$results = plgSystemPrayerEmail::pcEmailTask('PCconfirm_notification', array('0' => $lastId));
 						}
+
 						if (isset($_GET['modtype']))
 						{
-							$this->setMessage(htmlentities(JText::_('PCREQSUBMITCONFIRM')), 'message');
+							$this->setMessage(htmlentities(JText::_('PRAYERREQSUBMITCONFIRM')), 'message');
 							$this->setRedirect(JRoute::_($returnto, false));
 						}
 						else
 						{
-							$returnurl = JRoute::_('index.php?option=com_prayer&task=view&Itemid=' . $itemid . '&return_msg=' . htmlentities(JText::_('PCREQSUBMITCONFIRM')));
+							$returnurl = JRoute::_('index.php?option=com_prayer&task=view&Itemid=' . (int) $itemid . '&return_msg=' .
+								htmlentities(JText::_('PRAYERREQSUBMITCONFIRM'))
+							);
 							$this->setRedirect(JRoute::_($returnurl, false));
 						}
 					}
-					if ($pcConfig['config_use_admin_alert'] == 0)
+
+					if ($this->prayer->pcConfig['config_use_admin_alert'] == 0)
 					{
 						if ($sendpriv)
 						{
-							if ($pcConfig['config_distrib_type'] > 1 && $pcConfig['config_pms_plugin'])
+							if ($this->prayer->pcConfig['config_distrib_type'] > 1 && $this->prayer->pcConfig['config_pms_plugin'])
 							{
-								$prayer->PCsendPM($newrequester, $newrequest, $newemail, $sendpriv);
+								$this->prayer->PCsendPM($newrequesterid, $newrequester, $newrequest, $newemail, $sendpriv);
 							}
 						}
 						elseif (!$sendpriv)
 						{
-							if ($pcConfig['config_distrib_type'] > 1 && $pcConfig['config_pms_plugin'])
+							if ($this->prayer->pcConfig['config_distrib_type'] > 1 && $this->prayer->pcConfig['config_pms_plugin'])
 							{
-								$prayer->PCsendPM($newrequesterid, $newrequester, $newrequest, $newemail, $sendpriv, $lastId, $sessionid);
+								$this->prayer->PCsendPM($newrequesterid, $newrequester, $newrequest, $newemail, $sendpriv, $lastId, $sessionid);
 							}
 						}
 					}
 				}
+
 				if (isset($_GET['modtype']))
 				{
-					$this->setMessage(htmlentities(JText::_('PCREQSUBMIT')), 'message');
+					$this->setMessage(htmlentities(JText::_('PRAYERREQSUBMIT')), 'message');
 					$this->setRedirect(JRoute::_($returnto, false));
 				}
 				else
 				{
-					$returnurl = JRoute::_('index.php?option=com_prayer&task=view&Itemid=' . $itemid . '&return_msg=' . htmlentities(JText::_('PCREQSUBMIT')), false);
+					$returnurl = JRoute::_('index.php?option=com_prayer&task=view&Itemid=' . (int) $itemid . '&return_msg=' .
+						htmlentities(JText::_('PRAYERREQSUBMIT')), false
+					);
 					$this->setRedirect($returnurl);
 				}
 			}
@@ -195,20 +242,24 @@ class PrayerControllerPrayer extends PrayerController
 				{
 					if (isset($_GET['modtype']))
 					{
-						$this->setMessage(JText::_('PCSPAMMSG'), 'message');
+						$this->setMessage(JText::_('PRAYERSPAMMSG'), 'message');
 						$this->setRedirect(JRoute::_($returnto, false));
 					}
 					else
 					{
-						$returnurl = JRoute::_('index.php?option=com_prayer&task=newreq&Itemid=' . $itemid . '&return_msg=' . htmlentities(JText::_('PCSPAMMSG')));
+						$returnurl = JRoute::_('index.php?option=com_prayer&task=newreq&Itemid=' . (int) $itemid . '&return_msg=' .
+							htmlentities(JText::_('PRAYERSPAMMSG'))
+						);
 						$this->setRedirect(JRoute::_($returnurl, false));
 					}
 				}
 				else
 				{
 					header('HTTP/1.0 403 Forbidden');
-					sleep(rand(2, 5)); // delay spammers a bit
-					JError::raiseError(403, _NOT_AUTH);
+
+					// Delay spammers a bit
+					sleep(rand(2, 5));
+					JError::raiseError(403, 'No Aurth');
 				}
 			}
 		}
@@ -216,40 +267,46 @@ class PrayerControllerPrayer extends PrayerController
 		{
 			if (isset($_GET['modtype']))
 			{
-				$this->setMessage(htmlentities(JText::_('PCFORMNC')), 'message');
+				$this->setMessage(htmlentities(JText::_('PRAYERFORMNC')), 'message');
 				$this->setRedirect(JRoute::_($returnto, false));
 			}
 			else
 			{
-				$returnurl = JRoute::_('index.php?option=com_prayer&task=view&Itemid=' . $itemid . '&return_msg=' . htmlentities(JText::_('PCFORMNC')));
+				$returnurl = JRoute::_('index.php?option=com_prayer&task=view&Itemid=' . (int) $itemid . '&return_msg=' .
+					htmlentities(JText::_('PRAYERFORMNC'))
+				);
 				$this->setRedirect(JRoute::_($returnurl, false));
 			}
 		}
 	}
 
-	function pcCaptchaValidate($returnto, $itemid, $modtype, $task)
+	public function pcCaptchaValidate($returnto, $itemid, $modtype, $task)
 	{
 		$JVersion = new JVersion();
-		if ($pcConfig['config_captcha'] == '1')
+
+		if ($this->prayer->pcConfig['config_captcha'] == '1')
 		{
 			$scode = JRequest::getVar('security_code', null, 'post');
-			if (!$prayer->PCCaptchaValidate($scode, 'newreq'))
+
+			if (!$this->prayer->PCCaptchaValidate($scode, 'newreq'))
 			{
 				if (isset($_GET['modtype']))
 				{
-					$this->setRedirect(JRoute::_($returnto . '&' . $modtype . '=' . htmlentities(JText::_('PCINVALIDCODE')), false));
+					$this->setRedirect(JRoute::_($returnto . '&' . $modtype . '=' . htmlentities(JText::_('PRAYERINVALIDCODE')), false));
 				}
 				else
 				{
-					$returnurl = JRoute::_('index.php?option=com_prayer&task=' . $task . '&Itemid=' . $itemid . '&return_msg=' .
-						htmlentities(JText::_('PCINVALIDCODE')));
+					$returnurl = JRoute::_('index.php?option=com_prayer&task=' . $task . '&Itemid=' . (int) $itemid . '&return_msg=' .
+						htmlentities(JText::_('PRAYERINVALIDCODE'))
+					);
 					$this->setRedirect(JRoute::_($returnurl, false));
 				}
 			}
 		}
-		elseif ($pcConfig['config_captcha'] == '3' && JPluginHelper::isEnabled('system', 'crosscheck'))
+		elseif ($this->prayer->pcConfig['config_captcha'] == '3' && JPluginHelper::isEnabled('system', 'crosscheck'))
 		{
 			$results = plgSystemCrossCheck::checkCrossChk(JRequest::getVar('user_code', null, 'method'));
+
 			if ($results !== true)
 			{
 				if (isset($_GET['modtype']))
@@ -258,30 +315,39 @@ class PrayerControllerPrayer extends PrayerController
 				}
 				else
 				{
-					$returnurl = JRoute::_('index.php?option=com_prayer&task=' . $task . '&Itemid=' . $itemid . '&return_msg=' . $results . '-' . $test . '-' . $test2);
+					$returnurl = JRoute::_('index.php?option=com_prayer&task=' . $task . '&Itemid=' . (int) $itemid . '&return_msg=' . $results);
+
 					$this->setRedirect(JRoute::_($returnurl, false));
 				}
 			}
 		}
-		elseif ($pcConfig['config_captcha'] == '6' && $pcConfig['config_recap_pubkey'] != "" && $pcConfig['config_recap_privkey'] != "")
+		elseif ($this->prayer->pcConfig['config_captcha'] == '6'
+			&& $this->prayer->pcConfig['config_recap_pubkey'] != ""
+			&& $this->prayer->pcConfig['config_recap_privkey'] != ""
+		)
 		{
-			require_once(JPATH_ROOT . '/components/com_prayer/assets/captcha/recaptchalib.php');
-			$privatekey = $pcConfig['config_recap_privkey'];
-			$resp       = recaptcha_check_answer($privatekey, $_SERVER["REMOTE_ADDR"], $_POST["recaptcha_challenge_field"], $_POST["recaptcha_response_field"]);
+			require_once JPATH_ROOT . '/madia/com_prayer/captcha/recaptchalib.php';
+			$privatekey = $this->prayer->pcConfig['config_recap_privkey'];
+
+			$resp = recaptcha_check_answer($privatekey, $_SERVER["REMOTE_ADDR"], $_POST["recaptcha_challenge_field"], $_POST["recaptcha_response_field"]);
+
 			if (!$resp->is_valid)
 			{
 				if (isset($_GET['modtype']))
 				{
-					$this->setRedirect(JRoute::_($returnto . '&' . $modtype . '=' . htmlentities(JText::_('PCINVALIDCODE')), false));
+					$this->setRedirect(JRoute::_($returnto . '&' . $modtype . '=' . htmlentities(JText::_('PRAYERINVALIDCODE')), false));
 				}
 				else
 				{
-					$returnurl = JRoute::_('index.php?option=com_prayer&task=' . $task . '&Itemid=' . $itemid . '&return_msg=' . htmlentities(JText::_('PCINVALIDCODE')));
+					$returnurl = JRoute::_('index.php?option=com_prayer&task=' . $task . '&Itemid=' . (int) $itemid . '&return_msg=' .
+						htmlentities(JText::_('PRAYERINVALIDCODE'))
+					);
+
 					$this->setRedirect(JRoute::_($returnurl, false));
 				}
 			}
 		}
-		elseif ($pcConfig['config_captcha'] == '7' && (real) $JVersion->RELEASE >= 2.5)
+		elseif ($this->prayer->pcConfig['config_captcha'] == '7' && (real) $JVersion->RELEASE >= 2.5)
 		{
 			$session      = JFactory::getSession();
 			$respchk      = $session->has('pc_respchk');
@@ -289,15 +355,18 @@ class PrayerControllerPrayer extends PrayerController
 			$captcha      = JCaptcha::getInstance($plugin, array('namespace' => 'adminForm'));
 			$captcha_code = "";
 			$resp         = $captcha->checkAnswer($captcha_code);
+
 			if ($resp == false && !$respchk)
 			{
 				if (isset($_GET['modtype']))
 				{
-					$this->setRedirect(JRoute::_($returnto . '&' . $modtype . '=' . htmlentities(JText::_('PCINVALIDCODE')), false));
+					$this->setRedirect(JRoute::_($returnto . '&' . $modtype . '=' . htmlentities(JText::_('PRAYERINVALIDCODE')), false));
 				}
 				else
 				{
-					$returnurl = JRoute::_('index.php?option=com_prayer&task=' . $task . '&Itemid=' . $itemid . '&return_msg=' . htmlentities(JText::_('PCINVALIDCODE')));
+					$returnurl = JRoute::_('index.php?option=com_prayer&task=' . $task . '&Itemid=' . (int) $itemid . '&return_msg=' .
+						htmlentities(JText::_('PRAYERINVALIDCODE'))
+					);
 					$this->setRedirect(JRoute::_($returnurl, false));
 				}
 			}
@@ -310,71 +379,81 @@ class PrayerControllerPrayer extends PrayerController
 		return true;
 	}
 
-	function subscribesubmit()
+	public function subscribesubmit()
 	{
-		$pcConfig = JComponentHelper::getParams('com_prayer')->toArray();
 		JSession::checkToken() or jexit('Invalid Token');
 		$app           = JFactory::getApplication();
-		$pc_rights     = $prayer->pc_rights;
-		$mod           = JRequest::getVar('mod', null, 'get', 'string');
-		$modtype       = JRequest::getVar('modtype', null, 'get', 'string');
+		$pc_rights     = $this->prayer->pc_rights;
+		$mod           = $app->input->getString('mod');
+		$modtype       = $app->input->getString('modtype');
 		$returntoarray = preg_split('/\&return/', $_SERVER['HTTP_REFERER'], -1, PREG_SPLIT_NO_EMPTY);
 		$returnto      = $returntoarray[0];
 		jimport('joomla.date.date');
 		jimport('joomla.mail.helper');
 		jimport('joomla.filter.output');
-		$itemid = $prayer->PCgetItemid();
+		$itemid = $this->prayer->PCgetItemid();
 		$user   = JFactory::getUser();
-		if (!$pcConfig['config_captcha_bypass_4member'] || $pcConfig['config_captcha_bypass_4member'] && $user->guest)
+
+		if (!$this->prayer->pcConfig['config_captcha_bypass_4member'] || $this->prayer->pcConfig['config_captcha_bypass_4member'] && $user->guest)
 		{
 			$this->pcCaptchaValidate($returnto, $itemid, $modtype, 'subscribe');
 		}
+
 		$session      = JFactory::getSession();
 		$sessionid    = $session->get('session.token');
-		$newsubscribe = JRequest::getVar('newsubscribe', null, 'post', 'string');
+		$newsubscribe = $app->input->getString('newsubscribe', null);
+
 		if (!empty($newsubscribe) && JMailHelper::isEmailAddress($newsubscribe))
 		{
-			if (!$prayer->PCcheckEmail($newsubscribe))
+			if (!$this->prayer->PCcheckEmail($newsubscribe))
 			{
 				if (isset($_GET['modtype']))
 				{
-					$this->setMessage(htmlentities(JText::_('PCINVALIDDOMAIN')), 'message');
+					$this->setMessage(htmlentities(JText::_('PRAYERINVALIDDOMAIN')), 'message');
 					$this->setRedirect(JRoute::_($returnto, false));
 				}
 				else
 				{
-					$returnurl = JRoute::_('index.php?option=com_prayer&task=subscribe&Itemid=' . $itemid . '&return_msg=' . htmlentities(JText::_('PCINVALIDDOMAIN')));
+					$returnurl = JRoute::_('index.php?option=com_prayer&task=subscribe&Itemid=' . (int) $itemid . '&return_msg=' .
+						htmlentities(JText::_('PRAYERINVALIDDOMAIN'))
+					);
 					$this->setRedirect(JRoute::_($returnurl, false));
 				}
 			}
-			if (!$prayer->PCcheckBlockedEmail($newsubscribe))
+
+			if (!$this->prayer->PCcheckBlockedEmail($newsubscribe))
 			{
 				if (isset($_GET['modtype']))
 				{
-					$this->setMessage(htmlentities(JText::_('PCINVALIDEMAIL')), 'message');
+					$this->setMessage(htmlentities(JText::_('PRAYERINVALIDEMAIL')), 'message');
 					$this->setRedirect(JRoute::_($returnto, false));
 				}
 				else
 				{
-					$returnurl = JRoute::_("index.php?option=com_prayer&task=subscribe&Itemid=" . $itemid . '&return_msg=' . htmlentities(JText::_('PCINVALIDEMAIL')));
+					$returnurl = JRoute::_("index.php?option=com_prayer&task=subscribe&Itemid=" . (int) $itemid . '&return_msg=' .
+						htmlentities(JText::_('PRAYERINVALIDEMAIL'))
+					);
 					$this->setRedirect(JRoute::_($returnurl, false));
 				}
 			}
 		}
-		if ($pcConfig['config_use_wordfilter'] > 0)
+
+		if ($this->prayer->pcConfig['config_use_wordfilter'] > 0)
 		{
-			$newrequest   = $prayer->PCbadword_replace($newrequest);
-			$newsubscribe = $prayer->PCbadword_replace($newsubscribe);
+			$newsubscribe = $this->prayer->PCbadword_replace($newsubscribe);
 		}
+
 		$newsubscribe = JMailHelper::cleanAddress($newsubscribe);
+
 		if (JMailHelper::isEmailAddress($newsubscribe))
 		{
-			$dateset = new JDate();
+			$dateset = new JDate;
 			$date    = $dateset->format('Y-m-d');
 			$db      = JFactory::getDBO();
 			$db->setQuery("SELECT email FROM #__prayer_subscribe");
 			$readq     = $db->loadObjectList();
 			$duplicate = '0';
+
 			foreach ($readq as $dup)
 			{
 				if ($newsubscribe == $dup->email)
@@ -382,80 +461,101 @@ class PrayerControllerPrayer extends PrayerController
 					$duplicate = '1';
 				}
 			}
+
 			if ($duplicate != '1')
 			{
-				if ($pcConfig['config_admin_approve_subscribe'] == 0)
+				if ($this->prayer->pcConfig['config_admin_approve_subscribe'] == 0)
 				{
-					$sql = "INSERT INTO #__prayer_subscribe (id,email,date,approved,sessionid) VALUES (''," . $db->quote($db->escape($newsubscribe), false) . "," . $db->quote($db->escape($date), false) . ",'1'," . $db->quote($db->escape($sessionid), false) . ")";
+					$sql = "INSERT INTO #__prayer_subscribe (id,email,date,approved,sessionid) VALUES (''," .
+						$db->q($newsubscribe) . "," . $db->q($date) . ",'1'," . (int) $db->q($sessionid) . ")";
 					$db->setQuery($sql);
-					if (!$db->query())
+
+					if (!$db->execute())
 					{
 						JError::raiseError(500, $db->stderr());
 					}
+
 					$lastId = $db->insertid();
 				}
-				elseif ($pcConfig['config_admin_approve_subscribe'] > 0)
+				elseif ($this->prayer->pcConfig['config_admin_approve_subscribe'] > 0)
 				{
-					$sql = "INSERT INTO #__prayer_subscribe (id,email,date,approved,sessionid) VALUES (''," . $db->quote($db->escape($newsubscribe), false) . "," . $db->quote($db->escape($date), false) . ",'0'," . $db->quote($db->escape($sessionid), false) . ")";
+					$sql = "INSERT INTO #__prayer_subscribe (id,email,date,approved,sessionid) VALUES (''," .
+						$db->q($newsubscribe) . "," . $db->q($date) . ",'0'," . (int) $db->q($sessionid) . ")";
 					$db->setQuery($sql);
-					if (!$db->query())
+
+					if (!$db->execute())
 					{
 						JError::raiseError(500, $db->stderr());
 					}
+
 					$lastId = $db->insertid();
 				}
-				if ($pcConfig['config_admin_approve_subscribe'] == 2)
+
+				if ($this->prayer->pcConfig['config_admin_approve_subscribe'] == 2)
 				{
 					if (JPluginHelper::isEnabled('system', 'prayercenteremail'))
 					{
-						$results = plgSystemPrayerEmail::pcEmailTask('PCconfirm_sub_notification', array('0' => $newsubscribe, '1' => $lastId, '2' => $sessionid));
+						$results = plgSystemPrayerEmail::pcEmailTask('PRAYERconfirm_sub_notification', array('0' => $newsubscribe, '1' => $lastId, '2' => $sessionid));
 					}
+
 					if (isset($_GET['modtype']))
 					{
-						$this->setMessage(htmlentities(JText::_('PCREQSUBMITCONFIRM')), 'message');
+						$this->setMessage(htmlentities(JText::_('PRAYERREQSUBMITCONFIRM')), 'message');
 						$this->setRedirect(JRoute::_($returnto, false));
 					}
 					else
 					{
-						$returnurl = JRoute::_('index.php?option=com_prayer&task=subscribe&Itemid=' . $itemid . '&return_msg=' . htmlentities(JText::_('PCREQSUBMITCONFIRM')));
+						$returnurl = JRoute::_('index.php?option=com_prayer&task=subscribe&Itemid=' . (int) $itemid . '&return_msg=' .
+							htmlentities(JText::_('PRAYERREQSUBMITCONFIRM'))
+						);
 						$this->setRedirect(JRoute::_($returnurl, false));
 					}
 				}
-				if ($pcConfig['config_admin_approve_subscribe'] == 1)
+
+				if ($this->prayer->pcConfig['config_admin_approve_subscribe'] == 1)
 				{
 					if (JPluginHelper::isEnabled('system', 'prayercenteremail'))
 					{
-						$results = plgSystemPrayerEmail::pcEmailTask('PCconfirm_sub_notification', array('0' => $newsubscribe, '1' => $lastId, '2' => $sessionid));
+						$results = plgSystemPrayerEmail::pcEmailTask('PRAYERconfirm_sub_notification', array('0' => $newsubscribe, '1' => $lastId, '2' => $sessionid));
 					}
+
 					if (isset($_GET['modtype']))
 					{
-						$this->setMessage(htmlentities(JText::_('PCENTRYACCEPTED')), 'message');
+						$this->setMessage(htmlentities(JText::_('PRAYERENTRYACCEPTED')), 'message');
 						$this->setRedirect(JRoute::_($returnto, false));
 					}
 					else
 					{
-						$returnurl = JRoute::_("index.php?option=com_prayer&task=subscribe&Itemid=" . $itemid . "&return_msg=" . htmlentities(JText::_('PCREQSUBMITAUTH')));
+						$returnurl = JRoute::_("index.php?option=com_prayer&task=subscribe&Itemid=" . (int) $itemid . "&return_msg=" .
+							htmlentities(JText::_('PRAYERREQSUBMITAUTH'))
+						);
 						$this->setRedirect(JRoute::_($returnurl, false));
 					}
 				}
-				if ($pc_rights->get('pc.subscribe') && $pcConfig['config_admin_approve_subscribe'] == 0)
+
+				if ($pc_rights->get('pc.subscribe') && $this->prayer->pcConfig['config_admin_approve_subscribe'] == 0)
 				{
 					if (JPluginHelper::isEnabled('system', 'prayercenteremail'))
 					{
 						$results = plgSystemPrayerEmail::pcEmailTask('PCemail_subscribe', array('0' => $newsubscribe));
-						if ($pcConfig['config_email_subscribe'])
+
+						if ($this->prayer->pcConfig['config_email_subscribe'])
 						{
 							$results = plgSystemPrayerEmail::pcEmailTask('PCadmin_email_subscribe_notification', array('0' => $newsubscribe));
 						}
 					}
+
 					if (isset($_GET['modtype']))
 					{
-						$this->setMessage(htmlentities(JText::_('PCENTRYACCEPTED')), 'message');
+						$this->setMessage(htmlentities(JText::_('PRAYERENTRYACCEPTED')), 'message');
 						$this->setRedirect(JRoute::_($returnto, false));
 					}
 					else
 					{
-						$returnurl = JRoute::_("index.php?option=com_prayer&task=subscribe&Itemid=" . $itemid . "&return_msg=" . htmlentities(JText::_('PCENTRYACCEPTED')));
+						$returnurl = JRoute::_("index.php?option=com_prayer&task=subscribe&Itemid=" . (int) $itemid . "&return_msg=" .
+							htmlentities(JText::_('PRAYERENTRYACCEPTED'))
+						);
+
 						$this->setRedirect(JRoute::_($returnurl, false));
 					}
 				}
@@ -464,12 +564,14 @@ class PrayerControllerPrayer extends PrayerController
 			{
 				if (isset($_GET['modtype']))
 				{
-					$this->setMessage(htmlentities(JText::_('PCDUPLICATEDENTRY')), 'message');
+					$this->setMessage(htmlentities(JText::_('PRAYERDUPLICATEDENTRY')), 'message');
 					$this->setRedirect(JRoute::_($returnto, false));
 				}
 				else
 				{
-					$returnurl = JRoute::_("index.php?option=com_prayer&task=subscribe&Itemid=" . $itemid . "&return_msg=" . htmlentities(JText::_('PCDUPLICATEDENTRY')));
+					$returnurl = JRoute::_("index.php?option=com_prayer&task=subscribe&Itemid=" . (int) $itemid . "&return_msg=" .
+						htmlentities(JText::_('PRAYERDUPLICATEDENTRY'))
+					);
 					$this->setRedirect(JRoute::_($returnurl, false));
 				}
 			}
@@ -478,83 +580,107 @@ class PrayerControllerPrayer extends PrayerController
 		{
 			if (isset($_GET['modtype']))
 			{
-				$this->setMessage(htmlentities(JText::_('PCINVALIDEMAIL')), 'message');
+				$this->setMessage(htmlentities(JText::_('PRAYERINVALIDEMAIL')), 'message');
 				$this->setRedirect(JRoute::_($returnto, false));
 			}
 			else
 			{
-				$returnurl = JRoute::_("index.php?option=com_prayer&task=subscribe&Itemid=" . $itemid . "&return_msg=" . htmlentities(JText::_('PCINVALIDEMAIL')));
+				$returnurl = JRoute::_("index.php?option=com_prayer&task=subscribe&Itemid=" . (int) $itemid . "&return_msg=" .
+					htmlentities(JText::_('PRAYERINVALIDEMAIL'))
+				);
 				$this->setRedirect(JRoute::_($returnurl, false));
 			}
 		}
 	}
 
-	function unsubscribesubmit()
+	public function unsubscribesubmit()
 	{
-		JRequest::checkToken() or jexit('Invalid Token');
-		$mod           = JRequest::getVar('mod', null, 'get', 'string');
-		$modtype       = JRequest::getVar('modtype', null, 'get', 'string');
+		$app = JFactory::getApplication();
+		JSession::checkToken() or jexit('Invalid Token');
+		$mod           = $app->input->getString('mod');
+		$modtype       = $app->input->getString('modtype');
 		$returntoarray = preg_split('/\&return/', $_SERVER['HTTP_REFERER'], -1, PREG_SPLIT_NO_EMPTY);
 		$returnto      = $returntoarray[0];
 		jimport('joomla.date.date');
 		jimport('joomla.mail.helper');
 		jimport('joomla.filter.output');
-		$itemid = $prayer->PCgetItemid();
+		$itemid = $this->prayer->PCgetItemid();
 		$user   = JFactory::getUser();
-		if (!$pcConfig['config_captcha_bypass_4member'] || $pcConfig['config_captcha_bypass_4member'] && $user->guest)
+
+		if (!$this->prayer->pcConfig['config_captcha_bypass_4member'] || $this->prayer->pcConfig['config_captcha_bypass_4member'] && $user->guest)
 		{
 			$this->pcCaptchaValidate($returnto, $itemid, $modtype, 'subscribe');
 		}
-		$newsubscribe = JRequest::getVar('newsubscribe', null, 'post', 'string');
+
+		$newsubscribe = $app->input->getString('newsubscribe');
+
 		if (!empty($newsubscribe) && JMailHelper::isEmailAddress($newsubscribe))
 		{
-			if (!$prayer->PCcheckEmail($newsubscribe))
+			if (!$this->prayer->PCcheckEmail($newsubscribe))
 			{
 				if (isset($_GET['modtype']))
 				{
-					$this->setMessage(htmlentities(JText::_('PCINVALIDDOMAIN')), 'message');
+					$this->setMessage(htmlentities(JText::_('PRAYERINVALIDDOMAIN')), 'message');
 					$this->setRedirect(JRoute::_($returnto, false));
 				}
 				else
 				{
-					$returnurl = JRoute::_('index.php?option=com_prayer&task=subscribe&Itemid=' . $itemid . '&return_msg=' . htmlentities(JText::_('PCINVALIDDOMAIN')));
+					$returnurl = JRoute::_('index.php?option=com_prayer&task=subscribe&Itemid=' . (int) $itemid . '&return_msg=' .
+						htmlentities(JText::_('PRAYERINVALIDDOMAIN'))
+					);
 					$this->setRedirect(JRoute::_($returnurl, false));
 				}
 			}
-			if (!$prayer->PCcheckBlockedEmail($newsubscribe))
+
+			if (!$this->prayer->PCcheckBlockedEmail($newsubscribe))
 			{
 				if (isset($_GET['modtype']))
 				{
-					$this->setMessage(htmlentities(JText::_('PCINVALIDEMAIL')), 'message');
+					$this->setMessage(htmlentities(JText::_('PRAYERINVALIDEMAIL')), 'message');
 					$this->setRedirect(JRoute::_($returnto, false));
 				}
 				else
 				{
-					$returnurl = JRoute::_("index.php?option=com_prayer&task=subscribe&Itemid=" . $itemid . '&return_msg=' . htmlentities(JText::_('PCINVALIDEMAIL')));
+					$returnurl = JRoute::_("index.php?option=com_prayer&task=subscribe&Itemid=" . (int) $itemid . '&return_msg=' .
+						htmlentities(JText::_('PRAYERINVALIDEMAIL'))
+					);
 					$this->setRedirect(JRoute::_($returnurl, false));
 				}
 			}
 		}
+
 		$newsubscribe = JMailHelper::cleanAddress($newsubscribe);
+
 		if (JMailHelper::isEmailAddress($newsubscribe))
 		{
 			$db = JFactory::getDBO();
-			$db->setQuery("SELECT * FROM #__prayer_subscribe WHERE email=" . $db->quote($db->escape($newsubscribe), false) . "");
+			$db->setQuery("SELECT * FROM #__prayer_subscribe WHERE email=" . $db->q($newsubscribe));
 			$readq = $db->loadObjectList();
-			if ($pcConfig['config_admin_approve_subscribe'] == 2)
+
+			if ($this->prayer->pcConfig['config_admin_approve_subscribe'] == 2)
 			{
 				if (JPluginHelper::isEnabled('system', 'prayercenteremail'))
 				{
-					$results = plgSystemPrayerEmail::pcEmailTask('PCconfirm_unsub_notification', array('0' => $newsubscribe, '1' => $readq[0]->id, '2' => $readq[0]->sessionid));
+					$results = plgSystemPrayerEmail::pcEmailTask(
+						'PCconfirm_unsub_notification',
+						array(
+							'0' => $newsubscribe,
+							'1' => $readq[0]->id,
+							'2' => $readq[0]->sessionid
+						)
+					);
 				}
+
 				if (isset($_GET['modtype']))
 				{
-					$this->setMessage(htmlentities(JText::_('PCREQSUBMITCONFIRM')), 'message');
+					$this->setMessage(htmlentities(JText::_('PRAYERREQSUBMITCONFIRM')), 'message');
 					$this->setRedirect(JRoute::_($returnto, false));
 				}
 				else
 				{
-					$returnurl = JRoute::_('index.php?option=com_prayer&task=subscribe&Itemid=' . $itemid . '&return_msg=' . htmlentities(JText::_('PCREQSUBMITCONFIRM')));
+					$returnurl = JRoute::_('index.php?option=com_prayer&task=subscribe&Itemid=' . (int) $itemid . '&return_msg=' .
+						htmlentities(JText::_('PRAYERREQSUBMITCONFIRM'))
+					);
 					$this->setRedirect(JRoute::_($returnurl, false));
 				}
 			}
@@ -562,23 +688,28 @@ class PrayerControllerPrayer extends PrayerController
 			{
 				if ($newsubscribe == $readq[0]->email)
 				{
-					$db->setQuery("DELETE FROM #__prayer_subscribe WHERE email=" . $db->quote($db->escape($newsubscribe), false) . "");
-					if (!$db->query())
+					$db->setQuery("DELETE FROM #__prayer_subscribe WHERE email=" . $db->q($newsubscribe));
+
+					if (!$db->execute())
 					{
 						JError::raiseError(500, $db->stderr());
 					}
+
 					if (JPluginHelper::isEnabled('system', 'prayercenteremail'))
 					{
 						$results = plgSystemPrayerEmail::pcEmailTask('PCemail_unsubscribe', array('0' => $newsubscribe));
 					}
+
 					if (isset($_GET['modtype']))
 					{
-						$this->setMessage(htmlentities(JText::_('PCENTRYREMOVED')), 'message');
+						$this->setMessage(htmlentities(JText::_('PRAYERENTRYREMOVED')), 'message');
 						$this->setRedirect(JRoute::_($returnto, false));
 					}
 					else
 					{
-						$returnurl = JRoute::_("index.php?option=com_prayer&task=subscribe&Itemid=" . $itemid . "&return_msg=" . htmlentities(JText::_('PCENTRYREMOVED')));
+						$returnurl = JRoute::_("index.php?option=com_prayer&task=subscribe&Itemid=" . (int) $itemid . "&return_msg=" .
+							htmlentities(JText::_('PRAYERENTRYREMOVED'))
+						);
 						$this->setRedirect(JRoute::_($returnurl, false));
 					}
 				}
@@ -586,12 +717,14 @@ class PrayerControllerPrayer extends PrayerController
 				{
 					if (isset($_GET['modtype']))
 					{
-						$this->setMessage(htmlentities(JText::_('PCNOTSUBSCRIBED')), 'message');
+						$this->setMessage(htmlentities(JText::_('PRAYERNOTSUBSCRIBED')), 'message');
 						$this->setRedirect(JRoute::_($returnto, false));
 					}
 					else
 					{
-						$returnurl = JRoute::_("index.php?option=com_prayer&task=subscribe&Itemid=" . $itemid . "&return_msg=" . htmlentities(JText::_('PCNOTSUBSCRIBED')));
+						$returnurl = JRoute::_("index.php?option=com_prayer&task=subscribe&Itemid=" . (int) $itemid . "&return_msg=" .
+							htmlentities(JText::_('PRAYERNOTSUBSCRIBED'))
+						);
 						$this->setRedirect(JRoute::_($returnurl, false));
 					}
 				}
@@ -601,82 +734,98 @@ class PrayerControllerPrayer extends PrayerController
 		{
 			if (isset($_GET['modtype']))
 			{
-				$this->setMessage(htmlentities(JText::_('PCINVALIDEMAIL')), 'message');
+				$this->setMessage(htmlentities(JText::_('PRAYERINVALIDEMAIL')), 'message');
 				$this->setRedirect(JRoute::_($returnto, false));
 			}
 			else
 			{
-				$returnurl = JRoute::_("index.php?option=com_prayer&task=subscribe&Itemid=" . $itemid . "&return_msg=" . htmlentities(JText::_('PCINVALIDEMAIL')));
+				$returnurl = JRoute::_("index.php?option=com_prayer&task=subscribe&Itemid=" . (int) $itemid . "&return_msg=" .
+					htmlentities(JText::_('PRAYERINVALIDEMAIL'))
+				);
 				$this->setRedirect(JRoute::_($returnurl, false));
 			}
 		}
 	}
 
-	function editrequest()
+	public function editrequest()
 	{
-		$itemid = $prayer->PCgetItemid();
+		$itemid = $this->prayer->PCgetItemid();
 		$db     = JFactory::getDBO();
 		$app    = JFactory::getApplication();
 		jimport('joomla.date.date');
-		$dateset = new JDate();
+		$dateset = new JDate;
 		$time    = $dateset->format('H:i:s');
 		$date    = $dateset->format('Y-m-d');
-		$id      = JRequest::getVar('id', null, 'post', 'int');
-		$request = JRequest::getVar('newrequest', null, 'post', 'string', JREQUEST_ALLOWHTML);
-		$db->setQuery("UPDATE #__prayer SET request=" . $db->quote($db->escape($request), false) . ", date=" . $db->quote($db->escape($date), false) . ", time=" . $db->quote($db->escape($time), false) . " WHERE id=" . (int) $id . "");
-		if (!$db->query())
+		$id      = $app->input->getInt('id');
+		$request = $app->input->getString('newrequest');
+		$db->setQuery("UPDATE #__prayer SET request=" . $db->q($request) . ", date=" . $db->q($date) . ", time=" .
+			$db->q($time) . " WHERE id=" . (int) $id
+		);
+
+		if (!$db->execute())
 		{
 			JError::raiseError(500, $db->stderr());
 		}
-		$db->setQuery("SELECT * FROM #__prayer WHERE id=" . (int) ($id) . "");
+
+		$db->setQuery("SELECT * FROM #__prayer WHERE id=" . (int) ($id));
 		$readresult = $db->loadObjectList();
 		$model      = $this->getModel('prayer');
 		$model->checkin();
-		$returnurl = JRoute::_("index.php?option=com_prayer&task=" . $_POST['last'] . "&Itemid=" . $itemid);
+		$returnurl = JRoute::_("index.php?option=com_prayer&task=" . $_POST['last'] . "&Itemid=" . (int) $itemid);
 		$this->setRedirect(JRoute::_($returnurl, false));
 	}
 
-	function closeedit()
+	public function closeedit()
 	{
-		$itemid = $prayer->PCgetItemid();
-		$last   = JRequest::getVar('last', null, 'post', 'string');
-		$id     = JRequest::getVar('id', null, 'post', 'int');
+		$app = JFactory::getApplication();
+		$itemid = $this->prayer->PCgetItemid();
+		$last   = $app->input->getString('last');
+		$id     = $app->input->getInt('id');
 		$model  = $this->getModel('prayer');
 		$model->checkin();
 		$returnurl = JRoute::_('index.php?option=com_prayer&task=' . $last . '&Itemid=' . (int) $itemid);
 		$this->setRedirect(JRoute::_($returnurl, false));
 	}
 
-	function delrequest()
+	public function delrequest()
 	{
-		if ($pcConfig['config_comments'] == 1)
+		$app = JFactory::getApplication();
+		$id  = null;
+
+		if ($this->prayer->pcConfig['config_comments'] == 1)
 		{
 			$jcomments = JPATH_SITE . '/components/com_jcomments/jcomments.php';
+
 			if (file_exists($jcomments))
 			{
-				require_once($jcomments);
+				require_once $jcomments;
 			}
 		}
-		elseif ($pcConfig['config_comments'] == 2)
+		elseif ($this->prayer->pcConfig['config_comments'] == 2)
 		{
 			$jsc = JPATH_SITE . '/components/com_jsitecomments/helpers/jsc_class.php';
+
 			if (file_exists($jsc))
 			{
-				require_once($jsc);
+				require_once $jsc;
 			}
 		}
-		$itemid = $prayer->PCgetItemid();
+
+		$itemid = $this->prayer->PCgetItemid();
 		$db     = JFactory::getDBO();
-		$cid    = (JRequest::getVar('delete', array(0), 'post', 'array'));
+		$cid    = ($app->input->getArray('delete'));
+
 		while (list($key, $val) = each($cid))
 		{
-			$delreq = "DELETE FROM #__prayer WHERE id=" . (int) $key . "";
+			$delreq = "DELETE FROM #__prayer WHERE id=" . (int) $key;
 			$db->setQuery($delreq);
-			if (!$db->query())
+
+			if (!$db->execute())
 			{
 				JError::raiseError(500, $db->stderr());
 			}
-			if ($pcConfig['config_comments'] > 0)
+
+			if ($this->prayer->pcConfig['config_comments'] > 0)
 			{
 				if (file_exists($jcomments))
 				{
@@ -688,38 +837,46 @@ class PrayerControllerPrayer extends PrayerController
 				}
 			}
 		}
-		$returnurl = JRoute::_('index.php?option=com_prayer&task=moderate&Itemid=' . $itemid);
+
+		$returnurl = JRoute::_('index.php?option=com_prayer&task=moderate&Itemid=' . (int) $itemid);
 		$this->setRedirect(JRoute::_($returnurl, false));
 	}
 
-	function editdelrequest()
+	public function editdelrequest()
 	{
-		if ($pcConfig['config_comments'] == 1)
+		$app = JFactory::getApplication();
+
+		if ($this->prayer->pcConfig['config_comments'] == 1)
 		{
 			$jcomments = JPATH_SITE . '/components/com_jcomments/jcomments.php';
+
 			if (file_exists($jcomments))
 			{
-				require_once($jcomments);
+				require_once $jcomments;
 			}
 		}
-		elseif ($pcConfig['config_comments'] == 2)
+		elseif ($this->prayer->pcConfig['config_comments'] == 2)
 		{
 			$jsc = JPATH_SITE . '/components/com_jsitecomments/helpers/jsc_class.php';
+
 			if (file_exists($jsc))
 			{
-				require_once($jsc);
+				require_once $jsc;
 			}
 		}
-		$itemid = $prayer->PCgetItemid();
+
+		$itemid = $this->prayer->PCgetItemid();
 		$db     = JFactory::getDBO();
-		$id     = JRequest::getVar('id', null, 'post', 'int');
-		$delreq = "DELETE FROM #__prayer WHERE id=" . (int) $id . "";
+		$id     = $app->input->getInt('id');
+		$delreq = "DELETE FROM #__prayer WHERE id=" . (int) $id;
 		$db->setQuery($delreq);
-		if (!$db->query())
+
+		if (!$db->execute())
 		{
 			JError::raiseError(500, $db->stderr());
 		}
-		if ($pcConfig['config_comments'] > 0)
+
+		if ($this->prayer->pcConfig['config_comments'] > 0)
 		{
 			if (file_exists($jcomments))
 			{
@@ -730,70 +887,79 @@ class PrayerControllerPrayer extends PrayerController
 				jsitecomments::JSCdelComment('com_prayer', $id);
 			}
 		}
-		$returnurl = JRoute::_('index.php?option=com_prayer&task=view&Itemid=' . $itemid);
+
+		$returnurl = JRoute::_('index.php?option=com_prayer&task=view&Itemid=' . (int) $itemid);
 		$this->setRedirect(JRoute::_($returnurl, false));
 	}
 
-	function pubrequest()
+	public function pubrequest()
 	{
 		jimport('joomla.plugin.helper');
-		$itemid  = $prayer->PCgetItemid();
+		$app = JFactory::getApplication();
+		$itemid  = $this->prayer->PCgetItemid();
+		$newrequesterid = null;
 		$db      = JFactory::getDBO();
-		$cid     = JRequest::getVar('delete', '', 'post', 'array');
+		$cid     = $app->input->getArray('delete');
 		$idarray = array_keys($cid);
+
 		while (list($key, $val) = each($cid))
 		{
-			$pubreq = "UPDATE #__prayer SET publishstate='1' WHERE id=" . (int) $key . "";
+			$pubreq = "UPDATE #__prayer SET publishstate='1' WHERE id=" . (int) $key;
 			$db->setQuery($pubreq);
-			if (!$db->query())
+
+			if (!$db->execute())
 			{
 				JError::raiseError(500, $db->stderr());
 			}
+
 			$model = $this->getModel('prayer');
 			$model->checkin();
-			$query        = $db->setQuery("SELECT * FROM #__prayer WHERE id=" . (int) $key . "");
+			$query        = $db->setQuery("SELECT * FROM #__prayer WHERE id=" . (int) $key);
 			$result       = $db->loadObjectList();
 			$newrequester = $result[0]->requester;
 			$newrequest   = stripslashes($result[0]->request);
 			$newemail     = $result[0]->email;
 			$sendpriv     = $result[0]->displaystate;
 			$sessionid    = $result[0]->sessionid;
+
 			if ($sendpriv)
 			{
-				if ($pcConfig['config_distrib_type'] > 1 && !empty($pcConfig['config_pms_plugin']))
+				if ($this->prayer->pcConfig['config_distrib_type'] > 1 && !empty($this->prayer->pcConfig['config_pms_plugin']))
 				{
-					$prayer->PCsendPM($newrequesterid, $newrequester, $newrequest, $newemail, $sendpriv);
+					$this->prayer->PCsendPM($newrequesterid, $newrequester, $newrequest, $newemail, $sendpriv);
 				}
 			}
 			elseif (!$sendpriv)
 			{
-				if ($pcConfig['config_distrib_type'] > 1 && !empty($pcConfig['config_pms_plugin']))
+				if ($this->prayer->pcConfig['config_distrib_type'] > 1 && !empty($this->prayer->pcConfig['config_pms_plugin']))
 				{
-					$prayer->PCsendPM($newrequesterid, $newrequester, $newrequest, $newemail, $sendpriv, (int) $key, $sessionid);
+					$this->prayer->PCsendPM($newrequesterid, $newrequester, $newrequest, $newemail, $sendpriv, (int) $key, $sessionid);
 				}
 			}
 		}
-		$returnurl = JRoute::_('index.php?option=com_prayer&task=moderate&Itemid=' . $itemid . '&return_msg=' . htmlentities(JText::_('PCREQSUBMIT')));
+
+		$returnurl = JRoute::_('index.php?option=com_prayer&task=moderate&Itemid=' . $itemid . '&return_msg=' . htmlentities(JText::_('PRAYERREQSUBMIT')));
 		$this->setRedirect(JRoute::_($returnurl, false));
 	}
 
-	function unpubrequest()
+	public function unpubrequest()
 	{
-		JRequest::checkToken() or jexit('Invalid Token');
+		JSession::checkToken() or jexit('Invalid Token');
+		$app      = JFactory::getApplication();
 		$db       = JFactory::getDBO();
-		$itemid   = $prayer->PCgetItemid();
-		$id       = JRequest::getVar('id', null, 'post', 'int');
-		$unpubreq = "UPDATE #__prayer SET publishstate='0' WHERE id=" . (int) $id . "";
+		$itemid   = $this->prayer->PCgetItemid();
+		$id       = $app->input->getInt('id');
+		$unpubreq = "UPDATE #__prayer SET publishstate='0' WHERE id=" . (int) $id;
 		$db->setQuery($unpubreq);
-		if (!$db->query())
+
+		if (!$db->execute())
 		{
 			JError::raiseError(500, $db->stderr());
 		}
+
 		$model = $this->getModel('prayer');
 		$model->checkin();
 		$returnurl = JRoute::_('index.php?option=com_prayer&task=moderate&Itemid=' . $itemid);
 		$this->setRedirect(JRoute::_($returnurl, false));
 	}
 }
-
-?>

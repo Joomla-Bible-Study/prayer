@@ -279,9 +279,9 @@ $xmlObj      = $pcversion->getPrayerVersion();
 				$pcParamsArray = $pcParams->toArray();
 				foreach ($pcParamsArray['params'] as $name => $value)
 				{
-					$pcConfig[(string) $name] = (string) $value;
+					$this->config[(string) $name] = (string) $value;
 				}
-				foreach ($pcConfig as $name => $value)
+				foreach ($this->config as $name => $value)
 				{
 					$cstring .= $name . ' = ' . $value . '\n';
 				}

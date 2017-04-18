@@ -27,7 +27,6 @@
 	<!-- List of all files that are packaged and distributed -->
 	<fileset dir="${src}" id="distributed_files">
 		<include name="admin/**/*"/>
-		<include name="libraries/tcpdf/**/*"/>
 		<include name="media/**/*"/>
 		<include name="modules/**/*"/>
 		<include name="plugins/**/*"/>
@@ -46,8 +45,6 @@
 		<include name="media/**"/>
 		<include name="modules/**"/>
 		<include name="plugins/**"/>
-		<exclude name="libraries/tcpdf/examples/**" />
-		<include name="libraries/tcpdf/**"/>
 		<include name="prayer.xml"/>
 		<include name="prayer.script.php"/>
 		<include name="changelog.php"/>
