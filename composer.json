@@ -1,12 +1,12 @@
 {
-  "name": "vendor_name/package_name",
-  "description": "description_text",
+  "name": "joomlabiblestudy/prayer",
+  "description": "Prayer Request system",
   "minimum-stability": "stable",
-  "license": "proprietary",
+  "license": "GPL 3.0",
   "authors": [
 	{
-	  "name": "author's name",
-	  "email": "email@example.com"
+	  "name": "Joomla Bible Study",
+	  "email": "info@joomlabiblestudy.com"
 	}
   ]
 }
