@@ -10,7 +10,7 @@
 
 defined('_JEXEC') or die('Restricted access');
 
-class PrayerControllerLink extends JControllerForm
+class CWMPrayerControllerLink extends JControllerForm
 {
 	/**
 	 * The URL view item variable.

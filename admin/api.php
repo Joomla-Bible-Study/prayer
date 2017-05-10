@@ -10,42 +10,42 @@
 // No Direct Access
 defined('_JEXEC') or die;
 
-if (defined('PRAYER_LOADED'))
+if (defined('CWMPRAYER_LOADED'))
 {
 	return;
 }
 
 // Manually enable code profiling by setting value to 1
-define('PRAYER_PROFILER', 0);
+define('CWMPRAYER_PROFILER', 0);
 
 // Load JBSM Class
-JLoader::discover('Prayer', JPATH_ROOT . '/components/com_prayer/helpers', 'false', 'true');
-JLoader::discover('PrayerTable', JPATH_ROOT . '/components/com_prayer/tables', 'false', 'true');
-JLoader::discover('Prayer', JPATH_ADMINISTRATOR . '/components/com_prayer/helpers', 'false', 'true');
-JLoader::discover('PrayerTable', JPATH_ADMINISTRATOR . '/components/com_prayer/tables', 'false', 'true');
-JLoader::register('PrayerHelper', JPATH_ADMINISTRATOR . '/components/com_prayer/helpers/prayer.php');
-JHtml::addIncludePath(JPATH_ADMINISTRATOR . '/components/com_prayer/helpers/html/');
+JLoader::discover('CWMPrayer', JPATH_ROOT . '/components/com_cwmprayer/helpers', 'false', 'true');
+JLoader::discover('PrayerTable', JPATH_ROOT . '/components/com_cwmprayer/tables', 'false', 'true');
+JLoader::discover('CWMPrayer', JPATH_ADMINISTRATOR . '/components/com_cwmprayer/helpers', 'false', 'true');
+JLoader::discover('PrayerTable', JPATH_ADMINISTRATOR . '/components/com_cwmprayer/tables', 'false', 'true');
+JLoader::register('PrayerHelper', JPATH_ADMINISTRATOR . '/components/com_cwmprayer/helpers/prayer.php');
+JHtml::addIncludePath(JPATH_ADMINISTRATOR . '/components/com_cwmprayer/helpers/html/');
 
 // var_dump(JLoader::getClassList());
 
-JHtml::stylesheet('media/com_prayer/css/general.css');
+JHtml::stylesheet('media/com_cwmprayer/css/general.css');
 
 // If phrase is not found in specific language file, load english language file:
 $language = JFactory::getLanguage();
-$language->load('com_prayer', JPATH_ADMINISTRATOR . '/components/com_prayer', 'en-GB', true);
-$language->load('com_prayer',  JPATH_ADMINISTRATOR . '/components/com_prayer', null, true);
-$language->load('com_prayer', JPATH_SITE . '/components/com_prayer', 'en-GB', true);
-$language->load('com_prayer',  JPATH_SITE . '/components/com_prayer', null, true);
+$language->load('com_cwmprayer', JPATH_ADMINISTRATOR . '/components/com_cwmprayer', 'en-GB', true);
+$language->load('com_cwmprayer',  JPATH_ADMINISTRATOR . '/components/com_cwmprayer', null, true);
+$language->load('com_cwmprayer', JPATH_SITE . '/components/com_cwmprayer', 'en-GB', true);
+$language->load('com_cwmprayer',  JPATH_SITE . '/components/com_cwmprayer', null, true);
 
 // Include the JLog class.
 jimport('joomla.log.log');
 JLog::addLogger(
 	array(
-		'text_file' => 'com_prayer.errors.php'
+		'text_file' => 'com_cwmprayer.errors.php'
 	),
 	JLog::ALL,
-	'com_prayer'
+	'com_cwmprayer'
 );
 
 // ChurchDirectory has been initialized
-define('PRAYER_LOADED', 1);
+define('CWMPRAYER_LOADED', 1);

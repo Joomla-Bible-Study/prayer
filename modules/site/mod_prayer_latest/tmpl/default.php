@@ -2,20 +2,20 @@
 
 defined('_JEXEC') or die;
 
-if (file_exists(JPATH_ROOT . "/administrator/components/com_prayer/config.xml"))
+if (file_exists(JPATH_ROOT . "/administrator/components/com_cwmprayer/config.xml"))
 {
-	require_once JPATH_ROOT . "/components/com_prayer/helpers/admin_includes.php";
-	require_once JPATH_ROOT . "/components/com_prayer/helpers/prayer.php";
+	require_once JPATH_ROOT . "/components/com_cwmprayer/helpers/admin_includes.php";
+	require_once JPATH_ROOT . "/components/com_cwmprayer/helpers/prayer.php";
 
 	$prayercenterlmod = new PrayerSitePrayer;
 	$pc_rights        = $prayercenterlmod->intializePCRights();
 	$itemid           = $prayercenterlmod->PCgetItemid();
 	$lang             = Jfactory::getLanguage();
-	$lang->load('com_prayer', JPATH_SITE);
+	$lang->load('com_cwmprayer', JPATH_SITE);
 	$pclmodhelper = new ModPrayerLatestHelper;
 	$count        = $params->get('count');
 	$wordcount    = $params->get('word_count');
-	$link         = JRoute::_('index.php?option=com_prayer&Itemid=' . (int) $itemid);
+	$link         = JRoute::_('index.php?option=com_cwmprayer&Itemid=' . (int) $itemid);
 	$request      = "";
 	$rows         = $pclmodhelper->getPrayerLModData($count);
 
@@ -61,17 +61,17 @@ if (file_exists(JPATH_ROOT . "/administrator/components/com_prayer/config.xml"))
 							$request = $rows[$i]->request;
 						}
 
-						$viewlink = JRoute::_('index.php?option=com_prayercenter&view=req&id=' . (int) $rows[$i]->id . '&Itemid=' . (int) $itemid);
+						$viewlink = JRoute::_('index.php?option=com_cwmprayercenter&view=req&id=' . (int) $rows[$i]->id . '&Itemid=' . (int) $itemid);
 						?>
 						<li style="padding-bottom:10px">
 							<?php if ($i > 0 && $i != count($rows)) { ?>
 								<br />
 							<?php } ?>
-							<?php echo '<b>' . JText::_('PRAYERPOSTEDBY') . '</b><br />' .
+							<?php echo '<b>' . JText::_('CWMPRAYERPOSTEDBY') . '</b><br />' .
 								wordwrap($rows[$i]->requester, 22, "<br />\n", true) . '<br />'; ?>
 							<?php echo '(' . date("M j,Y", strtotime($rows[$i]->date)) . ')<br />'; ?><br/>
 							<?php echo '<i>"' . $prayercenterlmod->PCkeephtml($request) . '"</i><small>&nbsp;&nbsp;&nbsp;<a href="' .
-								$viewlink . '" /><i>' . JText::_('PRAYERREADMORE') . '</i></a></small>'; ?>
+								$viewlink . '" /><i>' . JText::_('CWMPRAYERREADMORE') . '</i></a></small>'; ?>
 						</li>
 						<?php
 						echo '<hr style="padding:0;margin:2px;">';
@@ -81,14 +81,14 @@ if (file_exists(JPATH_ROOT . "/administrator/components/com_prayer/config.xml"))
 				</ul>
 				<br/>
 				<small><a class="readon" style="margin-top: 4px;margin-right: 2px;"
-				          href="<?php echo $link; ?>"><?php echo JText::_('PRAYERVIEWLIST'); ?></a></small>
+				          href="<?php echo $link; ?>"><?php echo JText::_('CWMPRAYERVIEWLIST'); ?></a></small>
 			</div>
 			<?php
 		}
 		else
 		{
 			echo '<div><center><b>';
-			echo wordwrap(JText::_('PRAYERNOREQUEST'), 20, "<br />\n", true);
+			echo wordwrap(JText::_('CWMPRAYERNOREQUEST'), 20, "<br />\n", true);
 			echo '</b></center></div>';
 		}
 	}
@@ -99,10 +99,10 @@ if (file_exists(JPATH_ROOT . "/administrator/components/com_prayer/config.xml"))
 }
 else
 {
-	if (!defined('PRAYERCOMNOTINSTALL'))
+	if (!defined('CWMPRAYERCOMNOTINSTALL'))
 	{
-		define('PRAYERCOMNOTINSTALL', 'PrayerCenter Component Not Installed');
+		define('CWMPRAYERCOMNOTINSTALL', 'PrayerCenter Component Not Installed');
 	}
 
-	echo '<div class="center" style="color:red; font-weight: bold;">' . JText::_('PRAYERCOMNOTINSTALL') . '</div>';
+	echo '<div class="center" style="color:red; font-weight: bold;">' . JText::_('CWMPRAYERCOMNOTINSTALL') . '</div>';
 }

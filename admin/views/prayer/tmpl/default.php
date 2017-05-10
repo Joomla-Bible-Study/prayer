@@ -15,9 +15,9 @@ JHtml::_('formbehavior.chosen', 'select');
 
 $livesite = JURI::base();
 $lang     = JFactory::getLanguage();
-$lang->load('com_prayer', JPATH_SITE);
+$lang->load('com_cwmprayer', JPATH_SITE);
 
-JHTML::_('script', 'media/com_prayer/js/admin_pc.js');
+JHTML::_('script', 'media/com_cwmprayer/js/admin_pc.js');
 $pcversion   = new PrayerVersion;
 $db          = JFactory::getDBO();
 $prayeradmin = new PrayerAdmin;
@@ -104,7 +104,7 @@ $xmlObj      = $pcversion->getPrayerVersion();
 						</div>
 						<div class="span3" style="white-space:nowrap;">
 							<a href="http://www.gnu.org/copyleft/gpl.html" target="_blank"><img
-										src="<?php echo JURI::root(); ?>media/com_prayer/images/gplv3-88x31.png"
+										src="<?php echo JURI::root(); ?>media/com_cwmprayer/images/gplv3-88x31.png"
 										border="0" title="<?php echo JText::_('GNU General Public License v3'); ?>"
 										width="60px"/></a>&nbsp;<?php echo JText::_('GNU/GPL3'); ?>
 						</div>
@@ -190,7 +190,7 @@ $xmlObj      = $pcversion->getPrayerVersion();
 								<input type="hidden" name="tax" value="0"/>
 								<input type="hidden" name="bn" value="joomlabiblestudy"/>
 								<input type="image"
-								       src="<?php echo JURI::root(); ?>media/com_prayer/images/donate.gif"
+								       src="<?php echo JURI::root(); ?>media/com_cwmprayer/images/donate.gif"
 								       border="0" name="submit"
 								       title="Make donations with PayPal - it's fast, free and secure!"/>
 								</form>
@@ -275,7 +275,7 @@ $xmlObj      = $pcversion->getPrayerVersion();
 				</div>
 				<?php
 				$cstring       = "";
-				$pcParams      = JComponentHelper::getParams('com_prayer');
+				$pcParams      = JComponentHelper::getParams('com_cwmprayer');
 				$pcParamsArray = $pcParams->toArray();
 				foreach ($pcParamsArray['params'] as $name => $value)
 				{
@@ -312,7 +312,7 @@ $xmlObj      = $pcversion->getPrayerVersion();
 						</div>
 						<div class="row-fluid">
 							<div class="span12"><a
-										href="<?php echo JURI::base(); ?>index.php?option=com_prayer&task=utilities"><i
+										href="<?php echo JURI::base(); ?>index.php?option=com_cwmprayer&task=utilities"><i
 											class="icon-tools"></i>
 									<span><?php echo JText::_('Component Utilities'); ?></span></a>
 							</div>

@@ -4,12 +4,12 @@ defined('_JEXEC') or die;
 $user       = JFactory::getUser();
 $access_gid = $user->get('gid');
 $lang       = Jfactory::getLanguage();
-$lang->load('com_prayer', JPATH_SITE);
+$lang->load('com_cwmprayer', JPATH_SITE);
 
-if (file_exists(JPATH_ROOT . "/administrator/components/com_prayer/config.xml"))
+if (file_exists(JPATH_ROOT . "/administrator/components/com_cwmprayer/config.xml"))
 {
-	require_once JPATH_ROOT . "/components/com_prayer/helpers/admin_includes.php";
-	require_once JPATH_ROOT . "/components/com_prayer/helpers/prayer.php";
+	require_once JPATH_ROOT . "/components/com_cwmprayer/helpers/admin_includes.php";
+	require_once JPATH_ROOT . "/components/com_cwmprayer/helpers/prayer.php";
 
 	$prayercentermsr        = new PrayerSitePrayer;
 	$pc_rights              = $prayercentermsr->intializePCRights();
@@ -23,10 +23,10 @@ if (file_exists(JPATH_ROOT . "/administrator/components/com_prayer/config.xml"))
 	$livesite               = JURI::base();
 	?>
 	<script language="JavaScript" type="text/javascript">
-		var enter_req = '<?php echo JText::_('PRAYERENTERREQ');?>';
-		var confirm_enter_email = '<?php echo JText::_('PRAYERCONFIRMENTEREMAIL');?>';
-		var enter_sec_code = '<?php echo JText::_('PRAYERENTERSECCODE');?>';
-		var enter_valid_email = '<?php echo JText::_('PRAYERINVALIDEMAIL');?>';
+		var enter_req = '<?php echo JText::_('CWMPRAYERENTERREQ');?>';
+		var confirm_enter_email = '<?php echo JText::_('CWMPRAYERCONFIRMENTEREMAIL');?>';
+		var enter_sec_code = '<?php echo JText::_('CWMPRAYERENTERSECCODE');?>';
+		var enter_valid_email = '<?php echo JText::_('CWMPRAYERINVALIDEMAIL');?>';
 		var livesite = '<?php echo $livesite;?>';
 	</script>
 	<style type="text/css">
@@ -44,7 +44,7 @@ if (file_exists(JPATH_ROOT . "/administrator/components/com_prayer/config.xml"))
 	</style>
 	<?php
 	$document = JFactory::getDocument();
-	$document->addScript('media/com_prayer/js/pc.js');
+	$document->addScript('media/com_cwmprayer/js/pc.js');
 
 	if ($pc_rights->get('pc.post'))
 	{
@@ -61,29 +61,29 @@ if (file_exists(JPATH_ROOT . "/administrator/components/com_prayer/config.xml"))
 
 		echo '<div class="moduletable' . $moduleclasssfx . '" id="pcmodreqsub">';
 		echo '<a name="pcmsr"></a>';
-		echo '<form method="post" action="index.php?option=com_prayer&modtype=return_submsg&mod=pcmsr" name="pcmsr">';
-		echo '<label for="newrequester">' . JText::_('PRAYERNAME') . ': (' . JText::_('PRAYEROPTIONAL') . ')</label>';
+		echo '<form method="post" action="index.php?option=com_cwmprayer&modtype=return_submsg&mod=pcmsr" name="pcmsr">';
+		echo '<label for="newrequester">' . JText::_('CWMPRAYERNAME') . ': (' . JText::_('CWMPRAYEROPTIONAL') . ')</label>';
 		echo '<input type="text" name="newrequester" id="newrequester" value="' . $id . '" />';
 
 		if ($show_email_option == '1')
 		{
-			echo '<label for="newemail">' . JText::_('PRAYEREMAIL') . ': ';
+			echo '<label for="newemail">' . JText::_('CWMPRAYEREMAIL') . ': ';
 
 			if ($config_use_admin_alert != 1)
 			{
-				echo '(' . JText::_('PRAYEROPTIONAL') . ')';
+				echo '(' . JText::_('CWMPRAYEROPTIONAL') . ')';
 			}
 
 			echo '</label>';
 			echo '<input type="text" name="newemail" id="newemail" value="' . $email . '" />';
 		}
 
-		echo '<label for="newtitle">' . JText::_('PRAYERREQTITLE') . '</label>';
+		echo '<label for="newtitle">' . JText::_('CWMPRAYERREQTITLE') . '</label>';
 		echo '<INPUT TYPE="TEXT" name="newtitle" id="newtitle" class="inputbox" value="" />';
-		echo '<label for="newtopic">' . JText::_('PRAYERREQTOPIC') . '</label>';
+		echo '<label for="newtopic">' . JText::_('CWMPRAYERREQTOPIC') . '</label>';
 		$newtopicarray = $prayercentermsr->PCgetTopics();
 		echo '<select name="newtopic" id="newtopic">';
-		$topics = '<option value="">' . JText::_('PRAYERSELECTTOPIC') . '</option>';
+		$topics = '<option value="">' . JText::_('CWMPRAYERSELECTTOPIC') . '</option>';
 
 		foreach ($newtopicarray as $nt)
 		{
@@ -92,7 +92,7 @@ if (file_exists(JPATH_ROOT . "/administrator/components/com_prayer/config.xml"))
 
 		echo $topics;
 		echo '</select><br /><br />';
-		echo '<label for="newrequest">' . htmlentities(JText::_('PRAYERREQUEST')) . ':</label>';
+		echo '<label for="newrequest">' . htmlentities(JText::_('CWMPRAYERREQUEST')) . ':</label>';
 		echo '<textarea name="newrequest" id="mnewrequest" class="inputbox" rows="8" style="resize:none;"></textarea>';
 		echo '<input type="hidden" name="sendpriv" size="5" class="inputbox" value="' . $sendpriv . '" />';
 		echo '<span style="display:none;visibility:hidden;">';
@@ -105,7 +105,7 @@ if (file_exists(JPATH_ROOT . "/administrator/components/com_prayer/config.xml"))
 			echo '<input type="checkbox" class=radio style="margin:0;padding:0;" name="msend"' .
 				' id="msend" onClick="javascript:if(document.adminForm.msend.checked){document.adminForm.sendpriv.value=0;}else{document.' .
 				'adminForm.sendpriv.value=1;}" />';
-			echo '&nbsp;<span style="font-size:x-small;white-space:nowrap;">' . JText::_('PRAYERPRIV') . '</span>';
+			echo '&nbsp;<span style="font-size:x-small;white-space:nowrap;">' . JText::_('CWMPRAYERPRIV') . '</span>';
 		}
 
 		$user = JFactory::getUser();
@@ -145,9 +145,9 @@ if (file_exists(JPATH_ROOT . "/administrator/components/com_prayer/config.xml"))
 		}
 
 		echo '&nbsp;<button type="button" onclick="javascript:' . $js_script . '">';
-		echo JText::_('PRAYERSUBMIT') . '</button>';
+		echo JText::_('CWMPRAYERSUBMIT') . '</button>';
 		echo '<input type="hidden" name="valreq" id="valreq" value="" />';
-		echo '<input type="hidden" name="option" value="com_prayer" />';
+		echo '<input type="hidden" name="option" value="com_cwmprayer" />';
 		echo '<input type="hidden" name="controller" value="prayer" />';
 		echo '<input type="hidden" name="task" value="newreqsubmit" />';
 		$defaultcaptcha = JFactory::getConfig()->get('captcha');
@@ -167,10 +167,10 @@ if (file_exists(JPATH_ROOT . "/administrator/components/com_prayer/config.xml"))
 }
 else
 {
-	if (!defined('PRAYERCOMNOTINSTALL'))
+	if (!defined('CWMPRAYERCOMNOTINSTALL'))
 	{
-		define('PRAYERCOMNOTINSTALL', 'Prayer Component Not Installed');
+		define('CWMPRAYERCOMNOTINSTALL', 'Prayer Component Not Installed');
 	}
 
-	echo '<div style="text-align:center; color:red;font-weight: bold;">' . JText::_('PRAYERCOMNOTINSTALL') . '</div>';
+	echo '<div style="text-align:center; color:red;font-weight: bold;">' . JText::_('CWMPRAYERCOMNOTINSTALL') . '</div>';
 }

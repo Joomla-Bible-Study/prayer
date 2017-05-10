@@ -10,7 +10,7 @@
 
 defined('_JEXEC') or die('Restricted access');
 
-class PrayerControllerSubs extends JControllerAdmin
+class CWMPrayerControllerSubs extends JControllerAdmin
 {
 	/**
 	 * Approved
@@ -21,11 +21,11 @@ class PrayerControllerSubs extends JControllerAdmin
 	 */
 	public function approve()
 	{
-		/** @var \PrayerModelSubs $model */
-		$model = $this->getModel('Subs', 'PrayerModel');
+		/** @var \CWMPrayerModelSubs $model */
+		$model = $this->getModel('Subs', 'CWMPrayerModel');
 		$model->approve();
 
-		$this->setRedirect(JRoute::_(JUri::base() . 'index.php?option=com_prayer&view=subs'));
+		$this->setRedirect(JRoute::_(JUri::base() . 'index.php?option=com_cwmprayer&view=subs'));
 	}
 
 	/**
@@ -37,10 +37,10 @@ class PrayerControllerSubs extends JControllerAdmin
 	 */
 	public function unapprove()
 	{
-		/** @var \PrayerModelSubs $model */
-		$model = $this->getModel('Subs', 'PrayerModel');
+		/** @var \CWMPrayerModelSubs $model */
+		$model = $this->getModel('Subs', 'CWMPrayerModel');
 		$model->unapprove();
 
-		$this->setRedirect(JRoute::_(JUri::base() . 'index.php?option=com_prayer&view=subs'));
+		$this->setRedirect(JRoute::_(JUri::base() . 'index.php?option=com_cwmprayer&view=subs'));
 	}
 }

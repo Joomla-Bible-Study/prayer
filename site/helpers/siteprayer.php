@@ -32,7 +32,7 @@ class PrayerSitePrayer extends PrayerAdmin
 	 */
 	public function __construct()
 	{
-		$comp           = JComponentHelper::getParams('com_prayer');
+		$comp           = JComponentHelper::getParams('com_cwmprayer');
 		$this->pcConfig = $comp->toArray()['params'];
 
 		$this->intializePCRights();
@@ -67,32 +67,32 @@ class PrayerSitePrayer extends PrayerAdmin
 			}
 		}
 
-		if (JAccess::check($user->id, 'prayer.view', 'com_prayer'))
+		if (JAccess::check($user->id, 'cwmprayer.view', 'com_cwmprayer'))
 		{
 			$pc_rights->set('pc.view', true);
 		}
 
-		if (JAccess::check($user->id, 'prayer.post', 'com_prayer'))
+		if (JAccess::check($user->id, 'cwmprayer.post', 'com_cwmprayer'))
 		{
 			$pc_rights->set('pc.post', true);
 		}
 
-		if (JAccess::check($user->id, 'prayer.publish', 'com_prayer'))
+		if (JAccess::check($user->id, 'cwmprayer.publish', 'com_cwmprayer'))
 		{
 			$pc_rights->set('pc.publish', true);
 		}
 
-		if (JAccess::check($user->id, 'prayer.subscribe', 'com_prayer'))
+		if (JAccess::check($user->id, 'cwmprayer.subscribe', 'com_cwmprayer'))
 		{
 			$pc_rights->set('pc.subscribe', true);
 		}
 
-		if (JAccess::check($user->id, 'prayer.devotional', 'com_prayer'))
+		if (JAccess::check($user->id, 'cwmprayer.devotional', 'com_cwmprayer'))
 		{
 			$pc_rights->set('pc.view_devotional', true);
 		}
 
-		if (JAccess::check($user->id, 'prayer.links', 'com_prayer'))
+		if (JAccess::check($user->id, 'cwmprayer.links', 'com_cwmprayer'))
 		{
 			$pc_rights->set('pc.view_links', true);
 		}
@@ -116,7 +116,7 @@ class PrayerSitePrayer extends PrayerAdmin
 	{
 		$translator = $this->pcConfig['config_show_translate'];
 		?>
-		<script type="text/javascript">var langtranmsg = "<?php echo JText::_('PRAYERSELECTTRANS');?>";</script><?php
+		<script type="text/javascript">var langtranmsg = "<?php echo JText::_('CWMPRAYERSELECTTRANS');?>";</script><?php
 
 		if ($translator == 1 || $translator == 4)
 		{
@@ -128,7 +128,7 @@ class PrayerSitePrayer extends PrayerAdmin
 			if ($translator == 1)
 			{
 				echo "<select style=\"font-size:7pt;\" id=\"tol\" value=\"\" onChange=\"javascript:getTranslator2('" . $ulang .
-					"'," . $reqid . ",'" . JURI::base() . "');\" title=\"" . JText::_('PRAYERPOPUPBLOCKER') . "\"></select>";
+					"'," . $reqid . ",'" . JURI::base() . "');\" title=\"" . JText::_('CWMPRAYERPOPUPBLOCKER') . "\"></select>";
 			}
 			elseif ($translator == 4)
 			{
@@ -137,19 +137,19 @@ class PrayerSitePrayer extends PrayerAdmin
 			}
 
 			$document = JFactory::getDocument();
-			$document->addScript('media/com_prayer/js/gtranslate.js');
+			$document->addScript('media/com_cwmprayer/js/gtranslate.js');
 		}
 		elseif ($translator == 2 || $translator == 5)
 		{
 			//Microsoft Bing Translator
 			echo "<br /><a href=\"http://www.bing.com/translator//\"><img src=\"" . JURI::base() .
-				"media/com_prayer/fe-images/bing-logo.png\" style=\"height:15px;margin-top:2px;vertical-align:middle;border:0;\"" .
+				"media/com_cwmprayer/fe-images/bing-logo.png\" style=\"height:15px;margin-top:2px;vertical-align:middle;border:0;\"" .
 				" title=\"Bing Translator\" /></a><span style=\"color:orange;font-size:7pt;font-weight:bold;\">Translator</span>&nbsp;";
 
 			if ($translator == 2)
 			{
 				echo "<select style=\"font-size:7pt;\" id=\"tol\" value=\"\" onChange=\"javascript:getTranslator2(" . $reqid . ",'" .
-					JURI::base() . "');\" title=\"" . JText::_('PRAYERPOPUPBLOCKER') . "\"></select>";
+					JURI::base() . "');\" title=\"" . JText::_('CWMPRAYERPOPUPBLOCKER') . "\"></select>";
 			}
 			elseif ($translator == 5)
 			{
@@ -157,7 +157,7 @@ class PrayerSitePrayer extends PrayerAdmin
 			}
 
 			$document = JFactory::getDocument();
-			$document->addScript('media/com_prayer/js/mstranslate.js');
+			$document->addScript('media/com_cwmprayer/js/mstranslate.js');
 		}
 	}
 
@@ -184,9 +184,9 @@ class PrayerSitePrayer extends PrayerAdmin
 		if (!$editonly)
 		{
 			$status   = 'status=no,toolbar=no,scrollbars=yes,titlebar=no,menubar=no,resizable=yes,width=640,height=480,directories=no,location=no';
-			$pdf_link = 'index.php?option=com_prayer&amp;task=pdf&amp;listtype=0&amp;id=' . $showrequest->id . '&amp;title=' .
-				htmlentities(JText::_('PRAYERTITLE')) . '&amp;format=pdf';
-			$image    = JHTML::image($imgpath . 'pdf_button.png', htmlentities(JText::_('PRAYERPDF')), 'style=vertical-align:top;border:0;');
+			$pdf_link = 'index.php?option=com_cwmprayer&amp;task=pdf&amp;listtype=0&amp;id=' . $showrequest->id . '&amp;title=' .
+				htmlentities(JText::_('CWMPRAYERTITLE')) . '&amp;format=pdf';
+			$image    = JHTML::image($imgpath . 'pdf_button.png', htmlentities(JText::_('CWMPRAYERPDF')), 'style=vertical-align:top;border:0;');
 
 			if ($this->pcConfig['config_show_pdf'])
 			{
@@ -202,20 +202,20 @@ class PrayerSitePrayer extends PrayerAdmin
 					$pdfattribs['onclick'] = "window.open(this.href,'win2','" . $status . "'); return false;";
 				}
 
-				$pdfattribs['title'] = htmlentities(JText::_('PRAYERPDF'));
+				$pdfattribs['title'] = htmlentities(JText::_('CWMPRAYERPDF'));
 				$pdfattribs['rel']   = 'nofollow';
 				echo JHTML::_('link', JRoute::_($pdf_link), $image, $pdfattribs);
 				echo '&nbsp;';
 			}
 
-			$print_link = "index.php?option=com_prayer&amp;task=view_request&amp;id=" . $showrequest->id .
+			$print_link = "index.php?option=com_cwmprayer&amp;task=view_request&amp;id=" . $showrequest->id .
 				"&amp;pop=1&amp;prt=1&amp;tmpl=component&amp;Itemid=" . $itemid;
 			$status     = 'status=no,toolbar=no,scrollbars=yes,titlebar=no,menubar=no,resizable=yes,width=640,height=480,directories=no,location=no';
-			$image      = JHtml::image($imgpath . 'printButton.png', htmlentities(JText::_('PRAYERPRINT')), 'style=vertical-align:top;border:0;');
+			$image      = JHtml::image($imgpath . 'printButton.png', htmlentities(JText::_('CWMPRAYERPRINT')), 'style=vertical-align:top;border:0;');
 
 			if ($this->pcConfig['config_show_print'])
 			{
-				$prtattribs['title'] = htmlentities(JText::_('PRAYERPRINT'));
+				$prtattribs['title'] = htmlentities(JText::_('CWMPRAYERPRINT'));
 
 				if ($this->pcConfig['config_use_gb'])
 				{
@@ -234,14 +234,14 @@ class PrayerSitePrayer extends PrayerAdmin
 			}
 
 			$sitename = $app->get('sitename');
-			$mailto   = str_replace('%s', $sitename, htmlentities(JText::_('PRAYERMAILTO')));
+			$mailto   = str_replace('%s', $sitename, htmlentities(JText::_('CWMPRAYERMAILTO')));
 			$status   = 'width=400,height=300,menubar=yes,resizable=yes';
 			$link     = $mailto . htmlentities($showrequest->request, ENT_QUOTES);
-			$image    = JHTML::image($imgpath . 'emailButton.png', htmlentities(JText::_('PRAYERSENDEMAIL')), 'style=vertical-align:top;border:0;');
+			$image    = JHTML::image($imgpath . 'emailButton.png', htmlentities(JText::_('CWMPRAYERSENDEMAIL')), 'style=vertical-align:top;border:0;');
 
 			if ($this->pcConfig['config_show_email'])
 			{
-				$mtattribs['title']   = htmlentities(JText::_('PRAYERSENDEMAIL'));
+				$mtattribs['title']   = htmlentities(JText::_('CWMPRAYERSENDEMAIL'));
 				$mtattribs['onclick'] = "window.open(this.href,'win2','" . $status . "'); return false;";
 				echo JHTML::_('link', JRoute::_($link), $image, $mtattribs);
 			}
@@ -251,10 +251,10 @@ class PrayerSitePrayer extends PrayerAdmin
 			|| ($showrequest->requesterid == $user->get('id') && $user->get('id') > 0))
 		{
 			$icon   = $showrequest->publishstate ? 'edit.png' : 'edit_unpublished.png';
-			$link   = 'index.php?option=com_prayer&task=edit&last=view&id=' . $showrequest->id . '&Itemid=' . $itemid;
-			$image  = JHTML::_('image', $icon, $imgpath, null, null, htmlentities(ucfirst(JText::_('PRAYEREDIT'))), 'style=vertical-align:top;border:0;');
+			$link   = 'index.php?option=com_cwmprayer&task=edit&last=view&id=' . $showrequest->id . '&Itemid=' . $itemid;
+			$image  = JHTML::_('image', $icon, $imgpath, null, null, htmlentities(ucfirst(JText::_('CWMPRAYEREDIT'))), 'style=vertical-align:top;border:0;');
 			$button = JHTML::_('link', JRoute::_($link), $image);
-			$output = '<span class="hasTip" title="' . ucfirst(JText::_('PRAYEREDIT')) . '">' . $button . '</span>';
+			$output = '<span class="hasTip" title="' . ucfirst(JText::_('CWMPRAYEREDIT')) . '">' . $button . '</span>';
 			echo '&nbsp;' . $output;
 		}
 	}
@@ -270,7 +270,7 @@ class PrayerSitePrayer extends PrayerAdmin
 	{
 		$JSite     = new JSite;
 		$menu      = $JSite->getMenu();
-		$component = JComponentHelper::getComponent('com_prayer');
+		$component = JComponentHelper::getComponent('com_cwmprayer');
 		$items     = $menu->getItems('component_id', $component->id);
 		$itemid    = $items[0]->id;
 
@@ -323,7 +323,7 @@ class PrayerSitePrayer extends PrayerAdmin
 				if ($reqrcount == 1)
 				{
 					$reqid = $_CB_framework->getUserIdFrom('name', $requester);
-					$db->setQuery("SELECT COUNT(*) FROM #__prayer WHERE requester='" . $requester . "'");
+					$db->setQuery("SELECT COUNT(*) FROM #__cwmprayer WHERE requester='" . $requester . "'");
 					$reqcount = $db->loadResult();
 				}
 
@@ -338,7 +338,7 @@ class PrayerSitePrayer extends PrayerAdmin
 					}
 					else
 					{
-						$db->setQuery("SELECT COUNT(*) FROM #__prayer WHERE email='" . $reqemail . "'");
+						$db->setQuery("SELECT COUNT(*) FROM #__cwmprayer WHERE email='" . $reqemail . "'");
 						$reqcount = $db->loadResult();
 					}
 				}
@@ -349,7 +349,7 @@ class PrayerSitePrayer extends PrayerAdmin
 			}
 			else
 			{
-				$db->setQuery("SELECT COUNT(*) FROM #__prayer WHERE requesterid='" . $reqid . "'");
+				$db->setQuery("SELECT COUNT(*) FROM #__cwmprayer WHERE requesterid='" . $reqid . "'");
 				$reqcount = $db->loadResult();
 			}
 
@@ -380,7 +380,7 @@ class PrayerSitePrayer extends PrayerAdmin
 				$_CB_framework->myId() . "') AS accepted,pending,membersince,type,description FROM #__comprofiler_members WHERE memberid='" .
 				$reqid . "' AND referenceid='" . $_CB_framework->myId() . "'");
 			$cbconnect = $db->loadObject();
-			$results   = '<b>' . htmlentities(JText::_('PRAYEROVERLIBSUBBY')) . '</b><br />';
+			$results   = '<b>' . htmlentities(JText::_('CWMPRAYEROVERLIBSUBBY')) . '</b><br />';
 
 			if (!$reqid)
 			{
@@ -475,8 +475,8 @@ class PrayerSitePrayer extends PrayerAdmin
 				}
 			}
 
-			$reqcount ? $results .= "<br />&nbsp;&nbsp;" . JText::_('PRAYERPRAYERREQUESTS') .
-				"&nbsp;<a href=\"" . JRoute::_('index.php?option=com_prayer&task=view&searchrequester=' . $requester . '&searchrequesterid=' . $reqid) . "\">" .
+			$reqcount ? $results .= "<br />&nbsp;&nbsp;" . JText::_('CWMPRAYERCWMPRAYERREQUESTS') .
+				"&nbsp;<a href=\"" . JRoute::_('index.php?option=com_cwmprayer&task=view&searchrequester=' . $requester . '&searchrequesterid=' . $reqid) . "\">" .
 				$reqcount . "</a>" : $results .= "<br />";
 
 			if ($flagsplugin && !$cbcount)
@@ -606,7 +606,7 @@ class PrayerSitePrayer extends PrayerAdmin
 					$results .= "<a href=\"javascript:void(0)\" onclick=\"return overlib('" . _UE_CONNECTIONINVITATIONMSG .
 						"&lt;br /&gt;&lt;form action=&quot;" . JURI::base() .
 						"/index.php?option=com_comprofiler&amp;act=connections&amp;task=addConnection&amp;connectionid=" .
-						$reqid . "&amp;title=" . rtrim(htmlentities(JText::_('PRAYERPRAYERREQUEST')), ':') .
+						$reqid . "&amp;title=" . rtrim(htmlentities(JText::_('CWMPRAYERCWMPRAYERREQUEST')), ':') .
 						"&quot; method=&quot;post&quot; id=&quot;connOverForm&quot; name=&quot;connOverForm&quot;&gt;" . _UE_MESSAGE .
 						":&lt;br /&gt;&lt;textarea cols=&quot;40&quot; rows=&quot;8&quot; name=&quot;message&quot;&gt;&lt;/textarea&gt;&lt;br /&gt;&lt;input" .
 						" type=&quot;button&quot; class=&quot;inputbox&quot; onclick=&quot;cbConnSubmReq();&quot; value=&quot;" . _UE_SENDCONNECTIONREQUEST .
@@ -634,7 +634,7 @@ class PrayerSitePrayer extends PrayerAdmin
 				{
 					$db->setQuery("SELECT id FROM #__users WHERE name='" . $requester . "'");
 					$reqid = $db->loadResult();
-					$db->setQuery("SELECT COUNT(*) FROM #__prayer WHERE requester='" . $requester . "'");
+					$db->setQuery("SELECT COUNT(*) FROM #__cwmprayer WHERE requester='" . $requester . "'");
 					$reqcount = $db->loadResult();
 				}
 
@@ -650,14 +650,14 @@ class PrayerSitePrayer extends PrayerAdmin
 					}
 					else
 					{
-						$db->setQuery("SELECT COUNT(*) FROM #__prayer WHERE email='" . $reqemail . "'");
+						$db->setQuery("SELECT COUNT(*) FROM #__cwmprayer WHERE email='" . $reqemail . "'");
 						$reqcount = $db->loadResult();
 					}
 				}
 			}
 			else
 			{
-				$db->setQuery("SELECT COUNT(*) FROM #__prayer WHERE requesterid='" . $reqid . "'");
+				$db->setQuery("SELECT COUNT(*) FROM #__cwmprayer WHERE requesterid='" . $reqid . "'");
 				$reqcount = $db->loadResult();
 			}
 
@@ -684,7 +684,7 @@ class PrayerSitePrayer extends PrayerAdmin
 				if ($showavatar && $user->get('id') > 0)
 				{
 					$jsavatar = '<img src="' . $jsuser->getThumbAvatar() . '" alt="" border="0" title="' . $requester . '" class=\"profileimage\" />';
-					$results  = '<b>' . htmlentities(JText::_('PRAYEROVERLIBSUBBY')) . '</b><br />';
+					$results  = '<b>' . htmlentities(JText::_('CWMPRAYEROVERLIBSUBBY')) . '</b><br />';
 					$results  .= "&nbsp;&nbsp;<a href=\"" . $js_profile_link . "\">" . $jsavatar . ucfirst($requester) . "</a>";
 				}
 				elseif (!$showavatar && $user->get('id') > 0)
@@ -708,8 +708,8 @@ class PrayerSitePrayer extends PrayerAdmin
 
 				// To retrieve any user-specific information from custom field
 				//      $data = $jsuser->getInfo('FIELD_CODE');
-				$reqcount ? $results .= "<br />&nbsp;&nbsp;" . ucfirst(strtolower(htmlentities(JText::_('PRAYERPRAYERREQUESTS')))) .
-					":&nbsp;<a href=\"" . JRoute::_('index.php?option=com_prayer&task=view&searchrequester=' . $requester .
+				$reqcount ? $results .= "<br />&nbsp;&nbsp;" . ucfirst(strtolower(htmlentities(JText::_('CWMPRAYERCWMPRAYERREQUESTS')))) .
+					":&nbsp;<a href=\"" . JRoute::_('index.php?option=com_cwmprayer&task=view&searchrequester=' . $requester .
 						'&searchrequesterid=' . $reqid) . "\">" . $reqcount . "</a>" : $results .= "<br />";
 
 				// Send message
@@ -829,7 +829,7 @@ class PrayerSitePrayer extends PrayerAdmin
 				if ($cbresults[0]->countryflag != 'none.gif' && $cbresults[0]->countryflag != '')
 				{
 					$cimg    = $livesite . 'components/com_comprofiler/plugin/user/plug_cbprofileflags/countries/' . $cbresults[0]->countryflag;
-					$results .= "<br /><b>" . htmlentities(JText::_('PRAYERREQLOCATION')) . ":</b>&nbsp;&nbsp;<img src=\"" .
+					$results .= "<br /><b>" . htmlentities(JText::_('CWMPRAYERREQLOCATION')) . ":</b>&nbsp;&nbsp;<img src=\"" .
 						$cimg . "\" title=\"" . $cbresults[0]->countryloc . "\" class=\"profileflag\" />";
 				}
 			}
@@ -859,7 +859,7 @@ class PrayerSitePrayer extends PrayerAdmin
 			{
 				$jsavatar        = '<img src="' . $jsuser->getThumbAvatar() . '" alt="" border="0" title="' . $requester . '" class=\"profileimage\" />';
 				$js_profile_link = CRoute::_('index.php?option=com_community&amp;view=profile&amp;Userid=' . $reqid);
-				$results         = '<b>' . htmlentities(JText::_('PRAYEROVERLIBSUBBY')) . '</b><br />';
+				$results         = '<b>' . htmlentities(JText::_('CWMPRAYEROVERLIBSUBBY')) . '</b><br />';
 				$results         .= "&nbsp;&nbsp;<a href=\"" . $js_profile_link . "\">" . $jsavatar . ucfirst($requester) . "</a>";
 			}
 			else
@@ -909,27 +909,27 @@ class PrayerSitePrayer extends PrayerAdmin
 				$jcommentsconfig->set('comments_off', intval($jcommentsDisabled));
 				$jcommentsconfig->set('comments_lock', intval($jcommentsLocked));
 				JCommentsContentPluginHelper::clear($showrequest, true);
-				$commentsCount = JComments::getCommentsCount($showrequest->id, 'com_prayer');
+				$commentsCount = JComments::getCommentsCount($showrequest->id, 'com_cwmprayer');
 				$showForm      = ($jcommentsconfig->getInt('form_show') == 1) || ($jcommentsconfig->getInt('form_show') == 2 && $commentsCount == 0);
 				$isEnabled     = ($jcommentsconfig->getInt('comments_on', 0) == 1) && ($jcommentsconfig->getInt('comments_off', 0) == 0);
 				$document->addScript(JCommentsSystemPluginHelper::getCoreJS());
 				$document->addScript(JCommentsSystemPluginHelper::getAjaxJS());
-				$tmpl = JCommentsFactory::getTemplate($showrequest->id, 'com_prayer');
+				$tmpl = JCommentsFactory::getTemplate($showrequest->id, 'com_cwmprayer');
 				$tmpl->load('tpl_index');
 				$tmpl->addVar('tpl_index', 'comments-css', 1);
 
 				if ($jcommentsconfig->get('template_view') == 'tree')
 				{
-					$tmpl->addVar('tpl_index', 'comments-list', $commentsCount > 0 ? JComments::getCommentsTree($showrequest->id, 'com_prayer') : '');
+					$tmpl->addVar('tpl_index', 'comments-list', $commentsCount > 0 ? JComments::getCommentsTree($showrequest->id, 'com_cwmprayer') : '');
 				}
 				else
 				{
-					$tmpl->addVar('tpl_index', 'comments-list', $commentsCount > 0 ? JComments::getCommentsList($showrequest->id, 'com_prayer') : '');
+					$tmpl->addVar('tpl_index', 'comments-list', $commentsCount > 0 ? JComments::getCommentsList($showrequest->id, 'com_cwmprayer') : '');
 				}
 
 				if ($this->pc_rights->get('pc.post') == 1 && !$jcommentsLocked)
 				{
-					$tmpl->addVar('tpl_index', 'comments-form', JComments::getCommentsForm($showrequest->id, 'com_prayer', $showForm));
+					$tmpl->addVar('tpl_index', 'comments-form', JComments::getCommentsForm($showrequest->id, 'com_cwmprayer', $showForm));
 				}
 
 				$tmpl->addVar('tpl_index', 'comments-gotocomment', 1);
@@ -945,8 +945,8 @@ class PrayerSitePrayer extends PrayerAdmin
 				}
 				else
 				{
-					$return = '<a href="' . JRoute::_("index.php?option=com_prayer&task=view_request&id=" . $showrequest->id . "&pop=0&Itemid=" . $itemid) .
-						'#comments" />' . JText::_('PRAYERCOMMENTS') .
+					$return = '<a href="' . JRoute::_("index.php?option=com_cwmprayer&task=view_request&id=" . $showrequest->id . "&pop=0&Itemid=" . $itemid) .
+						'#comments" />' . JText::_('CWMPRAYERCOMMENTS') .
 						'&nbsp;(' . $commentsCount . ')</a>';
 				}
 			}
@@ -967,16 +967,16 @@ class PrayerSitePrayer extends PrayerAdmin
 			{
 				require_once $jsc;
 				$jsitecomments = new jsitecomment;
-				$commentsCount = $jsitecomments->JSCgetCommentsCount('com_prayer', $showrequest->id);
+				$commentsCount = $jsitecomments->JSCgetCommentsCount('com_cwmprayer', $showrequest->id);
 
 				if (!$showcomments)
 				{
-					$return = '<a href="' . JRoute::_("index.php?option=com_prayer&task=view_request&id=" . $showrequest->id . "&pop=0&Itemid=" . $itemid) .
-						'#comments" />' . JText::_('PRAYERCOMMENTS') . '&nbsp;(' . $commentsCount . ')</a>';
+					$return = '<a href="' . JRoute::_("index.php?option=com_cwmprayer&task=view_request&id=" . $showrequest->id . "&pop=0&Itemid=" . $itemid) .
+						'#comments" />' . JText::_('CWMPRAYERCOMMENTS') . '&nbsp;(' . $commentsCount . ')</a>';
 				}
 				else
 				{
-					$return = '<br /><a name="comments"></a>' . $jsitecomments->JSCshow('com_prayer', $showrequest->id);
+					$return = '<br /><a name="comments"></a>' . $jsitecomments->JSCshow('com_cwmprayer', $showrequest->id);
 				}
 			}
 
@@ -998,11 +998,11 @@ class PrayerSitePrayer extends PrayerAdmin
 		jimport('joomla.environment.browser');
 		$browser      = JBrowser::getInstance();
 		$status       = 'status=no,toolbar=no,scrollbars=yes,titlebar=no,menubar=no,resizable=yes,width=640,height=480,directories=no,location=no';
-		$pdf_link1    = 'index.php?option=com_prayer&amp;task=pdf&amp;listtype=1';
-		$pdf_link2    = 'index.php?option=com_prayer&amp;task=pdf&amp;listtype=2';
+		$pdf_link1    = 'index.php?option=com_cwmprayer&amp;task=pdf&amp;listtype=1';
+		$pdf_link2    = 'index.php?option=com_cwmprayer&amp;task=pdf&amp;listtype=2';
 
-		$image1 = JHTML::image(JURI::base() . 'media/system/images/printButton.png', JText::_('PRAYERPRINTTODAY'), 'style="border:0;"');
-		$image2 = JHTML::image(JURI::base() . 'media/system/images/printButton.png', JText::_('PRAYERPRINTWEEK'), 'style="border:0;"');
+		$image1 = JHTML::image(JURI::base() . 'media/system/images/printButton.png', JText::_('CWMPRAYERPRINTTODAY'), 'style="border:0;"');
+		$image2 = JHTML::image(JURI::base() . 'media/system/images/printButton.png', JText::_('CWMPRAYERPRINTWEEK'), 'style="border:0;"');
 
 		$user_browser = $browser->getBrowser() . $browser->getMajor();
 		$user_browser = strtolower($user_browser);
@@ -1016,14 +1016,14 @@ class PrayerSitePrayer extends PrayerAdmin
 			$attribs['onclick'] = "window.open(this.href,'win2','" . $status . "'); return false;";
 		}
 
-		$attribs['title'] = htmlentities(JText::_('PRAYERPRINTTODAY'));
+		$attribs['title'] = htmlentities(JText::_('CWMPRAYERPRINTTODAY'));
 		$attribs['rel']   = 'nofollow';
 
-		$return  = JHTML::_('link', JRoute::_($pdf_link1), $image1 . '&nbsp;<small>' . htmlentities(JText::_('PRAYERDAILY')) . '</small>', $attribs);
+		$return  = JHTML::_('link', JRoute::_($pdf_link1), $image1 . '&nbsp;<small>' . htmlentities(JText::_('CWMPRAYERDAILY')) . '</small>', $attribs);
 		$return .= '&nbsp;&nbsp;&nbsp;';
 
-		$attribs['title'] = htmlentities(JText::_('PRAYERPRINTWEEK'));
-		$return .= JHTML::_('link', JRoute::_($pdf_link2), $image2 . '&nbsp;<small>' . htmlentities(JText::_('PRAYERWEEKLY')) . '</small>', $attribs);
+		$attribs['title'] = htmlentities(JText::_('CWMPRAYERPRINTWEEK'));
+		$return .= JHTML::_('link', JRoute::_($pdf_link2), $image2 . '&nbsp;<small>' . htmlentities(JText::_('CWMPRAYERWEEKLY')) . '</small>', $attribs);
 
 		return $return;
 	}
@@ -1038,18 +1038,18 @@ class PrayerSitePrayer extends PrayerAdmin
 	public function PCgetSearchbox()
 	{
 		$return  = '<div class="pcsearch" id="pcsearchbox"><form action="' .
-			JRoute::_('index.php?option=com_prayer&task=view') . '" name="searchPC" method="post">';
-		$boxsize = strlen(htmlentities(JText::_('PRAYERSEARCH...')));
+			JRoute::_('index.php?option=com_cwmprayer&task=view') . '" name="searchPC" method="post">';
+		$boxsize = strlen(htmlentities(JText::_('CWMPRAYERSEARCH...')));
 
 		if ($boxsize <= 15)
 		{
 			$boxsize = 15;
 		}
 
-		$return .= '<span title="' . JText::_('PRAYERSEARCHMSG') .
+		$return .= '<span title="' . JText::_('CWMPRAYERSEARCHMSG') .
 			'" class="popup"><input class="pc_search_inputbox" type="text" name="searchword" size="' .
-			$boxsize . '" value="' . JText::_('PRAYERSEARCH...') . '" onblur="if(this.value==\'\') this.value=\'' .
-			JText::_('PRAYERSEARCH...') . '\';" onfocus="if(this.value==\'' . JText::_('PRAYERSEARCH...') .
+			$boxsize . '" value="' . JText::_('CWMPRAYERSEARCH...') . '" onblur="if(this.value==\'\') this.value=\'' .
+			JText::_('CWMPRAYERSEARCH...') . '\';" onfocus="if(this.value==\'' . JText::_('CWMPRAYERSEARCH...') .
 			'\') this.value=\'\';" />';
 		$return .= '</span></form></div>';
 
@@ -1076,7 +1076,7 @@ class PrayerSitePrayer extends PrayerAdmin
 
 		if ($sort == 99)
 		{
-			$topics = '<option value="-1">' . htmlentities(JText::_('PRAYERSORTBY')) . '</option>';
+			$topics = '<option value="-1">' . htmlentities(JText::_('CWMPRAYERSORTBY')) . '</option>';
 		}
 
 		foreach ($newtopicarray as $nt)
@@ -1091,7 +1091,7 @@ class PrayerSitePrayer extends PrayerAdmin
 			$topics .= '<option value="' . $nt['val'] . '"' . $tselected . '>' . $nt['text'] . '</option>';
 		}
 
-		$topics .= '<option value="99">' . htmlentities(JText::_('PRAYERSELECTTOPIC99')) . '</option>';
+		$topics .= '<option value="99">' . htmlentities(JText::_('CWMPRAYERSELECTTOPIC99')) . '</option>';
 		$return .= $topics;
 		$return .= '</select>';
 		$return .= '</form></div>';
@@ -1109,29 +1109,29 @@ class PrayerSitePrayer extends PrayerAdmin
 	public function PCgetTopics()
 	{
 		$topicArray = [
-			1  => ['val' => '0', 'text' => '' . htmlentities(JText::_('PRAYERSELECTTOPIC0')) . ''],
-			2  => ['val' => '1', 'text' => '' . htmlentities(JText::_('PRAYERSELECTTOPIC1')) . ''],
-			3  => ['val' => '2', 'text' => '' . htmlentities(JText::_('PRAYERSELECTTOPIC2')) . ''],
-			4  => ['val' => '3', 'text' => '' . htmlentities(JText::_('PRAYERSELECTTOPIC3')) . ''],
-			5  => ['val' => '4', 'text' => '' . htmlentities(JText::_('PRAYERSELECTTOPIC4')) . ''],
-			6  => ['val' => '5', 'text' => '' . htmlentities(JText::_('PRAYERSELECTTOPIC5')) . ''],
-			7  => ['val' => '6', 'text' => '' . htmlentities(JText::_('PRAYERSELECTTOPIC6')) . ''],
-			8  => ['val' => '7', 'text' => '' . htmlentities(JText::_('PRAYERSELECTTOPIC7')) . ''],
-			9  => ['val' => '8', 'text' => '' . htmlentities(JText::_('PRAYERSELECTTOPIC8')) . ''],
-			10 => ['val' => '9', 'text' => '' . htmlentities(JText::_('PRAYERSELECTTOPIC9')) . ''],
-			11 => ['val' => '10', 'text' => '' . htmlentities(JText::_('PRAYERSELECTTOPIC10')) . ''],
-			12 => ['val' => '11', 'text' => '' . htmlentities(JText::_('PRAYERSELECTTOPIC11')) . ''],
-			13 => ['val' => '12', 'text' => '' . htmlentities(JText::_('PRAYERSELECTTOPIC12')) . ''],
-			14 => ['val' => '13', 'text' => '' . htmlentities(JText::_('PRAYERSELECTTOPIC13')) . ''],
-			15 => ['val' => '14', 'text' => '' . htmlentities(JText::_('PRAYERSELECTTOPIC14')) . ''],
-			16 => ['val' => '15', 'text' => '' . htmlentities(JText::_('PRAYERSELECTTOPIC15')) . ''],
-			17 => ['val' => '16', 'text' => '' . htmlentities(JText::_('PRAYERSELECTTOPIC16')) . ''],
-			18 => ['val' => '17', 'text' => '' . htmlentities(JText::_('PRAYERSELECTTOPIC17')) . ''],
-			19 => ['val' => '18', 'text' => '' . htmlentities(JText::_('PRAYERSELECTTOPIC18')) . ''],
-			20 => ['val' => '19', 'text' => '' . htmlentities(JText::_('PRAYERSELECTTOPIC19')) . ''],
-			21 => ['val' => '20', 'text' => '' . htmlentities(JText::_('PRAYERSELECTTOPIC20')) . ''],
-			22 => ['val' => '21', 'text' => '' . htmlentities(JText::_('PRAYERSELECTTOPIC21')) . ''],
-			23 => ['val' => '22', 'text' => '' . htmlentities(JText::_('PRAYERSELECTTOPIC22')) . '']
+			1  => ['val' => '0', 'text' => '' . htmlentities(JText::_('CWMPRAYERSELECTTOPIC0')) . ''],
+			2  => ['val' => '1', 'text' => '' . htmlentities(JText::_('CWMPRAYERSELECTTOPIC1')) . ''],
+			3  => ['val' => '2', 'text' => '' . htmlentities(JText::_('CWMPRAYERSELECTTOPIC2')) . ''],
+			4  => ['val' => '3', 'text' => '' . htmlentities(JText::_('CWMPRAYERSELECTTOPIC3')) . ''],
+			5  => ['val' => '4', 'text' => '' . htmlentities(JText::_('CWMPRAYERSELECTTOPIC4')) . ''],
+			6  => ['val' => '5', 'text' => '' . htmlentities(JText::_('CWMPRAYERSELECTTOPIC5')) . ''],
+			7  => ['val' => '6', 'text' => '' . htmlentities(JText::_('CWMPRAYERSELECTTOPIC6')) . ''],
+			8  => ['val' => '7', 'text' => '' . htmlentities(JText::_('CWMPRAYERSELECTTOPIC7')) . ''],
+			9  => ['val' => '8', 'text' => '' . htmlentities(JText::_('CWMPRAYERSELECTTOPIC8')) . ''],
+			10 => ['val' => '9', 'text' => '' . htmlentities(JText::_('CWMPRAYERSELECTTOPIC9')) . ''],
+			11 => ['val' => '10', 'text' => '' . htmlentities(JText::_('CWMPRAYERSELECTTOPIC10')) . ''],
+			12 => ['val' => '11', 'text' => '' . htmlentities(JText::_('CWMPRAYERSELECTTOPIC11')) . ''],
+			13 => ['val' => '12', 'text' => '' . htmlentities(JText::_('CWMPRAYERSELECTTOPIC12')) . ''],
+			14 => ['val' => '13', 'text' => '' . htmlentities(JText::_('CWMPRAYERSELECTTOPIC13')) . ''],
+			15 => ['val' => '14', 'text' => '' . htmlentities(JText::_('CWMPRAYERSELECTTOPIC14')) . ''],
+			16 => ['val' => '15', 'text' => '' . htmlentities(JText::_('CWMPRAYERSELECTTOPIC15')) . ''],
+			17 => ['val' => '16', 'text' => '' . htmlentities(JText::_('CWMPRAYERSELECTTOPIC16')) . ''],
+			18 => ['val' => '17', 'text' => '' . htmlentities(JText::_('CWMPRAYERSELECTTOPIC17')) . ''],
+			19 => ['val' => '18', 'text' => '' . htmlentities(JText::_('CWMPRAYERSELECTTOPIC18')) . ''],
+			20 => ['val' => '19', 'text' => '' . htmlentities(JText::_('CWMPRAYERSELECTTOPIC19')) . ''],
+			21 => ['val' => '20', 'text' => '' . htmlentities(JText::_('CWMPRAYERSELECTTOPIC20')) . ''],
+			22 => ['val' => '21', 'text' => '' . htmlentities(JText::_('CWMPRAYERSELECTTOPIC21')) . ''],
+			23 => ['val' => '22', 'text' => '' . htmlentities(JText::_('CWMPRAYERSELECTTOPIC22')) . '']
 		];
 
 		return $topicArray;
@@ -1253,8 +1253,8 @@ class PrayerSitePrayer extends PrayerAdmin
 			$showrequest->text = substr($showrequest->text, 0, $this->pcConfig['config_req_length'] - 4) . " ...";
 			$showrequest->text = $this->PCwordWrapIgnoreHTML($showrequest->text, 65, '<br />');
 			$return            = '<div class="reqcontent">"' . $this->PCkeephtml(JText::_($this->PCstripslashes($showrequest->text))) .
-				'"<small>&nbsp;&nbsp;<a href="index.php?option=com_prayer&task=view_request&id=' . $showrequest->id . '&Itemid=' .
-				$itemid . '" /><i><span style="white-space:nowrap;">' . htmlentities(JText::_('PRAYERREADMORE')) .
+				'"<small>&nbsp;&nbsp;<a href="index.php?option=com_cwmprayer&task=view_request&id=' . $showrequest->id . '&Itemid=' .
+				$itemid . '" /><i><span style="white-space:nowrap;">' . htmlentities(JText::_('CWMPRAYERREADMORE')) .
 				'</span></i></a></small><br /><br />';
 		}
 		else
@@ -1423,7 +1423,7 @@ class PrayerSitePrayer extends PrayerAdmin
 				echo '<div style="float:right;vertical-align:bottom;margin-right:5px;"><script type="text/javascript">var addthis_config = {ui_language:"' .
 					$bmlang . '",services_exclude:"print,email"}</script><a class="addthis_button" href="http://www.addthis.com/bookmark.php?v=250&amp;username=' .
 					$serviceid . '"><img src="http://s7.addthis.com/static/btn/v2/lg-share-' . $bmlang . '.gif" width="125" height="16" title="' .
-					htmlentities(JText::_('PRAYERBMSHAREREQ')) . '" style="border:0;"/></a>' . $addthisga .
+					htmlentities(JText::_('CWMPRAYERBMSHAREREQ')) . '" style="border:0;"/></a>' . $addthisga .
 					'<script type="text/javascript" src="http://s7.addthis.com/js/250/addthis_widget.js#username' . $serviceid .
 					'"></script></div>';
 			}
@@ -1432,7 +1432,7 @@ class PrayerSitePrayer extends PrayerAdmin
 				echo '<div style="float:right;vertical-align:bottom;"><script type="text/javascript">var addthis_config = {ui_language:"' .
 					$bmlang . '",services_exclude:"print,email"}</script><a class="addthis_button" href="http://www.addthis.com/bookmark.php?v=250&amp;username=' .
 					$serviceid . '"><img src="http://s7.addthis.com/static/btn/v2/lg-share-' . $bmlang . '.gif" width="125" height="16" title="' .
-					htmlentities(JText::_('PRAYERBMSHAREREQLIST')) . '" style="border:0;"/>' . $addthisga .
+					htmlentities(JText::_('CWMPRAYERBMSHAREREQLIST')) . '" style="border:0;"/>' . $addthisga .
 					'</a><script type="text/javascript" src="http://s7.addthis.com/js/250/addthis_widget.js#username' . $serviceid .
 					'"></script></div>';
 			}
@@ -1448,7 +1448,7 @@ class PrayerSitePrayer extends PrayerAdmin
 			{
 				echo '<div style="float:right;vertical-align:bottom;"><style type="text/css">#a2apage_EMAIL {display:none !important;}</style>' .
 				'<a class="a2a_dd" href="http://www.addtoany.com/share_save"><img src="http://static.addtoany.com/buttons/share_save_120_16.gif"' .
-				'width="120" height="16" border="0" title="' . htmlentities(JText::_('PRAYERBMSHAREREQ')) . '"/></a>' . $addtoanygq .
+				'width="120" height="16" border="0" title="' . htmlentities(JText::_('CWMPRAYERBMSHAREREQ')) . '"/></a>' . $addtoanygq .
 					'<script type="text/javascript" src="http://static.addtoany.com/menu/locale/' . $bmlang .
 					'.js"></script><script type="text/javascript" src="http://static.addtoany.com/menu/page.js"></script></div>';
 			}
@@ -1456,7 +1456,7 @@ class PrayerSitePrayer extends PrayerAdmin
 			{
 				echo '<div style="float:right;vertical-align:bottom;"><style type="text/css">#a2apage_EMAIL {display:none !important;}</style>' .
 				'<a class="a2a_dd" href="http://www.addtoany.com/share_save"><img src="http://static.addtoany.com/buttons/share_save_120_16.gif" width="120" height="16" border="0" title="' .
-					htmlentities(JText::_('PRAYERBMSHAREREQLIST')) . '"/></a>' . $addtoanygq . '<script type="text/javascript" src="http://static.addtoany.com/menu/locale/' .
+					htmlentities(JText::_('CWMPRAYERBMSHAREREQLIST')) . '"/></a>' . $addtoanygq . '<script type="text/javascript" src="http://static.addtoany.com/menu/locale/' .
 					$bmlang . '.js"></script><script type="text/javascript" src="http://static.addtoany.com/menu/page.js"></script></div>';
 			}
 		}
@@ -1467,12 +1467,12 @@ class PrayerSitePrayer extends PrayerAdmin
 			if ($bmshowreq)
 			{
 				echo '<div style="float:right;vertical-align:bottom;"><script type="text/javascript" src="http://w.sharethis.com/button/sharethis.js#publisher=' .
-					$serviceid . '&amp;type=website&amp;buttonText=' . htmlentities(JText::_('PRAYERBMSHAREREQ')) . '"></script></div>';
+					$serviceid . '&amp;type=website&amp;buttonText=' . htmlentities(JText::_('CWMPRAYERBMSHAREREQ')) . '"></script></div>';
 			}
 			else
 			{
 				echo '<div style="float:right;vertical-align:bottom;"><script type="text/javascript" src="http://w.sharethis.com/button/sharethis.js#publisher=' .
-					$serviceid . '&amp;type=website&amp;buttonText=' . htmlentities(JText::_('PRAYERBMSHAREREQLIST')) . '"></script></div>';
+					$serviceid . '&amp;type=website&amp;buttonText=' . htmlentities(JText::_('CWMPRAYERBMSHAREREQLIST')) . '"></script></div>';
 			}
 		}
 
@@ -1485,7 +1485,7 @@ class PrayerSitePrayer extends PrayerAdmin
 			{
 				echo '<div style="float:right;vertical-align:bottom;"><script type="text/javascript" src="http://cdn.socialtwist.com/' . $serviceid .
 					'/script.js"></script><a class="st-taf" href="http://tellafriend.socialtwist.com:80" onclick="return false;"' .
-					'style="border:0;padding:0;margin:0;"><img alt="' . htmlentities(JText::_('PRAYERBMSHAREREQ')) .
+					'style="border:0;padding:0;margin:0;"><img alt="' . htmlentities(JText::_('CWMPRAYERBMSHAREREQ')) .
 					'" style="border:0;padding:0;margin:0;" src="http://images.socialtwist.com/' .
 					$serviceid . 'button.png"onmouseout="STTAFFUNC.hideHoverMap(this)" onmouseover="STTAFFUNC.showHoverMap(this, \'' . $serviceid .
 					'\', window.location, document.title)" onclick="STTAFFUNC.cw(this, {id:\'' . $serviceid .
@@ -1495,7 +1495,7 @@ class PrayerSitePrayer extends PrayerAdmin
 			{
 				echo '<div style="float:right;vertical-align:bottom;"><script type="text/javascript" src="http://cdn.socialtwist.com/' . $serviceid .
 					'/script.js"></script><a class="st-taf" href="http://tellafriend.socialtwist.com:80" onclick="return false;"' .
-					'style="border:0;padding:0;margin:0;"><img alt="' . htmlentities(JText::_('PRAYERBMSHAREREQLIST')) .
+					'style="border:0;padding:0;margin:0;"><img alt="' . htmlentities(JText::_('CWMPRAYERBMSHAREREQLIST')) .
 					'" style="border:0;padding:0;margin:0;" src="http://images.socialtwist.com/' . $serviceid .
 					'button.png"onmouseout="STTAFFUNC.hideHoverMap(this)" onmouseover="STTAFFUNC.showHoverMap(this, \'' . $serviceid .
 					'\', window.location, document.title)" onclick="STTAFFUNC.cw(this, {id:\'' . $serviceid .
@@ -1558,14 +1558,14 @@ class PrayerSitePrayer extends PrayerAdmin
 			{
 				if (empty($returnmsg))
 				{
-					$returnurl = JRoute::_('index.php?option=com_prayer&Itemid=' . $itemid);
+					$returnurl = JRoute::_('index.php?option=com_cwmprayer&Itemid=' . $itemid);
 					$this->PCRedirect($returnurl, JText::_('JERROR_ALERTNOAUTHOR'));
 
 					return false;
 				}
 				else
 				{
-					$returnurl = JRoute::_('index.php?option=com_prayer&Itemid=' . $itemid . '&return_msg=' . $returnmsg);
+					$returnurl = JRoute::_('index.php?option=com_cwmprayer&Itemid=' . $itemid . '&return_msg=' . $returnmsg);
 					$this->PCRedirect($returnurl);
 
 					return true;
@@ -1867,7 +1867,7 @@ class PrayerSitePrayer extends PrayerAdmin
 		$config_request_retention = (86400 * $config_request_retention);
 		$config_archive_retention = (86400 * $config_archive_retention);
 		$db                       = JFactory::getDBO();
-		$db->setQuery("SELECT * FROM #__prayer WHERE archivestate='0'");
+		$db->setQuery("SELECT * FROM #__cwmprayer WHERE archivestate='0'");
 		$purgeresult = $db->loadObjectList();
 
 		if (count($purgeresult) > 0)
@@ -1876,7 +1876,7 @@ class PrayerSitePrayer extends PrayerAdmin
 			{
 				if (($now - strtotime($purgeresults->date)) >= $config_request_retention)
 				{
-					$db->setQuery("DELETE FROM #__prayer WHERE id='" . (int) ($purgeresults->id) . "'");
+					$db->setQuery("DELETE FROM #__cwmprayer WHERE id='" . (int) ($purgeresults->id) . "'");
 
 					if (!$db->execute())
 					{
@@ -1886,12 +1886,12 @@ class PrayerSitePrayer extends PrayerAdmin
 
 				if (file_exists($jcomments))
 				{
-					JComments::deleteComments($purgeresults->id, 'com_prayer');
+					JComments::deleteComments($purgeresults->id, 'com_cwmprayer');
 				}
 			}
 		}
 
-		$db->setQuery("SELECT * FROM #__prayer WHERE archivestate='1'");
+		$db->setQuery("SELECT * FROM #__cwmprayer WHERE archivestate='1'");
 		$archivepurgeresult = $db->loadObjectList();
 
 		if (count($archivepurgeresult) > 0)
@@ -1900,7 +1900,7 @@ class PrayerSitePrayer extends PrayerAdmin
 			{
 				if (($now - strtotime($archivepurgeresults->date)) >= $config_archive_retention)
 				{
-					$db->setQuery("DELETE FROM #__prayer WHERE id='" . (int) ($archivepurgeresults->id) . "'");
+					$db->setQuery("DELETE FROM #__cwmprayer WHERE id='" . (int) ($archivepurgeresults->id) . "'");
 
 					if (!$db->execute())
 					{
@@ -1910,7 +1910,7 @@ class PrayerSitePrayer extends PrayerAdmin
 
 				if (file_exists($jcomments))
 				{
-					JComments::deleteComments($archivepurgeresults->id, 'com_prayer');
+					JComments::deleteComments($archivepurgeresults->id, 'com_cwmprayer');
 				}
 			}
 		}
@@ -1937,9 +1937,9 @@ class PrayerSitePrayer extends PrayerAdmin
 		$pcpmsclassname = 'PC' . ucfirst($this->pcConfig['config_pms_plugin']) . 'PMSPlugin';
 
 		if (!empty($this->pcConfig['config_pms_plugin'])
-			&& file_exists(JPATH_ROOT . '/administrator/components/com_prayer/pms/plg.pms.' . $this->pcConfig['config_pms_plugin'] . '.php'))
+			&& file_exists(JPATH_ROOT . '/administrator/components/com_cwmprayer/pms/plg.pms.' . $this->pcConfig['config_pms_plugin'] . '.php'))
 		{
-			require_once JPATH_ROOT . '/administrator/components/com_prayer/helpers/pluginhelper.php';
+			require_once JPATH_ROOT . '/administrator/components/com_cwmprayer/helpers/pluginhelper.php';
 			$PrayerPluginHelper = new PrayerPluginHelper;
 			$pluginfile         = 'plg.pms.' . $this->pcConfig['config_pms_plugin'] . '.php';
 			$PrayerPluginHelper->importPlugin('pms', $pluginfile);
@@ -2055,9 +2055,9 @@ class PrayerSitePrayer extends PrayerAdmin
 		if ($show_view && $this->pc_rights->get('pc.view'))
 		{
 			echo $menu_style == 0 ? '<div align="left">' : '<li class="pc-modmenu">';
-			echo '<a class="' . $menuclass . $moduleclass_sfx . '" title="' . htmlentities(JText::_('PRAYERVIEWLIST')) . '" href="' .
-				JRoute::_("index.php?option=com_prayer&task=view&Itemid=$itemid") . '">
-             ' . htmlentities(JText::_('PRAYERVIEWLIST')) . '</a>';
+			echo '<a class="' . $menuclass . $moduleclass_sfx . '" title="' . htmlentities(JText::_('CWMPRAYERVIEWLIST')) . '" href="' .
+				JRoute::_("index.php?option=com_cwmprayer&task=view&Itemid=$itemid") . '">
+             ' . htmlentities(JText::_('CWMPRAYERVIEWLIST')) . '</a>';
 			echo $menu_style == 0 ? '</div>' : '</li>';
 		}
 
@@ -2065,45 +2065,45 @@ class PrayerSitePrayer extends PrayerAdmin
 		{
 			echo $menu_style == 0 ? '<div align="left">' : '<li class="pc-modmenu">';
 			echo '<a class="' . $menuclass . $moduleclass_sfx . '" title="' .
-				htmlentities(JText::_('PRAYERSUBMITREQUEST')) . '" href="' .
-				JRoute::_("index.php?option=com_prayer&task=newreq&Itemid=$itemid") . '">
-            ' . htmlentities(JText::_('PRAYERSUBMITREQUEST')) . '</a>';
+				htmlentities(JText::_('CWMPRAYERSUBMITREQUEST')) . '" href="' .
+				JRoute::_("index.php?option=com_cwmprayer&task=newreq&Itemid=$itemid") . '">
+            ' . htmlentities(JText::_('CWMPRAYERSUBMITREQUEST')) . '</a>';
 			echo $menu_style == 0 ? '</div>' : '</li>';
 		}
 
 		if ($show_subscribe && $this->pc_rights->get('pc.subscribe'))
 		{
 			echo $menu_style == 0 ? '<div align="left">' : '<li class="pc-modmenu">';
-			echo '<a class="' . $menuclass . $moduleclass_sfx . '" title="' . htmlentities(JText::_('PRAYERSUBSCRIBE')) .
-				'" href="' . JRoute::_("index.php?option=com_prayer&task=subscribe&Itemid=$itemid") . '">
-            ' . htmlentities(JText::_('PRAYERSUBSCRIBE')) . '</a>';
+			echo '<a class="' . $menuclass . $moduleclass_sfx . '" title="' . htmlentities(JText::_('CWMPRAYERSUBSCRIBE')) .
+				'" href="' . JRoute::_("index.php?option=com_cwmprayer&task=subscribe&Itemid=$itemid") . '">
+            ' . htmlentities(JText::_('CWMPRAYERSUBSCRIBE')) . '</a>';
 			echo $menu_style == 0 ? '</div>' : '</li>';
 		}
 
 		if ($show_links && $this->pc_rights->get('pc.view_links'))
 		{
 			echo $menu_style == 0 ? '<div align="left">' : '<li class="pc-modmenu">';
-			echo '<a class="' . $menuclass . $moduleclass_sfx . '" title="' . htmlentities(JText::_('PRAYERLINKSLIST')) .
-				'" href="' . JRoute::_("index.php?option=com_prayer&task=view_links&Itemid=$itemid") . '">
-            ' . htmlentities(JText::_('PRAYERLINKSLIST')) . '</a>';
+			echo '<a class="' . $menuclass . $moduleclass_sfx . '" title="' . htmlentities(JText::_('CWMPRAYERLINKSLIST')) .
+				'" href="' . JRoute::_("index.php?option=com_cwmprayer&task=view_links&Itemid=$itemid") . '">
+            ' . htmlentities(JText::_('CWMPRAYERLINKSLIST')) . '</a>';
 			echo $menu_style == 0 ? '</div>' : '</li>';
 		}
 
 		if ($show_devotion && $this->pc_rights->get('pc.view_devotional'))
 		{
 			echo $menu_style == 0 ? '<div align="left">' : '<li class="pc-modmenu">';
-			echo '<a class="' . $menuclass . $moduleclass_sfx . '" title="' . htmlentities(JText::_('PRAYERDEVOTIONALS')) .
-				'" href="' . JRoute::_("index.php?option=com_prayer&task=view_devotion&Itemid=$itemid") . '">
-            ' . htmlentities(JText::_('PRAYERDEVOTIONALS')) . '</a>';
+			echo '<a class="' . $menuclass . $moduleclass_sfx . '" title="' . htmlentities(JText::_('CWMPRAYERDEVOTIONALS')) .
+				'" href="' . JRoute::_("index.php?option=com_cwmprayer&task=view_devotion&Itemid=$itemid") . '">
+            ' . htmlentities(JText::_('CWMPRAYERDEVOTIONALS')) . '</a>';
 			echo $menu_style == 0 ? '</div>' : '</li>';
 		}
 
 		if ($show_moderator && $this->pc_rights->get('pc.moderate') && $this->pcConfig['config_use_admin_alert'] > 1)
 		{
 			echo $menu_style == 0 ? '<div align="left">' : '<li class="pc-modmenu">';
-			echo '<a class="' . $menuclass . $moduleclass_sfx . '" title="' . htmlentities(JText::_('PRAYERMODERATORS')) .
-				'" href="' . JRoute::_("index.php?option=com_prayer&task=moderate&Itemid=$itemid") . '">
-             ' . htmlentities(JText::_('PRAYERMODERATORS')) . '</a>';
+			echo '<a class="' . $menuclass . $moduleclass_sfx . '" title="' . htmlentities(JText::_('CWMPRAYERMODERATORS')) .
+				'" href="' . JRoute::_("index.php?option=com_cwmprayer&task=moderate&Itemid=$itemid") . '">
+             ' . htmlentities(JText::_('CWMPRAYERMODERATORS')) . '</a>';
 			echo $menu_style == 0 ? '</div>' : '</li>';
 		}
 
@@ -2133,7 +2133,7 @@ class PrayerSitePrayer extends PrayerAdmin
 
 		if ($this->pcConfig['config_use_slideshow'])
 		{
-			$abpath_folder = JPATH_ROOT . 'media/com_prayer/images/slideshow';
+			$abpath_folder = JPATH_ROOT . 'media/com_cwmprayer/images/slideshow';
 
 			if (JFolder::exists($abpath_folder))
 			{
@@ -2141,7 +2141,7 @@ class PrayerSitePrayer extends PrayerAdmin
 
 				if (!$timage)
 				{
-					echo JText::_('PRAYERNOIMAGES');
+					echo JText::_('CWMPRAYERNOIMAGES');
 				}
 				else
 				{
@@ -2163,7 +2163,7 @@ class PrayerSitePrayer extends PrayerAdmin
 					}
 				}
 
-				$image = $livesite . 'media/com_prayer/images/slideshow/' . $timg_name;
+				$image = $livesite . 'media/com_cwmprayer/images/slideshow/' . $timg_name;
 				?>
 				<script type="text/javascript">
 					var pcslidespeed =;<?php echo $this->pcConfig['config_slideshow_speed']?>*
@@ -2179,7 +2179,7 @@ class PrayerSitePrayer extends PrayerAdmin
 				{
 					if (preg_match('/png$/i', $pcimag) || preg_match('/jpg$/i', $pcimag))
 					{
-						$the_pcimage = $livesite . 'media/com_prayer/images/slideshow/' . $pcimag;
+						$the_pcimage = $livesite . 'media/com_cwmprayer/images/slideshow/' . $pcimag;
 						?>
 						<script type="text/javascript">
 							pcslideimages[<?php echo $i; ?>] = "<?php echo $the_pcimage; ?>";
@@ -2232,7 +2232,7 @@ class PrayerSitePrayer extends PrayerAdmin
 		else
 		{
 			echo '<div class="mosimage" align="center" style="float:right;padding:0">
-         <img class="pc-img" alt="" title="" border="0" src="media/com_prayer/images/' . $this->pcConfig['config_imagefile'] . '" />
+         <img class="pc-img" alt="" title="" border="0" src="media/com_cwmprayer/images/' . $this->pcConfig['config_imagefile'] . '" />
         </div>';
 		}
 	}
@@ -2275,7 +2275,7 @@ class PrayerSitePrayer extends PrayerAdmin
 	public function PrayerFooter()
 	{
 		$lang = JFactory::getLanguage();
-		$lang->load('com_prayer', JPATH_SITE);
+		$lang->load('com_cwmprayer', JPATH_SITE);
 		$user                 = JFactory::getUser();
 		$config_bmrss_service = $this->pcConfig['config_bmrss_service'];
 		$return = '';
@@ -2283,29 +2283,29 @@ class PrayerSitePrayer extends PrayerAdmin
 		if ($this->pcConfig['config_show_credit'])
 		{
 			$return .= '<div class="footer" style="clear:both;text-align:center;font-size:x-small;">' .
-				JText::_('PRAYERFOOTER') . ' <a href="https://www.joomlabiblestudy.com/" title="JBSM">Joomla Bible Study</a></div>';
+				JText::_('CWMPRAYERFOOTER') . ' <a href="https://www.joomlabiblestudy.com/" title="JBSM">Joomla Bible Study</a></div>';
 		}
 
 		if ($this->pcConfig['config_show_rss'] && $this->pc_rights->get('pc.view'))
 		{
 			!$user->guest ? $key = '&key=' . md5($this->pcConfig['config_rss_authkey']) : $key = "";
-			$rss_link = JRoute::_('index.php?option=com_prayer&amp;task=rss' . $key);
-			$img      = JHTML::_('image', JURI::base() . 'media/system/images/livemarks.png', htmlentities(JText::_('PRAYERFEEDS')), 'style="border:0;"');
+			$rss_link = JRoute::_('index.php?option=com_cwmprayer&amp;task=rss' . $key);
+			$img      = JHTML::_('image', JURI::base() . 'media/system/images/livemarks.png', htmlentities(JText::_('CWMPRAYERFEEDS')), 'style="border:0;"');
 			$return .= '<br /><div style="text-align:right;">';
 
 			if ($config_bmrss_service == 1)
 			{
 				$return .= "<a href=\"http://www.addthis.com/feed.php?username=&amp;h1=" . $rss_link .
 					"&amp;t1=\" onclick=\"return addthis_open(this, 'feed', '" .
-					$rss_link . "')\" title=\"" . htmlentities(JText::_('PRAYERFEEDS')) . " by AddThis" .
+					$rss_link . "')\" title=\"" . htmlentities(JText::_('CWMPRAYERFEEDS')) . " by AddThis" .
 					"\" target=\"_blank\"><img src=\"http://s7.addthis.com/static/btn/sm-rss-en.gif\" width=\"83\" height=\"16\" title=\"" .
 					htmlentities(JText::_('USRLPCFEEDS')) . " by AddThis" . "\" style=\"border:0\"/></a><script type=\"text/javascript\"" .
 					" src=\"http://s7.addthis.com/js/250/addthis_widget.js#username=\"></script>";
 			}
 			elseif ($config_bmrss_service == 2)
 			{
-				$return .= "<a class=\"a2a_dd\" href=\"http://www.addtoany.com/subscribe?linkname=" . htmlentities(JText::_('PRAYERFEEDS')) . "&amp;linkurl=" .
-					$rss_link . "\" title=\"" . htmlentities(JText::_('PRAYERFEEDS')) . " by AddToAny" .
+				$return .= "<a class=\"a2a_dd\" href=\"http://www.addtoany.com/subscribe?linkname=" . htmlentities(JText::_('CWMPRAYERFEEDS')) . "&amp;linkurl=" .
+					$rss_link . "\" title=\"" . htmlentities(JText::_('CWMPRAYERFEEDS')) . " by AddToAny" .
 					"\"><img src=\"http://static.addtoany.com/buttons/subscribe_16_16.gif\" width=\"16\" height=\"16\" border=\"0\" title=\"" .
 					htmlentities(JText::_('USRLPCFEEDS')) . " by AddToAny" . "\"/></a><script type=\"text/javascript\">a2a_linkname=\"" .
 					htmlentities(JText::_('USRLPCFEEDS')) . "\";a2a_linkurl=\"" . $rss_link . "\";</script><script type=\"text/javascript\"" .
@@ -2313,7 +2313,7 @@ class PrayerSitePrayer extends PrayerAdmin
 			}
 			else
 			{
-				$return .= "<a href=\"" . $rss_link . "\" target=\"_blank\" title=\"" . htmlentities(JText::_('PRAYERFEEDS')) . "\">" . $img . "</a>";
+				$return .= "<a href=\"" . $rss_link . "\" target=\"_blank\" title=\"" . htmlentities(JText::_('CWMPRAYERFEEDS')) . "\">" . $img . "</a>";
 			}
 
 			$return .= '&nbsp;&nbsp;</div><br /><br /><br />';

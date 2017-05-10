@@ -17,7 +17,7 @@ Copyright      2006-2014 - Mike Leeper (MLWebTechnologies)
 No direct access*/
 defined('_JEXEC') or die('Restricted access');
 
-class PrayerControllerPrayer extends PrayerController
+class CWMPrayerControllerPrayer extends CWMPrayerController
 {
 	private $prayer;
 
@@ -61,13 +61,13 @@ class PrayerControllerPrayer extends PrayerController
 			{
 				if (isset($_GET['modtype']))
 				{
-					$this->setMessage(htmlentities(JText::_('PRAYERINVALIDDOMAIN')), 'message');
+					$this->setMessage(htmlentities(JText::_('CWMPRAYERINVALIDDOMAIN')), 'message');
 					$this->setRedirect(JRoute::_($returnto, false));
 				}
 				else
 				{
-					$returnurl = JRoute::_("index.php?option=com_prayer&task=newreq&Itemid=" . (int) $itemid . '&return_msg=' .
-						htmlentities(JText::_('PRAYERINVALIDDOMAIN'))
+					$returnurl = JRoute::_("index.php?option=com_cwmprayer&task=newreq&Itemid=" . (int) $itemid . '&return_msg=' .
+						htmlentities(JText::_('CWMPRAYERINVALIDDOMAIN'))
 					);
 					$this->setRedirect(JRoute::_($returnurl, false));
 				}
@@ -77,13 +77,13 @@ class PrayerControllerPrayer extends PrayerController
 			{
 				if (isset($_GET['modtype']))
 				{
-					$this->setMessage(JText::_('PRAYERINVALIDEMAIL'), 'message');
+					$this->setMessage(JText::_('CWMPRAYERINVALIDEMAIL'), 'message');
 					$this->setRedirect(JRoute::_($returnto, false));
 				}
 				else
 				{
-					$returnurl = JRoute::_("index.php?option=com_prayer&task=newreq&Itemid=" . (int) $itemid . '&return_msg=' .
-						htmlentities(JText::_('PRAYERINVALIDEMAIL'))
+					$returnurl = JRoute::_("index.php?option=com_cwmprayer&task=newreq&Itemid=" . (int) $itemid . '&return_msg=' .
+						htmlentities(JText::_('CWMPRAYERINVALIDEMAIL'))
 					);
 					$this->setRedirect(JRoute::_($returnurl, false));
 				}
@@ -109,13 +109,13 @@ class PrayerControllerPrayer extends PrayerController
 				{
 					if (isset($_GET['modtype']))
 					{
-						$this->setMessage(htmlentities(JText::_('PRAYERINVALIDEMAIL')), 'message');
+						$this->setMessage(htmlentities(JText::_('CWMPRAYERINVALIDEMAIL')), 'message');
 						$this->setRedirect(JRoute::_($returnto, false));
 					}
 					else
 					{
-						$returnurl = JRoute::_('index.php?option=com_prayer&task=newreq&Itemid=' . (int) $itemid . '&return_msg=' .
-							htmlentities(JText::_('PRAYERINVALIDEMAIL'))
+						$returnurl = JRoute::_('index.php?option=com_cwmprayer&task=newreq&Itemid=' . (int) $itemid . '&return_msg=' .
+							htmlentities(JText::_('CWMPRAYERINVALIDEMAIL'))
 						);
 						$this->setRedirect(JRoute::_($returnurl, false));
 					}
@@ -125,7 +125,7 @@ class PrayerControllerPrayer extends PrayerController
 
 				if ($newrequester == '')
 				{
-					$newrequester = htmlentities(JText::_('PRAYERANONUSER'));
+					$newrequester = htmlentities(JText::_('CWMPRAYERANONUSER'));
 				}
 
 				if ($this->prayer->pcConfig['config_use_wordfilter'] > 0)
@@ -138,7 +138,7 @@ class PrayerControllerPrayer extends PrayerController
 
 				if ($this->prayer->pcConfig['config_use_admin_alert'] == 0 && $pc_rights->get('pc.publish'))
 				{
-					$sql = "INSERT INTO #__prayer (id,requesterid,requester,date,time,request,publishstate,archivestate,displaystate," .
+					$sql = "INSERT INTO #__cwmprayer (id,requesterid,requester,date,time,request,publishstate,archivestate,displaystate," .
 					"sendto,email,adminsendto,sessionid,title,topic) VALUES (''," .
 						(int) $newrequesterid . "," . $db->q($newrequester) . "," . $db->q($date) . "," . $db->q($time) . "," . $db->q($newrequest) .
 						",'1','0'," . (int) $sendpriv . ",'0000-00-00 00:00:00'," . $db->q($newemail) .
@@ -156,7 +156,7 @@ class PrayerControllerPrayer extends PrayerController
 				}
 				elseif ($this->prayer->pcConfig['config_use_admin_alert'] > 0)
 				{
-					$sql = "INSERT INTO #__prayer (id,requesterid,requester,date,time,request,publishstate,archivestate,displaystate,sendto" . 
+					$sql = "INSERT INTO #__cwmprayer (id,requesterid,requester,date,time,request,publishstate,archivestate,displaystate,sendto" .
 						",email,adminsendto,sessionid,title,topic) VALUES (''," . (int) $newrequesterid . "," .
 						$db->q($newrequester) . "," . $db->q($date) .
 						"," . $db->q($time) . "," . $db->q($newrequest) .
@@ -192,13 +192,13 @@ class PrayerControllerPrayer extends PrayerController
 
 						if (isset($_GET['modtype']))
 						{
-							$this->setMessage(htmlentities(JText::_('PRAYERREQSUBMITCONFIRM')), 'message');
+							$this->setMessage(htmlentities(JText::_('CWMPRAYERREQSUBMITCONFIRM')), 'message');
 							$this->setRedirect(JRoute::_($returnto, false));
 						}
 						else
 						{
-							$returnurl = JRoute::_('index.php?option=com_prayer&task=view&Itemid=' . (int) $itemid . '&return_msg=' .
-								htmlentities(JText::_('PRAYERREQSUBMITCONFIRM'))
+							$returnurl = JRoute::_('index.php?option=com_cwmprayer&task=view&Itemid=' . (int) $itemid . '&return_msg=' .
+								htmlentities(JText::_('CWMPRAYERREQSUBMITCONFIRM'))
 							);
 							$this->setRedirect(JRoute::_($returnurl, false));
 						}
@@ -225,13 +225,13 @@ class PrayerControllerPrayer extends PrayerController
 
 				if (isset($_GET['modtype']))
 				{
-					$this->setMessage(htmlentities(JText::_('PRAYERREQSUBMIT')), 'message');
+					$this->setMessage(htmlentities(JText::_('CWMPRAYERREQSUBMIT')), 'message');
 					$this->setRedirect(JRoute::_($returnto, false));
 				}
 				else
 				{
-					$returnurl = JRoute::_('index.php?option=com_prayer&task=view&Itemid=' . (int) $itemid . '&return_msg=' .
-						htmlentities(JText::_('PRAYERREQSUBMIT')), false
+					$returnurl = JRoute::_('index.php?option=com_cwmprayer&task=view&Itemid=' . (int) $itemid . '&return_msg=' .
+						htmlentities(JText::_('CWMPRAYERREQSUBMIT')), false
 					);
 					$this->setRedirect($returnurl);
 				}
@@ -242,13 +242,13 @@ class PrayerControllerPrayer extends PrayerController
 				{
 					if (isset($_GET['modtype']))
 					{
-						$this->setMessage(JText::_('PRAYERSPAMMSG'), 'message');
+						$this->setMessage(JText::_('CWMPRAYERSPAMMSG'), 'message');
 						$this->setRedirect(JRoute::_($returnto, false));
 					}
 					else
 					{
-						$returnurl = JRoute::_('index.php?option=com_prayer&task=newreq&Itemid=' . (int) $itemid . '&return_msg=' .
-							htmlentities(JText::_('PRAYERSPAMMSG'))
+						$returnurl = JRoute::_('index.php?option=com_cwmprayer&task=newreq&Itemid=' . (int) $itemid . '&return_msg=' .
+							htmlentities(JText::_('CWMPRAYERSPAMMSG'))
 						);
 						$this->setRedirect(JRoute::_($returnurl, false));
 					}
@@ -267,13 +267,13 @@ class PrayerControllerPrayer extends PrayerController
 		{
 			if (isset($_GET['modtype']))
 			{
-				$this->setMessage(htmlentities(JText::_('PRAYERFORMNC')), 'message');
+				$this->setMessage(htmlentities(JText::_('CWMPRAYERFORMNC')), 'message');
 				$this->setRedirect(JRoute::_($returnto, false));
 			}
 			else
 			{
-				$returnurl = JRoute::_('index.php?option=com_prayer&task=view&Itemid=' . (int) $itemid . '&return_msg=' .
-					htmlentities(JText::_('PRAYERFORMNC'))
+				$returnurl = JRoute::_('index.php?option=com_cwmprayer&task=view&Itemid=' . (int) $itemid . '&return_msg=' .
+					htmlentities(JText::_('CWMPRAYERFORMNC'))
 				);
 				$this->setRedirect(JRoute::_($returnurl, false));
 			}
@@ -292,12 +292,12 @@ class PrayerControllerPrayer extends PrayerController
 			{
 				if (isset($_GET['modtype']))
 				{
-					$this->setRedirect(JRoute::_($returnto . '&' . $modtype . '=' . htmlentities(JText::_('PRAYERINVALIDCODE')), false));
+					$this->setRedirect(JRoute::_($returnto . '&' . $modtype . '=' . htmlentities(JText::_('CWMPRAYERINVALIDCODE')), false));
 				}
 				else
 				{
-					$returnurl = JRoute::_('index.php?option=com_prayer&task=' . $task . '&Itemid=' . (int) $itemid . '&return_msg=' .
-						htmlentities(JText::_('PRAYERINVALIDCODE'))
+					$returnurl = JRoute::_('index.php?option=com_cwmprayer&task=' . $task . '&Itemid=' . (int) $itemid . '&return_msg=' .
+						htmlentities(JText::_('CWMPRAYERINVALIDCODE'))
 					);
 					$this->setRedirect(JRoute::_($returnurl, false));
 				}
@@ -315,7 +315,7 @@ class PrayerControllerPrayer extends PrayerController
 				}
 				else
 				{
-					$returnurl = JRoute::_('index.php?option=com_prayer&task=' . $task . '&Itemid=' . (int) $itemid . '&return_msg=' . $results);
+					$returnurl = JRoute::_('index.php?option=com_cwmprayer&task=' . $task . '&Itemid=' . (int) $itemid . '&return_msg=' . $results);
 
 					$this->setRedirect(JRoute::_($returnurl, false));
 				}
@@ -326,7 +326,7 @@ class PrayerControllerPrayer extends PrayerController
 			&& $this->prayer->pcConfig['config_recap_privkey'] != ""
 		)
 		{
-			require_once JPATH_ROOT . '/madia/com_prayer/captcha/recaptchalib.php';
+			require_once JPATH_ROOT . '/madia/com_cwmprayer/captcha/recaptchalib.php';
 			$privatekey = $this->prayer->pcConfig['config_recap_privkey'];
 
 			$resp = recaptcha_check_answer($privatekey, $_SERVER["REMOTE_ADDR"], $_POST["recaptcha_challenge_field"], $_POST["recaptcha_response_field"]);
@@ -335,12 +335,12 @@ class PrayerControllerPrayer extends PrayerController
 			{
 				if (isset($_GET['modtype']))
 				{
-					$this->setRedirect(JRoute::_($returnto . '&' . $modtype . '=' . htmlentities(JText::_('PRAYERINVALIDCODE')), false));
+					$this->setRedirect(JRoute::_($returnto . '&' . $modtype . '=' . htmlentities(JText::_('CWMPRAYERINVALIDCODE')), false));
 				}
 				else
 				{
-					$returnurl = JRoute::_('index.php?option=com_prayer&task=' . $task . '&Itemid=' . (int) $itemid . '&return_msg=' .
-						htmlentities(JText::_('PRAYERINVALIDCODE'))
+					$returnurl = JRoute::_('index.php?option=com_cwmprayer&task=' . $task . '&Itemid=' . (int) $itemid . '&return_msg=' .
+						htmlentities(JText::_('CWMPRAYERINVALIDCODE'))
 					);
 
 					$this->setRedirect(JRoute::_($returnurl, false));
@@ -360,12 +360,12 @@ class PrayerControllerPrayer extends PrayerController
 			{
 				if (isset($_GET['modtype']))
 				{
-					$this->setRedirect(JRoute::_($returnto . '&' . $modtype . '=' . htmlentities(JText::_('PRAYERINVALIDCODE')), false));
+					$this->setRedirect(JRoute::_($returnto . '&' . $modtype . '=' . htmlentities(JText::_('CWMPRAYERINVALIDCODE')), false));
 				}
 				else
 				{
-					$returnurl = JRoute::_('index.php?option=com_prayer&task=' . $task . '&Itemid=' . (int) $itemid . '&return_msg=' .
-						htmlentities(JText::_('PRAYERINVALIDCODE'))
+					$returnurl = JRoute::_('index.php?option=com_cwmprayer&task=' . $task . '&Itemid=' . (int) $itemid . '&return_msg=' .
+						htmlentities(JText::_('CWMPRAYERINVALIDCODE'))
 					);
 					$this->setRedirect(JRoute::_($returnurl, false));
 				}
@@ -409,13 +409,13 @@ class PrayerControllerPrayer extends PrayerController
 			{
 				if (isset($_GET['modtype']))
 				{
-					$this->setMessage(htmlentities(JText::_('PRAYERINVALIDDOMAIN')), 'message');
+					$this->setMessage(htmlentities(JText::_('CWMPRAYERINVALIDDOMAIN')), 'message');
 					$this->setRedirect(JRoute::_($returnto, false));
 				}
 				else
 				{
-					$returnurl = JRoute::_('index.php?option=com_prayer&task=subscribe&Itemid=' . (int) $itemid . '&return_msg=' .
-						htmlentities(JText::_('PRAYERINVALIDDOMAIN'))
+					$returnurl = JRoute::_('index.php?option=com_cwmprayer&task=subscribe&Itemid=' . (int) $itemid . '&return_msg=' .
+						htmlentities(JText::_('CWMPRAYERINVALIDDOMAIN'))
 					);
 					$this->setRedirect(JRoute::_($returnurl, false));
 				}
@@ -425,13 +425,13 @@ class PrayerControllerPrayer extends PrayerController
 			{
 				if (isset($_GET['modtype']))
 				{
-					$this->setMessage(htmlentities(JText::_('PRAYERINVALIDEMAIL')), 'message');
+					$this->setMessage(htmlentities(JText::_('CWMPRAYERINVALIDEMAIL')), 'message');
 					$this->setRedirect(JRoute::_($returnto, false));
 				}
 				else
 				{
-					$returnurl = JRoute::_("index.php?option=com_prayer&task=subscribe&Itemid=" . (int) $itemid . '&return_msg=' .
-						htmlentities(JText::_('PRAYERINVALIDEMAIL'))
+					$returnurl = JRoute::_("index.php?option=com_cwmprayer&task=subscribe&Itemid=" . (int) $itemid . '&return_msg=' .
+						htmlentities(JText::_('CWMPRAYERINVALIDEMAIL'))
 					);
 					$this->setRedirect(JRoute::_($returnurl, false));
 				}
@@ -450,7 +450,7 @@ class PrayerControllerPrayer extends PrayerController
 			$dateset = new JDate;
 			$date    = $dateset->format('Y-m-d');
 			$db      = JFactory::getDBO();
-			$db->setQuery("SELECT email FROM #__prayer_subscribe");
+			$db->setQuery("SELECT email FROM #__cwmprayer_subscribe");
 			$readq     = $db->loadObjectList();
 			$duplicate = '0';
 
@@ -466,7 +466,7 @@ class PrayerControllerPrayer extends PrayerController
 			{
 				if ($this->prayer->pcConfig['config_admin_approve_subscribe'] == 0)
 				{
-					$sql = "INSERT INTO #__prayer_subscribe (id,email,date,approved,sessionid) VALUES (''," .
+					$sql = "INSERT INTO #__cwmprayer_subscribe (id,email,date,approved,sessionid) VALUES (''," .
 						$db->q($newsubscribe) . "," . $db->q($date) . ",'1'," . (int) $db->q($sessionid) . ")";
 					$db->setQuery($sql);
 
@@ -479,7 +479,7 @@ class PrayerControllerPrayer extends PrayerController
 				}
 				elseif ($this->prayer->pcConfig['config_admin_approve_subscribe'] > 0)
 				{
-					$sql = "INSERT INTO #__prayer_subscribe (id,email,date,approved,sessionid) VALUES (''," .
+					$sql = "INSERT INTO #__cwmprayer_subscribe (id,email,date,approved,sessionid) VALUES (''," .
 						$db->q($newsubscribe) . "," . $db->q($date) . ",'0'," . (int) $db->q($sessionid) . ")";
 					$db->setQuery($sql);
 
@@ -495,18 +495,18 @@ class PrayerControllerPrayer extends PrayerController
 				{
 					if (JPluginHelper::isEnabled('system', 'prayercenteremail'))
 					{
-						$results = plgSystemPrayerEmail::pcEmailTask('PRAYERconfirm_sub_notification', array('0' => $newsubscribe, '1' => $lastId, '2' => $sessionid));
+						$results = plgSystemPrayerEmail::pcEmailTask('CWMPRAYERconfirm_sub_notification', array('0' => $newsubscribe, '1' => $lastId, '2' => $sessionid));
 					}
 
 					if (isset($_GET['modtype']))
 					{
-						$this->setMessage(htmlentities(JText::_('PRAYERREQSUBMITCONFIRM')), 'message');
+						$this->setMessage(htmlentities(JText::_('CWMPRAYERREQSUBMITCONFIRM')), 'message');
 						$this->setRedirect(JRoute::_($returnto, false));
 					}
 					else
 					{
-						$returnurl = JRoute::_('index.php?option=com_prayer&task=subscribe&Itemid=' . (int) $itemid . '&return_msg=' .
-							htmlentities(JText::_('PRAYERREQSUBMITCONFIRM'))
+						$returnurl = JRoute::_('index.php?option=com_cwmprayer&task=subscribe&Itemid=' . (int) $itemid . '&return_msg=' .
+							htmlentities(JText::_('CWMPRAYERREQSUBMITCONFIRM'))
 						);
 						$this->setRedirect(JRoute::_($returnurl, false));
 					}
@@ -516,18 +516,18 @@ class PrayerControllerPrayer extends PrayerController
 				{
 					if (JPluginHelper::isEnabled('system', 'prayercenteremail'))
 					{
-						$results = plgSystemPrayerEmail::pcEmailTask('PRAYERconfirm_sub_notification', array('0' => $newsubscribe, '1' => $lastId, '2' => $sessionid));
+						$results = plgSystemPrayerEmail::pcEmailTask('CWMPRAYERconfirm_sub_notification', array('0' => $newsubscribe, '1' => $lastId, '2' => $sessionid));
 					}
 
 					if (isset($_GET['modtype']))
 					{
-						$this->setMessage(htmlentities(JText::_('PRAYERENTRYACCEPTED')), 'message');
+						$this->setMessage(htmlentities(JText::_('CWMPRAYERENTRYACCEPTED')), 'message');
 						$this->setRedirect(JRoute::_($returnto, false));
 					}
 					else
 					{
-						$returnurl = JRoute::_("index.php?option=com_prayer&task=subscribe&Itemid=" . (int) $itemid . "&return_msg=" .
-							htmlentities(JText::_('PRAYERREQSUBMITAUTH'))
+						$returnurl = JRoute::_("index.php?option=com_cwmprayer&task=subscribe&Itemid=" . (int) $itemid . "&return_msg=" .
+							htmlentities(JText::_('CWMPRAYERREQSUBMITAUTH'))
 						);
 						$this->setRedirect(JRoute::_($returnurl, false));
 					}
@@ -547,13 +547,13 @@ class PrayerControllerPrayer extends PrayerController
 
 					if (isset($_GET['modtype']))
 					{
-						$this->setMessage(htmlentities(JText::_('PRAYERENTRYACCEPTED')), 'message');
+						$this->setMessage(htmlentities(JText::_('CWMPRAYERENTRYACCEPTED')), 'message');
 						$this->setRedirect(JRoute::_($returnto, false));
 					}
 					else
 					{
-						$returnurl = JRoute::_("index.php?option=com_prayer&task=subscribe&Itemid=" . (int) $itemid . "&return_msg=" .
-							htmlentities(JText::_('PRAYERENTRYACCEPTED'))
+						$returnurl = JRoute::_("index.php?option=com_cwmprayer&task=subscribe&Itemid=" . (int) $itemid . "&return_msg=" .
+							htmlentities(JText::_('CWMPRAYERENTRYACCEPTED'))
 						);
 
 						$this->setRedirect(JRoute::_($returnurl, false));
@@ -564,13 +564,13 @@ class PrayerControllerPrayer extends PrayerController
 			{
 				if (isset($_GET['modtype']))
 				{
-					$this->setMessage(htmlentities(JText::_('PRAYERDUPLICATEDENTRY')), 'message');
+					$this->setMessage(htmlentities(JText::_('CWMPRAYERDUPLICATEDENTRY')), 'message');
 					$this->setRedirect(JRoute::_($returnto, false));
 				}
 				else
 				{
-					$returnurl = JRoute::_("index.php?option=com_prayer&task=subscribe&Itemid=" . (int) $itemid . "&return_msg=" .
-						htmlentities(JText::_('PRAYERDUPLICATEDENTRY'))
+					$returnurl = JRoute::_("index.php?option=com_cwmprayer&task=subscribe&Itemid=" . (int) $itemid . "&return_msg=" .
+						htmlentities(JText::_('CWMPRAYERDUPLICATEDENTRY'))
 					);
 					$this->setRedirect(JRoute::_($returnurl, false));
 				}
@@ -580,13 +580,13 @@ class PrayerControllerPrayer extends PrayerController
 		{
 			if (isset($_GET['modtype']))
 			{
-				$this->setMessage(htmlentities(JText::_('PRAYERINVALIDEMAIL')), 'message');
+				$this->setMessage(htmlentities(JText::_('CWMPRAYERINVALIDEMAIL')), 'message');
 				$this->setRedirect(JRoute::_($returnto, false));
 			}
 			else
 			{
-				$returnurl = JRoute::_("index.php?option=com_prayer&task=subscribe&Itemid=" . (int) $itemid . "&return_msg=" .
-					htmlentities(JText::_('PRAYERINVALIDEMAIL'))
+				$returnurl = JRoute::_("index.php?option=com_cwmprayer&task=subscribe&Itemid=" . (int) $itemid . "&return_msg=" .
+					htmlentities(JText::_('CWMPRAYERINVALIDEMAIL'))
 				);
 				$this->setRedirect(JRoute::_($returnurl, false));
 			}
@@ -620,13 +620,13 @@ class PrayerControllerPrayer extends PrayerController
 			{
 				if (isset($_GET['modtype']))
 				{
-					$this->setMessage(htmlentities(JText::_('PRAYERINVALIDDOMAIN')), 'message');
+					$this->setMessage(htmlentities(JText::_('CWMPRAYERINVALIDDOMAIN')), 'message');
 					$this->setRedirect(JRoute::_($returnto, false));
 				}
 				else
 				{
-					$returnurl = JRoute::_('index.php?option=com_prayer&task=subscribe&Itemid=' . (int) $itemid . '&return_msg=' .
-						htmlentities(JText::_('PRAYERINVALIDDOMAIN'))
+					$returnurl = JRoute::_('index.php?option=com_cwmprayer&task=subscribe&Itemid=' . (int) $itemid . '&return_msg=' .
+						htmlentities(JText::_('CWMPRAYERINVALIDDOMAIN'))
 					);
 					$this->setRedirect(JRoute::_($returnurl, false));
 				}
@@ -636,13 +636,13 @@ class PrayerControllerPrayer extends PrayerController
 			{
 				if (isset($_GET['modtype']))
 				{
-					$this->setMessage(htmlentities(JText::_('PRAYERINVALIDEMAIL')), 'message');
+					$this->setMessage(htmlentities(JText::_('CWMPRAYERINVALIDEMAIL')), 'message');
 					$this->setRedirect(JRoute::_($returnto, false));
 				}
 				else
 				{
-					$returnurl = JRoute::_("index.php?option=com_prayer&task=subscribe&Itemid=" . (int) $itemid . '&return_msg=' .
-						htmlentities(JText::_('PRAYERINVALIDEMAIL'))
+					$returnurl = JRoute::_("index.php?option=com_cwmprayer&task=subscribe&Itemid=" . (int) $itemid . '&return_msg=' .
+						htmlentities(JText::_('CWMPRAYERINVALIDEMAIL'))
 					);
 					$this->setRedirect(JRoute::_($returnurl, false));
 				}
@@ -654,7 +654,7 @@ class PrayerControllerPrayer extends PrayerController
 		if (JMailHelper::isEmailAddress($newsubscribe))
 		{
 			$db = JFactory::getDBO();
-			$db->setQuery("SELECT * FROM #__prayer_subscribe WHERE email=" . $db->q($newsubscribe));
+			$db->setQuery("SELECT * FROM #__cwmprayer_subscribe WHERE email=" . $db->q($newsubscribe));
 			$readq = $db->loadObjectList();
 
 			if ($this->prayer->pcConfig['config_admin_approve_subscribe'] == 2)
@@ -673,13 +673,13 @@ class PrayerControllerPrayer extends PrayerController
 
 				if (isset($_GET['modtype']))
 				{
-					$this->setMessage(htmlentities(JText::_('PRAYERREQSUBMITCONFIRM')), 'message');
+					$this->setMessage(htmlentities(JText::_('CWMPRAYERREQSUBMITCONFIRM')), 'message');
 					$this->setRedirect(JRoute::_($returnto, false));
 				}
 				else
 				{
-					$returnurl = JRoute::_('index.php?option=com_prayer&task=subscribe&Itemid=' . (int) $itemid . '&return_msg=' .
-						htmlentities(JText::_('PRAYERREQSUBMITCONFIRM'))
+					$returnurl = JRoute::_('index.php?option=com_cwmprayer&task=subscribe&Itemid=' . (int) $itemid . '&return_msg=' .
+						htmlentities(JText::_('CWMPRAYERREQSUBMITCONFIRM'))
 					);
 					$this->setRedirect(JRoute::_($returnurl, false));
 				}
@@ -688,7 +688,7 @@ class PrayerControllerPrayer extends PrayerController
 			{
 				if ($newsubscribe == $readq[0]->email)
 				{
-					$db->setQuery("DELETE FROM #__prayer_subscribe WHERE email=" . $db->q($newsubscribe));
+					$db->setQuery("DELETE FROM #__cwmprayer_subscribe WHERE email=" . $db->q($newsubscribe));
 
 					if (!$db->execute())
 					{
@@ -702,13 +702,13 @@ class PrayerControllerPrayer extends PrayerController
 
 					if (isset($_GET['modtype']))
 					{
-						$this->setMessage(htmlentities(JText::_('PRAYERENTRYREMOVED')), 'message');
+						$this->setMessage(htmlentities(JText::_('CWMPRAYERENTRYREMOVED')), 'message');
 						$this->setRedirect(JRoute::_($returnto, false));
 					}
 					else
 					{
-						$returnurl = JRoute::_("index.php?option=com_prayer&task=subscribe&Itemid=" . (int) $itemid . "&return_msg=" .
-							htmlentities(JText::_('PRAYERENTRYREMOVED'))
+						$returnurl = JRoute::_("index.php?option=com_cwmprayer&task=subscribe&Itemid=" . (int) $itemid . "&return_msg=" .
+							htmlentities(JText::_('CWMPRAYERENTRYREMOVED'))
 						);
 						$this->setRedirect(JRoute::_($returnurl, false));
 					}
@@ -717,13 +717,13 @@ class PrayerControllerPrayer extends PrayerController
 				{
 					if (isset($_GET['modtype']))
 					{
-						$this->setMessage(htmlentities(JText::_('PRAYERNOTSUBSCRIBED')), 'message');
+						$this->setMessage(htmlentities(JText::_('CWMPRAYERNOTSUBSCRIBED')), 'message');
 						$this->setRedirect(JRoute::_($returnto, false));
 					}
 					else
 					{
-						$returnurl = JRoute::_("index.php?option=com_prayer&task=subscribe&Itemid=" . (int) $itemid . "&return_msg=" .
-							htmlentities(JText::_('PRAYERNOTSUBSCRIBED'))
+						$returnurl = JRoute::_("index.php?option=com_cwmprayer&task=subscribe&Itemid=" . (int) $itemid . "&return_msg=" .
+							htmlentities(JText::_('CWMPRAYERNOTSUBSCRIBED'))
 						);
 						$this->setRedirect(JRoute::_($returnurl, false));
 					}
@@ -734,13 +734,13 @@ class PrayerControllerPrayer extends PrayerController
 		{
 			if (isset($_GET['modtype']))
 			{
-				$this->setMessage(htmlentities(JText::_('PRAYERINVALIDEMAIL')), 'message');
+				$this->setMessage(htmlentities(JText::_('CWMPRAYERINVALIDEMAIL')), 'message');
 				$this->setRedirect(JRoute::_($returnto, false));
 			}
 			else
 			{
-				$returnurl = JRoute::_("index.php?option=com_prayer&task=subscribe&Itemid=" . (int) $itemid . "&return_msg=" .
-					htmlentities(JText::_('PRAYERINVALIDEMAIL'))
+				$returnurl = JRoute::_("index.php?option=com_cwmprayer&task=subscribe&Itemid=" . (int) $itemid . "&return_msg=" .
+					htmlentities(JText::_('CWMPRAYERINVALIDEMAIL'))
 				);
 				$this->setRedirect(JRoute::_($returnurl, false));
 			}
@@ -758,7 +758,7 @@ class PrayerControllerPrayer extends PrayerController
 		$date    = $dateset->format('Y-m-d');
 		$id      = $app->input->getInt('id');
 		$request = $app->input->getString('newrequest');
-		$db->setQuery("UPDATE #__prayer SET request=" . $db->q($request) . ", date=" . $db->q($date) . ", time=" .
+		$db->setQuery("UPDATE #__cwmprayer SET request=" . $db->q($request) . ", date=" . $db->q($date) . ", time=" .
 			$db->q($time) . " WHERE id=" . (int) $id
 		);
 
@@ -767,11 +767,11 @@ class PrayerControllerPrayer extends PrayerController
 			JError::raiseError(500, $db->stderr());
 		}
 
-		$db->setQuery("SELECT * FROM #__prayer WHERE id=" . (int) ($id));
+		$db->setQuery("SELECT * FROM #__cwmprayer WHERE id=" . (int) ($id));
 		$readresult = $db->loadObjectList();
 		$model      = $this->getModel('prayer');
 		$model->checkin();
-		$returnurl = JRoute::_("index.php?option=com_prayer&task=" . $_POST['last'] . "&Itemid=" . (int) $itemid);
+		$returnurl = JRoute::_("index.php?option=com_cwmprayer&task=" . $_POST['last'] . "&Itemid=" . (int) $itemid);
 		$this->setRedirect(JRoute::_($returnurl, false));
 	}
 
@@ -783,7 +783,7 @@ class PrayerControllerPrayer extends PrayerController
 		$id     = $app->input->getInt('id');
 		$model  = $this->getModel('prayer');
 		$model->checkin();
-		$returnurl = JRoute::_('index.php?option=com_prayer&task=' . $last . '&Itemid=' . (int) $itemid);
+		$returnurl = JRoute::_('index.php?option=com_cwmprayer&task=' . $last . '&Itemid=' . (int) $itemid);
 		$this->setRedirect(JRoute::_($returnurl, false));
 	}
 
@@ -817,7 +817,7 @@ class PrayerControllerPrayer extends PrayerController
 
 		while (list($key, $val) = each($cid))
 		{
-			$delreq = "DELETE FROM #__prayer WHERE id=" . (int) $key;
+			$delreq = "DELETE FROM #__cwmprayer WHERE id=" . (int) $key;
 			$db->setQuery($delreq);
 
 			if (!$db->execute())
@@ -829,16 +829,16 @@ class PrayerControllerPrayer extends PrayerController
 			{
 				if (file_exists($jcomments))
 				{
-					JComments::deleteComments($id, 'com_prayer');
+					JComments::deleteComments($id, 'com_cwmprayer');
 				}
 				elseif (file_exists($jsc))
 				{
-					jsitecomments::JSCdelComment('com_prayer', $id);
+					jsitecomments::JSCdelComment('com_cwmprayer', $id);
 				}
 			}
 		}
 
-		$returnurl = JRoute::_('index.php?option=com_prayer&task=moderate&Itemid=' . (int) $itemid);
+		$returnurl = JRoute::_('index.php?option=com_cwmprayer&task=moderate&Itemid=' . (int) $itemid);
 		$this->setRedirect(JRoute::_($returnurl, false));
 	}
 
@@ -868,7 +868,7 @@ class PrayerControllerPrayer extends PrayerController
 		$itemid = $this->prayer->PCgetItemid();
 		$db     = JFactory::getDBO();
 		$id     = $app->input->getInt('id');
-		$delreq = "DELETE FROM #__prayer WHERE id=" . (int) $id;
+		$delreq = "DELETE FROM #__cwmprayer WHERE id=" . (int) $id;
 		$db->setQuery($delreq);
 
 		if (!$db->execute())
@@ -880,15 +880,15 @@ class PrayerControllerPrayer extends PrayerController
 		{
 			if (file_exists($jcomments))
 			{
-				JComments::deleteComments($id, 'com_prayer');
+				JComments::deleteComments($id, 'com_cwmprayer');
 			}
 			elseif (file_exists($jsc))
 			{
-				jsitecomments::JSCdelComment('com_prayer', $id);
+				jsitecomments::JSCdelComment('com_cwmprayer', $id);
 			}
 		}
 
-		$returnurl = JRoute::_('index.php?option=com_prayer&task=view&Itemid=' . (int) $itemid);
+		$returnurl = JRoute::_('index.php?option=com_cwmprayer&task=view&Itemid=' . (int) $itemid);
 		$this->setRedirect(JRoute::_($returnurl, false));
 	}
 
@@ -904,7 +904,7 @@ class PrayerControllerPrayer extends PrayerController
 
 		while (list($key, $val) = each($cid))
 		{
-			$pubreq = "UPDATE #__prayer SET publishstate='1' WHERE id=" . (int) $key;
+			$pubreq = "UPDATE #__cwmprayer SET publishstate='1' WHERE id=" . (int) $key;
 			$db->setQuery($pubreq);
 
 			if (!$db->execute())
@@ -914,7 +914,7 @@ class PrayerControllerPrayer extends PrayerController
 
 			$model = $this->getModel('prayer');
 			$model->checkin();
-			$query        = $db->setQuery("SELECT * FROM #__prayer WHERE id=" . (int) $key);
+			$query        = $db->setQuery("SELECT * FROM #__cwmprayer WHERE id=" . (int) $key);
 			$result       = $db->loadObjectList();
 			$newrequester = $result[0]->requester;
 			$newrequest   = stripslashes($result[0]->request);
@@ -938,7 +938,7 @@ class PrayerControllerPrayer extends PrayerController
 			}
 		}
 
-		$returnurl = JRoute::_('index.php?option=com_prayer&task=moderate&Itemid=' . $itemid . '&return_msg=' . htmlentities(JText::_('PRAYERREQSUBMIT')));
+		$returnurl = JRoute::_('index.php?option=com_cwmprayer&task=moderate&Itemid=' . $itemid . '&return_msg=' . htmlentities(JText::_('CWMPRAYERREQSUBMIT')));
 		$this->setRedirect(JRoute::_($returnurl, false));
 	}
 
@@ -949,7 +949,7 @@ class PrayerControllerPrayer extends PrayerController
 		$db       = JFactory::getDBO();
 		$itemid   = $this->prayer->PCgetItemid();
 		$id       = $app->input->getInt('id');
-		$unpubreq = "UPDATE #__prayer SET publishstate='0' WHERE id=" . (int) $id;
+		$unpubreq = "UPDATE #__cwmprayer SET publishstate='0' WHERE id=" . (int) $id;
 		$db->setQuery($unpubreq);
 
 		if (!$db->execute())
@@ -959,7 +959,7 @@ class PrayerControllerPrayer extends PrayerController
 
 		$model = $this->getModel('prayer');
 		$model->checkin();
-		$returnurl = JRoute::_('index.php?option=com_prayer&task=moderate&Itemid=' . $itemid);
+		$returnurl = JRoute::_('index.php?option=com_cwmprayer&task=moderate&Itemid=' . $itemid);
 		$this->setRedirect(JRoute::_($returnurl, false));
 	}
 }

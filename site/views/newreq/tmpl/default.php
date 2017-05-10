@@ -22,7 +22,7 @@ $JVersion = new JVersion();
 $livesite = JURI::base();
 $prayer->PCgetAuth('post');
 $document = JFactory::getDocument();
-$document->addScript('components/com_prayer/assets/js/pc.js');
+$document->addScript('components/com_cwmprayer/assets/js/pc.js');
 $conf          = JFactory::getConfig();
 $config_editor = $this->config_editor;
 if ($config_editor == 'default')
@@ -143,7 +143,7 @@ else
 	$defaultcaptcha = "";
 }
 echo '<input type="hidden" name="jcap" id="jcap" class="inputbox" value="' . $defaultcaptcha . '" />';
-echo '<input type="hidden" name="option" value="COM_PRAYER" />';
+echo '<input type="hidden" name="option" value="COM_CWMPRAYER" />';
 echo '<input type="hidden" name="controller" value="prayer" />';
 echo '<input type="hidden" name="task" value="newreqsubmit" />';
 echo JHTML::_('form.token');

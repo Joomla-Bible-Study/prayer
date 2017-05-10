@@ -1,1 +1,1 @@
--- DROP TABLE `#__prayer`;-- DROP TABLE `#__prayer_subscribe`;-- DROP TABLE `#__prayer_devotions`;-- DROP TABLE `#__prayer_links`;
+-- DROP TABLE `#__cwmprayer`;-- DROP TABLE `#__cwmprayer_subscribe`;-- DROP TABLE `#__cwmprayer_devotions`;-- DROP TABLE `#__cwmprayer_links`;

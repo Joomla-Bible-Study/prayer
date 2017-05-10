@@ -22,7 +22,7 @@ class PrayerViewNewReq extends JViewLegacy
 	function display($tpl = null)
 	{
 		$lang = Jfactory::getLanguage();
-		$lang->load('com_prayer', JPATH_SITE);
+		$lang->load('com_cwmprayer', JPATH_SITE);
 		$uri = JFactory::getURI();
 
 		// Set pathway information
