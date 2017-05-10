@@ -20,7 +20,7 @@ $lang->load('com_cwmprayer', JPATH_SITE);
 JHTML::_('script', 'media/com_cwmprayer/js/admin_pc.js');
 $pcversion   = new PrayerVersion;
 $db          = JFactory::getDBO();
-$prayeradmin = new PrayerAdmin;
+$prayeradmin = new CWMPrayerAdmin;
 $version     = new JVersion;
 $supportinfo = "";
 $supportinfo .= 'System Information%0D%0A%0D%0A';

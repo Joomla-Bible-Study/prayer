@@ -2,10 +2,10 @@
 
 defined('_JEXEC') or die();
 
-class ModPrayerLatestHelper
+class ModCWMPrayerLatestHelper
 {
 	/**
-	 * Get Prayer Load Module Data
+	 * Get CWM Prayer Load Module Data
 	 *
 	 * @param   int  $count  ?
 	 *

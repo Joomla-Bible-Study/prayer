@@ -101,7 +101,7 @@ else
 {
 	if (!defined('CWMPRAYERCOMNOTINSTALL'))
 	{
-		define('CWMPRAYERCOMNOTINSTALL', 'PrayerCenter Component Not Installed');
+		define('CWMPRAYERCOMNOTINSTALL', 'CWM Center Component Not Installed');
 	}
 
 	echo '<div class="center" style="color:red; font-weight: bold;">' . JText::_('CWMPRAYERCOMNOTINSTALL') . '</div>';

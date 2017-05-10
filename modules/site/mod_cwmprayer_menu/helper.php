@@ -25,7 +25,7 @@ defined('_JEXEC') or die('Restricted access');
  *
  * @since       4.0
  */
-class ModPrayerMenuHelper
+class ModCWMPrayerMenuHelper
 {
 	// Empty
 }

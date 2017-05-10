@@ -18,7 +18,7 @@ Copyright      2006-2014 - Mike Leeper (MLWebTechnologies)
 No direct access*/
 defined('_JEXEC') or die('Restricted access');
 
-class PrayerSitePrayer extends PrayerAdmin
+class CWMPrayerSitePrayer extends CWMPrayerAdmin
 {
 	public $pcConfig;
 

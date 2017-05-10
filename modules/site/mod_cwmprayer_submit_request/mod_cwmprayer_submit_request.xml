@@ -10,7 +10,7 @@
 	<version>4.0</version>
 	<description>MOD_CWMPRAYER_SUBMIT_REQUEST_XML_DESCRIPTION</description>
 	<files>
-		<filename module="mod_prayer_submit_request">mod_prayer_submit_request.php</filename>
+		<filename module="mod_cwmprayer_submit_request">mod_cwmprayer_submit_request.php</filename>
 		<filename>helper.php</filename>
 		<folder>tmpl</folder>
 		<folder>language</folder>

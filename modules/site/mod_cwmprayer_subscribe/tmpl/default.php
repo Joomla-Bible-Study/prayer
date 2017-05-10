@@ -10,7 +10,7 @@ if (file_exists(JPATH_ROOT . "/administrator/components/com_cwmprayer/config.xml
 	require_once JPATH_ROOT . "/components/com_cwmprayer/helpers/admin_includes.php";
 	require_once JPATH_ROOT . "/components/com_cwmprayer/helpers/prayer.php";
 
-	$prayercentermsub      = new PrayerSitePrayer;
+	$prayercentermsub      = new CWMPrayerSitePrayer;
 	$pcConfig              = $prayercentermsub->pcConfig;
 	$pc_rights             = $prayercentermsub->intializePCRights();
 	$config_captcha        = $pcConfig['config_captcha'];
