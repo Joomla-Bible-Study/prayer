@@ -17,32 +17,34 @@ Copyright      2006-2014 - Mike Leeper (MLWebTechnologies)
 No direct access*/
 defined('_JEXEC') or die('Restricted access');
 
-class PrayerViewNewReq extends JViewLegacy
+class CWMPrayerViewNewReq extends JViewLegacy
 {
-	function display($tpl = null)
+	protected $prayer;
+
+	public function display($tpl = null)
 	{
 		$lang = Jfactory::getLanguage();
 		$lang->load('com_cwmprayer', JPATH_SITE);
-		$uri = JFactory::getURI();
+		$uri = new JUri;
+
+		$this->prayer = new CWMPrayerSitePrayer;
+		$pcConfig     = $this->prayer->pcConfig;
 
 		// Set pathway information
-		$this->assign('action', $uri->toString());
-		$pctitle = JText::_('PRAYERTITLE');
-		$this->assignRef('title', $pctitle);
-		$this->assignRef('config_show_page_headers', $pcConfig['config_show_page_headers']);
-		$pcdirections = nl2br(JText::_('PCREQDIRECTIONS'));
-		$this->assignRef('directions', $pcdirections);
-		$this->assignRef('config_editor', $pcConfig['config_editor']);
-		$this->assignRef('config_show_xtd_buttons', $pcConfig['config_show_xtd_buttons']);
-		$this->assignRef('config_cols', $pcConfig['config_cols']);
-		$this->assignRef('config_captcha', $pcConfig['config_captcha']);
-		$this->assignRef('config_use_admin_alert', $pcConfig['config_use_admin_alert']);
-		$this->assignRef('show_priv_option', $pcConfig['config_show_priv_option']);
-		$this->assignRef('show_sub_praise', $pcConfig['config_show_sub_praise']);
-		$this->assignRef('email_option', $pcConfig['config_email_option']);
-		$this->assignRef('config_captcha_bypass', $pcConfig['config_captcha_bypass_4member']);
-		parent::display($tpl);
+		$this->action = $uri->toString();
+		$pctitle = JText::_('CWMPRAYERTITLE');
+		$this->title = $pctitle;
+		$this->config_show_page_headers = $pcConfig['config_show_page_headers'];
+		$pcdirections = nl2br(JText::_('CWMPRAYERREQDIRECTIONS'));
+		$this->directions = $pcdirections;
+		$this->config_editor = $pcConfig['config_editor'];
+		$this->config_show_xtd_buttons = $pcConfig['config_show_xtd_buttons'];
+		$this->config_captcha = $pcConfig['config_captcha'];
+		$this->config_use_admin_alert = $pcConfig['config_use_admin_alert'];
+		$this->show_priv_option = $pcConfig['config_show_priv_option'];
+		$this->email_option = $pcConfig['config_email_option'];
+		$this->config_captcha_bypass = $pcConfig['config_captcha_bypass_4member'];
+
+		return parent::display($tpl);
 	}
 }
-
-?>

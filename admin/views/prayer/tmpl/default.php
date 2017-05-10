@@ -18,7 +18,7 @@ $lang     = JFactory::getLanguage();
 $lang->load('com_cwmprayer', JPATH_SITE);
 
 JHTML::_('script', 'media/com_cwmprayer/js/admin_pc.js');
-$pcversion   = new PrayerVersion;
+$pcversion   = new CWMPrayerVersion;
 $db          = JFactory::getDBO();
 $prayeradmin = new CWMPrayerAdmin;
 $version     = new JVersion;
@@ -32,7 +32,7 @@ $supportinfo .= 'Relevant PHP Settings%0D%0A';
 $supportinfo .= 'Magic Quotes GPC:%20' . $prayeradmin->pc_get_php_setting('magic_quotes_gpc') . '%0D%0A';
 $supportinfo .= 'Short Open Tags:%20' . $prayeradmin->pc_get_php_setting('short_open_tag') . '%0D%0A';
 $supportinfo .= 'Disabled Functions:%20' . (($df = ini_get('disable_functions')) ? $df : 'none') . '%0D%0A';
-$xmlObj      = $pcversion->getPrayerVersion();
+$xmlObj      = $pcversion->getCWMPrayerVersion();
 ?>
 <?php if (!empty($this->sidebar)) : ?>
 <div id="j-sidebar-container" class="span2">

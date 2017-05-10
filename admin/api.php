@@ -20,10 +20,10 @@ define('CWMPRAYER_PROFILER', 0);
 
 // Load JBSM Class
 JLoader::discover('CWMPrayer', JPATH_ROOT . '/components/com_cwmprayer/helpers', 'false', 'true');
-JLoader::discover('PrayerTable', JPATH_ROOT . '/components/com_cwmprayer/tables', 'false', 'true');
+JLoader::discover('CWMPrayerTable', JPATH_ROOT . '/components/com_cwmprayer/tables', 'false', 'true');
 JLoader::discover('CWMPrayer', JPATH_ADMINISTRATOR . '/components/com_cwmprayer/helpers', 'false', 'true');
-JLoader::discover('PrayerTable', JPATH_ADMINISTRATOR . '/components/com_cwmprayer/tables', 'false', 'true');
-JLoader::register('PrayerHelper', JPATH_ADMINISTRATOR . '/components/com_cwmprayer/helpers/prayer.php');
+JLoader::discover('CWMPrayerTable', JPATH_ADMINISTRATOR . '/components/com_cwmprayer/tables', 'false', 'true');
+JLoader::register('CWMPrayerHelper', JPATH_ADMINISTRATOR . '/components/com_cwmprayer/helpers/cwmprayer.php');
 JHtml::addIncludePath(JPATH_ADMINISTRATOR . '/components/com_cwmprayer/helpers/html/');
 
 // var_dump(JLoader::getClassList());

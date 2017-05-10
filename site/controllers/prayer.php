@@ -23,7 +23,7 @@ class CWMPrayerControllerPrayer extends CWMPrayerController
 
 	public function __construct($config = array())
 	{
-		$this->prayer = new PrayerSitePrayer;
+		$this->prayer = new CWMPrayerSitePrayer;
 
 		parent::__construct($config);
 	}

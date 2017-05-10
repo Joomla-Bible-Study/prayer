@@ -26,7 +26,7 @@ class CWMPrayerSitePrayer extends CWMPrayerAdmin
 	public $pc_rights = null;
 
 	/**
-	 * PrayerSitePrayer constructor.
+	 * CWMPrayerSitePrayer constructor.
 	 *
 	 * @since 4.0
 	 */
@@ -476,7 +476,8 @@ class CWMPrayerSitePrayer extends CWMPrayerAdmin
 			}
 
 			$reqcount ? $results .= "<br />&nbsp;&nbsp;" . JText::_('CWMPRAYERCWMPRAYERREQUESTS') .
-				"&nbsp;<a href=\"" . JRoute::_('index.php?option=com_cwmprayer&task=view&searchrequester=' . $requester . '&searchrequesterid=' . $reqid) . "\">" .
+				"&nbsp;<a href=\"" . JRoute::_('index.php?option=com_cwmprayer&task=view&searchrequester=' . $requester .
+					'&searchrequesterid=' . $reqid) . "\">" .
 				$reqcount . "</a>" : $results .= "<br />";
 
 			if ($flagsplugin && !$cbcount)
@@ -1455,8 +1456,10 @@ class CWMPrayerSitePrayer extends CWMPrayerAdmin
 			else
 			{
 				echo '<div style="float:right;vertical-align:bottom;"><style type="text/css">#a2apage_EMAIL {display:none !important;}</style>' .
-				'<a class="a2a_dd" href="http://www.addtoany.com/share_save"><img src="http://static.addtoany.com/buttons/share_save_120_16.gif" width="120" height="16" border="0" title="' .
-					htmlentities(JText::_('CWMPRAYERBMSHAREREQLIST')) . '"/></a>' . $addtoanygq . '<script type="text/javascript" src="http://static.addtoany.com/menu/locale/' .
+				'<a class="a2a_dd" href="http://www.addtoany.com/share_save">' .
+				'<img src="http://static.addtoany.com/buttons/share_save_120_16.gif" width="120" height="16" border="0" title="' .
+					htmlentities(JText::_('CWMPRAYERBMSHAREREQLIST')) . '"/></a>' . $addtoanygq .
+					'<script type="text/javascript" src="http://static.addtoany.com/menu/locale/' .
 					$bmlang . '.js"></script><script type="text/javascript" src="http://static.addtoany.com/menu/page.js"></script></div>';
 			}
 		}
@@ -1604,7 +1607,7 @@ class CWMPrayerSitePrayer extends CWMPrayerAdmin
 	public function PCReturnMsg($ret_msg)
 	{
 		$return_msg = '<div class="return_msg"><hr><br /><span class="center">' . $ret_msg . '</span><br /><hr></div>';
-		echo $return_msg;
+		return $return_msg;
 	}
 
 	/**
@@ -1847,8 +1850,8 @@ class CWMPrayerSitePrayer extends CWMPrayerAdmin
 	/**
 	 * Auto Purge
 	 *
-	 * @param   string $config_request_retention  ?
-	 * @param   stirng $config_archive_retention  ?
+	 * @param   string  $config_request_retention  ?
+	 * @param   string  $config_archive_retention  ?
 	 *
 	 * @return void
 	 *
@@ -1860,7 +1863,7 @@ class CWMPrayerSitePrayer extends CWMPrayerAdmin
 
 		if (file_exists($jcomments))
 		{
-			require_once($jcomments);
+			require_once $jcomments;
 		}
 
 		$now                      = time();
@@ -1940,7 +1943,7 @@ class CWMPrayerSitePrayer extends CWMPrayerAdmin
 			&& file_exists(JPATH_ROOT . '/administrator/components/com_cwmprayer/pms/plg.pms.' . $this->pcConfig['config_pms_plugin'] . '.php'))
 		{
 			require_once JPATH_ROOT . '/administrator/components/com_cwmprayer/helpers/pluginhelper.php';
-			$PrayerPluginHelper = new PrayerPluginHelper;
+			$PrayerPluginHelper = new CWMPrayerPluginHelper;
 			$pluginfile         = 'plg.pms.' . $this->pcConfig['config_pms_plugin'] . '.php';
 			$PrayerPluginHelper->importPlugin('pms', $pluginfile);
 			$PrayerPMSPlugin = new $pcpmsclassname;
@@ -2000,6 +2003,17 @@ class CWMPrayerSitePrayer extends CWMPrayerAdmin
 	public function buildPCMenu($mod = false, $modparams = null)
 	{
 		$itemid = $this->PCgetItemid();
+
+		$menu_style      = '';
+		$menuclass       = '';
+		$moduleclass_sfx = '';
+		$show_submit     = '';
+		$show_view       = '';
+		$show_subscribe  = '';
+		$show_links      = '';
+		$show_devotion   = '';
+		$show_moderator  = '';
+		$menu_css        = "";
 
 		if (!is_null($modparams))
 		{
@@ -2113,7 +2127,7 @@ class CWMPrayerSitePrayer extends CWMPrayerAdmin
 	/**
 	 * Write Prayer Image
 	 *
-	 * @return string
+	 * @return void
 	 *
 	 * @since 4.0
 	 */
@@ -2125,11 +2139,12 @@ class CWMPrayerSitePrayer extends CWMPrayerAdmin
 		}
 
 		jimport('joomla.filesystem.folder');
-		$livesite = JURI::base();
-		$alt_line = "";
-		$border   = "1";
-		$width    = "130";
-		$height   = "130";
+		$livesite  = JURI::base();
+		$alt_line  = "";
+		$border    = "1";
+		$width     = "130";
+		$height    = "130";
+		$timg_name = "";
 
 		if ($this->pcConfig['config_use_slideshow'])
 		{
@@ -2235,6 +2250,8 @@ class CWMPrayerSitePrayer extends CWMPrayerAdmin
          <img class="pc-img" alt="" title="" border="0" src="media/com_cwmprayer/images/' . $this->pcConfig['config_imagefile'] . '" />
         </div>';
 		}
+
+		return;
 	}
 
 	/**
@@ -2252,7 +2269,7 @@ class CWMPrayerSitePrayer extends CWMPrayerAdmin
 	{
 		if (!$this->pcConfig['config_show_header_text'] && !$override)
 		{
-			return;
+			return null;
 		}
 
 		$return = $this->PCkeephtml(htmlentities($text)) . '<br /><br />';
