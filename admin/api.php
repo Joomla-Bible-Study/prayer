@@ -1,8 +1,8 @@
 <?php
 /**
- * Core Admin Church Directory file
+ * Core Admin CWMPrayer file
  *
- * @package    ChurchDirectory.Admin
+ * @package    CWMPrayer.Admin
  * @copyright  2007 - 2015 (C) Joomla Bible Study Team All rights reserved
  * @license    http://www.gnu.org/copyleft/gpl.html GNU/GPL
  * @link       http://www.JoomlaBibleStudy.org

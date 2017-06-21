@@ -16,7 +16,6 @@ defined('_JEXEC') or die;
  */
 class CWMPrayerControllerDevotion extends JControllerForm
 {
-
 	/**
 	 * The URL view item variable.
 	 *
