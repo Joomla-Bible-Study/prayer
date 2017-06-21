@@ -39,7 +39,7 @@ class CWMPrayerSitePrayer extends CWMPrayerAdmin
 	}
 
 	/**
-	 * Intializing Class
+	 * Initializing Class
 	 *
 	 * @return \JObject
 	 *
@@ -285,7 +285,7 @@ class CWMPrayerSitePrayer extends CWMPrayerAdmin
 	 *
 	 * @return mixed
 	 *
-	 * @since version
+	 * @since 4.0
 	 */
 	public function PCgetProfileBox($requestarr, $showavatar = true)
 	{
@@ -304,7 +304,7 @@ class CWMPrayerSitePrayer extends CWMPrayerAdmin
 				if (!file_exists(JPATH_ADMINISTRATOR . '/components/com_comprofiler/plugin.foundation.php'))
 				{
 					//        echo 'Community Builder component is not installed';
-					return;
+					return null;
 				}
 			}
 

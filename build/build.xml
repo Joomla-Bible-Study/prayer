@@ -111,8 +111,8 @@
 		<propertyprompt propertyName="version" defaultValue="dev" promptText="Enter version you are releasing."/>
 
 		<mkdir dir="${src}/build/packages"/>
-		<delete file="${src}/admin/prayer.xml"/>
-		<delete file="${src}/admin/prayer.script.php"/>
+		<delete file="${src}/admin/cwmprayer.xml"/>
+		<delete file="${src}/admin/cwmprayer.script.php"/>
 
 		<delete>
 			<fileset dir="${src}/build/packages/">
@@ -122,8 +122,8 @@
 		<zip destfile="${src}/build/packages/com_cwmprayer-${version}.zip">
 			<fileset refid="allfiles"/>
 		</zip>
-		<symlink target="${src}/prayer.xml" link="admin/prayer.xml"/>
-		<symlink target="${src}/prayer.script.php" link="admin/prayer.script.php"/>
+		<symlink target="${src}/cwmprayer.xml" link="admin/cwmprayer.xml"/>
+		<symlink target="${src}/cwmprayer.script.php" link="admin/cwmprayer.script.php"/>
 	</target>
 
 	<!-- ============================================  -->
@@ -134,4 +134,5 @@
 
 		<echo msg="Files copied and compressed in build directory OK!"/>
 	</target>
+
 </project>
