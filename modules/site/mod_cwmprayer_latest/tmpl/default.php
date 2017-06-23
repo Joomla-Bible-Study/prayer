@@ -4,15 +4,15 @@ defined('_JEXEC') or die;
 
 if (file_exists(JPATH_ROOT . "/administrator/components/com_cwmprayer/config.xml"))
 {
-	require_once JPATH_ROOT . "/components/com_cwmprayer/helpers/admin_includes.php";
-	require_once JPATH_ROOT . "/components/com_cwmprayer/helpers/prayer.php";
+	require_once JPATH_ROOT . "/components/com_cwmprayer/helpers/pc_includes.php";
+	require_once JPATH_ROOT . "/components/com_cwmprayer/helpers/siteprayer.php";
 
 	$prayercenterlmod = new CWMPrayerSitePrayer;
 	$pc_rights        = $prayercenterlmod->intializePCRights();
 	$itemid           = $prayercenterlmod->PCgetItemid();
 	$lang             = Jfactory::getLanguage();
 	$lang->load('com_cwmprayer', JPATH_SITE);
-	$pclmodhelper = new ModPrayerLatestHelper;
+	$pclmodhelper = new ModCWMPrayerLatestHelper;
 	$count        = $params->get('count');
 	$wordcount    = $params->get('word_count');
 	$link         = JRoute::_('index.php?option=com_cwmprayer&Itemid=' . (int) $itemid);

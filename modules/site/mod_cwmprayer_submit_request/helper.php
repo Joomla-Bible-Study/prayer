@@ -2,6 +2,6 @@
 
 defined('_JEXEC') or die;
 
-class mod_pc_submit_requestHelper
+class mod_cwmprayer_submit_requestHelper
 {
 }

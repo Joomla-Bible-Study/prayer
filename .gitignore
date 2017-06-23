@@ -4,8 +4,9 @@ out
 gen
 .DS_Store
 .gitignore
-.idea/fileTemplates/
 /admin/prayer.script.php
 /admin/prayer.xml
 /admin/cwmprayer.script.php
 /admin/cwmprayer.xml
+/build/packages/
+/docs/

@@ -45,9 +45,8 @@
 		<include name="media/**"/>
 		<include name="modules/**"/>
 		<include name="plugins/**"/>
-		<include name="prayer.xml"/>
-		<include name="prayer.script.php"/>
-		<include name="changelog.php"/>
+		<include name="cwmprayer.xml"/>
+		<include name="cwmprayer.script.php"/>
 		<include name="copyright.txt"/>
 		<include name="LICENSE.txt"/>
 	</fileset>

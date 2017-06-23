@@ -1,23 +1,19 @@
 <?xml version="1.0" encoding="utf-8"?>
 <extension type="module" version="3.3" client="site" method="upgrade">
 	<name>MOD_CWMPRAYER_MENU</name>
-	<author>Joomla Bible Study Team</author>
-	<creationDate>August 2017</creationDate>
-	<copyright>(C) 2017 Joomla Bible Study Team. All rights reserved.</copyright>
+	<author>Christion Web Ministires</author>
+	<creationDate>June 22 2017</creationDate>
+	<copyright>This component in released under the GNU/GPL License</copyright>
 	<license>http://www.gnu.org/copyleft/gpl.html GNU/GPL</license>
-	<authorUrl>www.joomlabiblestudy.com</authorUrl>
+	<authorUrl>https://www.christianwebministries.org</authorUrl>
 	<version>4.0</version>
 	<description>MOD_CWMPRAYER_MENU_XML_DESCRIPTION</description>
 	<files>
-		<filename module="mod_prayer_menu">mod_prayer_menu.php</filename>
+		<filename module="mod_cwmprayer_menu">mod_cwmprayer_menu.php</filename>
 		<filename>helper.php</filename>
 		<folder>tmpl</folder>
 		<folder>language</folder>
 	</files>
-	<languages>
-		<language tag="en-GB">en-GB.mod_prayer_menu.ini</language>
-		<language tag="en-GB">en-GB.mod_prayer_menu.sys.ini</language>
-	</languages>
 	<config>
 		<fields name="params">
 			<fieldset name="basic">

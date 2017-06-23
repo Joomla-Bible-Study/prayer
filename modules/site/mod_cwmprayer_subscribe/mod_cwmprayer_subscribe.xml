@@ -1,12 +1,12 @@
 <?xml version="1.0" encoding="utf-8"?>
 <extension type="module" version="3.0.0" client="site" method="upgrade">
 	<name>MOD_CWMPRAYER_SUBSCRIBE</name>
-	<author>Joomla Bible Study Team</author>
-	<creationDate>April 2017</creationDate>
-	<copyright>(C) 2017 Joomla Bible Study Team. All rights reserved.</copyright>
+	<author>Christion Web Ministires</author>
+	<creationDate>June 22 2017</creationDate>
+	<copyright>This component in released under the GNU/GPL License</copyright>
 	<license>http://www.gnu.org/copyleft/gpl.html GNU/GPL</license>
-	<authorEmail>info@joomlabiblestudy.com</authorEmail>
-	<authorUrl>http://www.joomlabiblestudy.com</authorUrl>
+	<authorEmail>info@christianwebministries.org</authorEmail>
+	<authorUrl>https://www.christianwebministries.org</authorUrl>
 	<version>4.0</version>
 	<description>MOD_CWMPRAYER_SUBSCRIBE_XML_DESCRIPTION</description>
 	<files>

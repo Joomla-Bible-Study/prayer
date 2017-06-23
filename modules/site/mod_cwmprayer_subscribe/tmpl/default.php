@@ -7,8 +7,8 @@ $lang->load('com_cwmprayer', JPATH_SITE);
 
 if (file_exists(JPATH_ROOT . "/administrator/components/com_cwmprayer/config.xml"))
 {
-	require_once JPATH_ROOT . "/components/com_cwmprayer/helpers/admin_includes.php";
-	require_once JPATH_ROOT . "/components/com_cwmprayer/helpers/prayer.php";
+	require_once JPATH_ROOT . "/components/com_cwmprayer/helpers/pc_includes.php";
+	require_once JPATH_ROOT . "/components/com_cwmprayer/helpers/siteprayer.php";
 
 	$prayercentermsub      = new CWMPrayerSitePrayer;
 	$pcConfig              = $prayercentermsub->pcConfig;
