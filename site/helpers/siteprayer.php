@@ -1,21 +1,5 @@
 <?php
-/* *************************************************************************************
-Title          prayer Component for Joomla
-Author         Mike Leeper
-Enhancements   Christina Ishii
-License        This program is free software: you can redistribute it and/or modify
-               it under the terms of the GNU General Public License as published by
-               the Free Software Foundation, either version 3 of the License, or
-               (at your option) any later version.
-               This program is distributed in the hope that it will be useful,
-               but WITHOUT ANY WARRANTY; without even the implied warranty of
-               MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
-               GNU General Public License for more details.
-               You should have received a copy of the GNU General Public License
-               along with this program.  If not, see <http://www.gnu.org/licenses/>.
-Copyright      2006-2014 - Mike Leeper (MLWebTechnologies) 
-****************************************************************************************
-No direct access*/
+
 defined('_JEXEC') or die('Restricted access');
 
 class CWMPrayerSitePrayer extends CWMPrayerAdmin
@@ -164,7 +148,7 @@ class CWMPrayerSitePrayer extends CWMPrayerAdmin
 	/**
 	 * Get Buttons
 	 *
-	 * @param   string  $showrequest  ?
+	 * @param   object  $showrequest  ?
 	 * @param   bool    $editonly     ?
 	 *
 	 * @return void
@@ -1922,20 +1906,19 @@ class CWMPrayerSitePrayer extends CWMPrayerAdmin
 	/**
 	 * Send Privet Message
 	 *
-	 * @param   int     $newrequesterid  ?
-	 * @param   object  $newrequester    ?
-	 * @param   string  $newrequest      ?
-	 * @param   string  $newemail        ?
-	 * @param   string  $sendpriv        ?
-	 * @param   int     $lastId          ?
-	 * @param   int     $sessionid       ?
-	 * @param   bool    $admin           ?
+	 * @param   object  $newrequester  ?
+	 * @param   string  $newrequest    ?
+	 * @param   string  $newemail      ?
+	 * @param   string  $sendpriv      ?
+	 * @param   int     $lastId        ?
+	 * @param   int     $sessionid     ?
+	 * @param   bool    $admin         ?
 	 *
 	 * @return void
 	 *
 	 * @since 4.0
 	 */
-	public function PCsendPM($newrequesterid, $newrequester, $newrequest, $newemail, $sendpriv, $lastId = 0, $sessionid = 0, $admin = false)
+	public function PCsendPM($newrequester, $newrequest, $newemail, $sendpriv, $lastId = 0, $sessionid = 0, $admin = false)
 	{
 		$pcpmsclassname = 'PC' . ucfirst($this->pcConfig['config_pms_plugin']) . 'PMSPlugin';
 
@@ -1955,7 +1938,7 @@ class CWMPrayerSitePrayer extends CWMPrayerAdmin
 
 		if ($admin)
 		{
-			$PrayerPMSPlugin->admin_private_messaging($newrequesterid, $newrequester, $newrequest, $newemail, $lastId, $sessionid, $sendpriv);
+			$PrayerPMSPlugin->admin_private_messaging($newrequester, $newrequest, $newemail, $lastId, $sessionid, $sendpriv);
 		}
 		elseif (!$sendpriv)
 		{
