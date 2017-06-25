@@ -1924,12 +1924,12 @@ class CWMPrayerSitePrayer extends CWMPrayerAdmin
 		$pcpmsclassname = 'PC' . ucfirst($this->pcConfig['config_pms_plugin']) . 'PMSPlugin';
 
 		if (!empty($this->pcConfig['config_pms_plugin'])
-			&& file_exists(JPATH_ROOT . '/administrator/components/com_cwmprayer/pms/plg.pms.' . $this->pcConfig['config_pms_plugin'] . '.php'))
+			&& file_exists(JPATH_ADMINISTRATOR . '/components/com_cwmprayer/pms/plg.pms.' . $this->pcConfig['config_pms_plugin'] . '.php'))
 		{
-			require_once JPATH_ROOT . '/administrator/components/com_cwmprayer/helpers/pluginhelper.php';
 			$PrayerPluginHelper = new CWMPrayerPluginHelper;
 			$pluginfile         = 'plg.pms.' . $this->pcConfig['config_pms_plugin'] . '.php';
 			$PrayerPluginHelper->importPlugin('pms', $pluginfile);
+			/** @var CWMPrayerJoomlaPMSPlugin $PrayerPMSPlugin */
 			$PrayerPMSPlugin = new $pcpmsclassname;
 		}
 		else
