@@ -6,7 +6,9 @@ class CWMPrayerSitePrayer extends CWMPrayerAdmin
 {
 	public $pcConfig;
 
-	/** @var \JObject */
+	/** @var \JObject
+	 * @since 4.0
+	 */
 	public $pc_rights = null;
 
 	/**
@@ -16,8 +18,7 @@ class CWMPrayerSitePrayer extends CWMPrayerAdmin
 	 */
 	public function __construct()
 	{
-		$comp           = JComponentHelper::getParams('com_cwmprayer');
-		$this->pcConfig = $comp->toArray()['params'];
+		parent::__construct();
 
 		$this->intializePCRights();
 	}
@@ -2320,38 +2321,6 @@ class CWMPrayerSitePrayer extends CWMPrayerAdmin
 		}
 
 		return $return;
-	}
-
-	/**
-	 * Get Admin Data
-	 *
-	 * @return object
-	 *
-	 * @since 4.0
-	 */
-	public function PCgetAdminData()
-	{
-		$db          = JFactory::getDBO();
-		$adminusers  = [];
-
-		$access = new JAccess;
-		$db->setQuery("SELECT id FROM #__usergroups");
-		$groups = $db->loadObjectList();
-
-		foreach ($groups as $group)
-		{
-			if ($access->checkGroup($group->id, 'core.manage') || $access->checkGroup($group->id, 'core.admin'))
-			{
-				$adminusers[] = $access->getUsersByGroup($group->id);
-			}
-		}
-
-		$result = $this->PCarray_flatten($adminusers);
-		$result = implode(',', $result);
-		$db->setQuery("SELECT name,email FROM #__users WHERE id IN (" . $result . ")");
-		$resultusers = $db->loadObjectList();
-
-		return $resultusers;
 	}
 
 	/**

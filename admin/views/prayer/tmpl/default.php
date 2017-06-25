@@ -1,13 +1,13 @@
 <?php
 /**
- * prayer Component for Joomla
- * By Mike Leeper
+ * Core Admin CWMPrayer file
  *
- * @license http://www.gnu.org/copyleft/gpl.html GNU/GPL
- *
- */
-// no direct access
-defined('_JEXEC') or die('Restricted access');
+ * @package    CWMPrayer.Admin
+ * @copyright  2007 - 2015 (C) Joomla Bible Study Team All rights reserved
+ * @license    http://www.gnu.org/copyleft/gpl.html GNU/GPL
+ * @link       http://www.JoomlaBibleStudy.org
+ * */
+defined('_JEXEC') or die;
 
 JHtml::_('bootstrap.tooltip');
 JHtml::_('behavior.multiselect');
@@ -113,11 +113,11 @@ $xmlObj      = $pcversion->getCWMPrayerVersion();
 					$query = $db->getQuery(true);
 					$query->select('p.extension_id');
 					$query->from('#__extensions AS p');
-					$query->where('p.element=' . $db->Quote('prayeremail') . ' AND p.type=' . $db->Quote('plugin'));
+					$query->where('p.element=' . $db->Quote('cwmprayeremail') . ' AND p.type=' . $db->Quote('plugin'));
 					$db->setQuery($query);
 					$plugid = $db->loadResult();
 
-					if (JPluginHelper::isEnabled('system', 'prayeremail'))
+					if (JPluginHelper::isEnabled('system', 'cwmprayeremail'))
 					{
 						$plugenabled    = 'Enabled';
 						$plugstatus     = 'green';
@@ -132,8 +132,8 @@ $xmlObj      = $pcversion->getCWMPrayerVersion();
 						$plugstatustext = 'Edit Plugin';
 					}
 
-					$pdir    = JPATH_ROOT . '/plugins/system/prayeremail';
-					$xmlfile = $pdir . '/prayeremail.xml';
+					$pdir    = JPATH_ROOT . '/plugins/system/cwmprayeremail';
+					$xmlfile = $pdir . '/cwmprayeremail.xml';
 					$xmldata = $prayeradmin->PCparseXml($xmlfile);
 
 					if ($xmldata)
@@ -178,7 +178,7 @@ $xmlObj      = $pcversion->getCWMPrayerVersion();
 								        style="margin-left:20px;"><?php echo JText::_('Donations'); ?></strong>
 							</div>
 							<div class="span3">
-								<form action="https://www.paypal.com/cgi-bin/webscr" method="post"/>
+								<form action="https://www.paypal.com/cgi-bin/webscr" method="post" >
 								<input type="hidden" name="cmd" value="_donations"/>
 								<input type="hidden" name="business" value="info@joomlabiblestudy.com"/>
 								<input type="hidden" name="item_name" value="Joomla Bible Study - Prayer Donations"/>
@@ -202,18 +202,20 @@ $xmlObj      = $pcversion->getCWMPrayerVersion();
 					<div class="module-title nav-header">Optional Modules - Status</div>
 					<div class="row-striped">
 						<?php
-						$modArray = [1 => ['module' => 'mod_pc_submit_request', 'name' => 'Submit Request'],
-						             2 => ['module' => 'mod_pc_subscribe', 'name' => 'Subscribe'],
-						             3 => ['module' => 'mod_pc_menu', 'name' => 'Menu'],
-						             4 => ['module' => 'mod_pc_latest', 'name' => 'Latest Requests']];
+						$modArray = [1 => ['module' => 'mod_cwmprayer_submit_request', 'name' => 'Submit Request'],
+						             2 => ['module' => 'mod_cwmprayer_subscribe', 'name' => 'Subscribe'],
+						             3 => ['module' => 'mod_cwmprayer_menu', 'name' => 'Menu'],
+						             4 => ['module' => 'mod_cwmprayer_latest', 'name' => 'Latest Requests']];
+
 						foreach ($modArray as $module)
 						{
 							$query = $db->getQuery(true);
-							$query->select('m.published,m.id');
-							$query->from('#__modules AS m');
-							$query->where('m.module=' . $db->Quote($module['module']));
+							$query->select('published, id');
+							$query->from('#__modules');
+							$query->where('module = ' . $db->Quote($module['module']));
 							$db->setQuery($query);
 							$moduleenabled = $db->loadObject();
+
 							if (!empty($moduleenabled))
 							{
 								$moduleenabled->published ? $modstatus = 'icon-publish' : $modstatus = 'icon-unpublish';
@@ -225,10 +227,14 @@ $xmlObj      = $pcversion->getCWMPrayerVersion();
 							{
 								$modstatus     = "icon-upload";
 								$modstatustext = "Install Module";
+								$modstatusstate = 'Disabled';
+								$modstatuscolor = 'red';
 							}
+
 							$moduledir = JPATH_ROOT . '/modules';
 							$xmlfile   = $moduledir . '/' . $module['module'] . '/' . $module['module'] . '.xml';
 							$xmldata   = $prayeradmin->PCparseXml($xmlfile);
+
 							if ($xmldata)
 							{
 								?>
@@ -244,7 +250,7 @@ $xmlObj      = $pcversion->getCWMPrayerVersion();
 												)</span></div>
 										<div class="span2 center"><font
 													color="<?php echo $modstatuscolor; ?>"><?php echo JText::_($modstatusstate); ?></font>
-											<a href="index.php?option=com_modules&task=module.edit&id=<?php echo $moduleenabled->id; ?>"><span
+											<a href="index.php?option=com_modules&task=module.edit&id=<?php echo @$moduleenabled->id; ?>"><span
 														title="<?php echo $modstatustext; ?>" style="float:right;"><i
 															class="<?php echo $modstatus; ?>"></i></span></a></div>
 									</div>

@@ -1,11 +1,12 @@
 <?php
 /**
- * @package     Joomla.Administrator
- * @subpackage  com_contact
+ * Core Admin CWMPrayer file
  *
- * @copyright   Copyright (C) 2005 - 2017 Open Source Matters, Inc. All rights reserved.
- * @license     GNU General Public License version 2 or later; see LICENSE.txt
- */
+ * @package    CWMPrayer.Admin
+ * @copyright  2007 - 2015 (C) Joomla Bible Study Team All rights reserved
+ * @license    http://www.gnu.org/copyleft/gpl.html GNU/GPL
+ * @link       http://www.JoomlaBibleStudy.org
+ * */
 
 defined('_JEXEC') or die;
 
