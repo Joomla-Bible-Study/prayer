@@ -9,24 +9,15 @@
 			hint="JSEARCH_FILTER"
 		/>
 		<field
-			name="published"
-			type="status"
-			label="COM_CWMPRAYER_FILTER_PUBLISHED"
-			description="COM_CWMPRAYER_FILTER_PUBLISHED_DESC"
+			name="approved"
+			type="list"
+			label="COM_CWMPRAYER_FILTER_APPROVED"
+			description="COM_CWMPRAYER_FILTER_APPROVED_DESC"
 			onchange="this.form.submit();"
 			>
-			<option value="">JOPTION_SELECT_PUBLISHED</option>
-		</field>
-		<field
-			name="category_id"
-			type="category"
-			label="JOPTION_FILTER_CATEGORY"
-			extension="COM_CWMPRAYER"
-			description="JOPTION_FILTER_CATEGORY_DESC"
-			onchange="this.form.submit();"
-			published="0,1,2"
-			>
-			<option value="">JOPTION_SELECT_CATEGORY</option>
+			<option value="">COM_CWMPRAYER_SELECT_APPROVED</option>
+			<option value="0">COM_CWMPRAYER_UNPUBLISHED</option>
+			<option value="1">COM_CWMPRAYER_PUBLISHED</option>
 		</field>
 	</fields>
 	<fields name="list">
@@ -39,14 +30,10 @@
 			default="a.id DESC"
 			>
 			<option value="">JGLOBAL_SORT_BY</option>
-			<option value="a.ordering ASC">JGRID_HEADING_ORDERING_ASC</option>
-			<option value="a.ordering DESC">JGRID_HEADING_ORDERING_DESC</option>
-			<option value="a.state ASC">JSTATUS_ASC</option>
-			<option value="a.state DESC">JSTATUS_DESC</option>
-			<option value="a.name ASC">JGLOBAL_TITLE_ASC</option>
-			<option value="a.name DESC">JGLOBAL_TITLE_DESC</option>
-			<option value="category_title ASC">JCATEGORY_ASC</option>
-			<option value="category_title DESC">JCATEGORY_DESC</option>
+			<option value="a.approved ASC">COM_CWMPRAYER_APPROVED_ACS</option>
+			<option value="a.approved DESC">COM_CWMPRAYER_APPROVED_DESC</option>
+			<option value="a.email ASC">JGLOBAL_TITLE_ASC</option>
+			<option value="a.email DESC">JGLOBAL_TITLE_DESC</option>
 			<option value="a.id ASC">JGRID_HEADING_ID_ASC</option>
 			<option value="a.id DESC">JGRID_HEADING_ID_DESC</option>
 		</field>
