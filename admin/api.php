@@ -26,8 +26,6 @@ JLoader::discover('CWMPrayerTable', JPATH_ADMINISTRATOR . '/components/com_cwmpr
 JLoader::register('CWMPrayerHelper', JPATH_ADMINISTRATOR . '/components/com_cwmprayer/helpers/cwmprayer.php');
 JHtml::addIncludePath(JPATH_ADMINISTRATOR . '/components/com_cwmprayer/helpers/html/');
 
-// var_dump(JLoader::getClassList());
-
 JHtml::stylesheet('media/com_cwmprayer/css/general.css');
 
 // If phrase is not found in specific language file, load english language file:

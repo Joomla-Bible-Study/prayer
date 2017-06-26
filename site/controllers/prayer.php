@@ -138,10 +138,10 @@ class CWMPrayerControllerPrayer extends CWMPrayerController
 
 				if ($this->prayer->pcConfig['config_use_admin_alert'] == 0 && $pc_rights->get('pc.publish'))
 				{
-					$sql = "INSERT INTO #__cwmprayer (id,requesterid,requester,date,time,request,publishstate,archivestate,displaystate," .
+					$sql = "INSERT INTO #__cwmprayer (id,requesterid,requester,date,request,state,displaystate," .
 					"sendto,email,adminsendto,sessionid,title,topic) VALUES (''," .
-						(int) $newrequesterid . "," . $db->q($newrequester) . "," . $db->q($date) . "," . $db->q($time) . "," . $db->q($newrequest) .
-						",'1','0'," . (int) $sendpriv . ",'0000-00-00 00:00:00'," . $db->q($newemail) .
+						(int) $newrequesterid . "," . $db->q($newrequester) . "," . $db->q($date . ' ' . $time) . "," . $db->q($newrequest) .
+						",'1'," . (int) $sendpriv . ",'0000-00-00 00:00:00'," . $db->q($newemail) .
 						",'0000-00-00 00:00:00'," . (int) $db->q($sessionid) . "," .
 						$db->q($db->escape($newtitle), false) . "," . (int) $newtopic . ")";
 
@@ -156,11 +156,10 @@ class CWMPrayerControllerPrayer extends CWMPrayerController
 				}
 				elseif ($this->prayer->pcConfig['config_use_admin_alert'] > 0)
 				{
-					$sql = "INSERT INTO #__cwmprayer (id,requesterid,requester,date,time,request,publishstate,archivestate,displaystate,sendto" .
+					$sql = "INSERT INTO #__cwmprayer (id,requesterid,requester,date,request,state,displaystate,sendto" .
 						",email,adminsendto,sessionid,title,topic) VALUES (''," . (int) $newrequesterid . "," .
-						$db->q($newrequester) . "," . $db->q($date) .
-						"," . $db->q($time) . "," . $db->q($newrequest) .
-						",'0','0'," . (int) $sendpriv . ",'0000-00-00 00:00:00'," . $db->q($newemail) .
+						$db->q($newrequester) . "," . $db->q($date . ' ' . $time) . "," . $db->q($newrequest) .
+						",'0'," . (int) $sendpriv . ",'0000-00-00 00:00:00'," . $db->q($newemail) .
 						",'0000-00-00 00:00:00'," . (int) $db->q($sessionid) . "," .
 						$db->q($newtitle) . "," . (int) $newtopic . ")";
 					$db->setQuery($sql);
@@ -394,6 +393,8 @@ class CWMPrayerControllerPrayer extends CWMPrayerController
 		$itemid = $this->prayer->PCgetItemid();
 		$user   = JFactory::getUser();
 
+		$plugin = new plgSystemCWMPrayerEmail((object) 'com_cwmprayer');
+
 		if (!$this->prayer->pcConfig['config_captcha_bypass_4member'] || $this->prayer->pcConfig['config_captcha_bypass_4member'] && $user->guest)
 		{
 			$this->pcCaptchaValidate($returnto, $itemid, $modtype, 'subscribe');
@@ -448,7 +449,7 @@ class CWMPrayerControllerPrayer extends CWMPrayerController
 		if (JMailHelper::isEmailAddress($newsubscribe))
 		{
 			$dateset = new JDate;
-			$date    = $dateset->format('Y-m-d');
+			$date    = $dateset->format('Y-m-d T');
 			$db      = JFactory::getDBO();
 			$db->setQuery("SELECT email FROM #__cwmprayer_subscribe");
 			$readq     = $db->loadObjectList();
@@ -495,7 +496,9 @@ class CWMPrayerControllerPrayer extends CWMPrayerController
 				{
 					if (JPluginHelper::isEnabled('system', 'prayercenteremail'))
 					{
-						$results = plgSystemPrayerEmail::pcEmailTask('CWMPRAYERconfirm_sub_notification', array('0' => $newsubscribe, '1' => $lastId, '2' => $sessionid));
+						$plugin->EmailTask('CWMPRAYERconfirm_sub_notification',
+							array('0' => $newsubscribe, '1' => $lastId, '2' => $sessionid)
+						);
 					}
 
 					if (isset($_GET['modtype']))
@@ -516,7 +519,7 @@ class CWMPrayerControllerPrayer extends CWMPrayerController
 				{
 					if (JPluginHelper::isEnabled('system', 'prayercenteremail'))
 					{
-						$results = plgSystemPrayerEmail::pcEmailTask('CWMPRAYERconfirm_sub_notification', array('0' => $newsubscribe, '1' => $lastId, '2' => $sessionid));
+						$plugin->EmailTask('CWMPRAYERconfirm_sub_notification', array('0' => $newsubscribe, '1' => $lastId, '2' => $sessionid));
 					}
 
 					if (isset($_GET['modtype']))
@@ -537,11 +540,11 @@ class CWMPrayerControllerPrayer extends CWMPrayerController
 				{
 					if (JPluginHelper::isEnabled('system', 'prayercenteremail'))
 					{
-						$results = plgSystemPrayerEmail::pcEmailTask('PCemail_subscribe', array('0' => $newsubscribe));
+						$plugin->EmailTask('PCemail_subscribe', array('0' => $newsubscribe));
 
 						if ($this->prayer->pcConfig['config_email_subscribe'])
 						{
-							$results = plgSystemPrayerEmail::pcEmailTask('PCadmin_email_subscribe_notification', array('0' => $newsubscribe));
+							$plugin->pcEmailTask('PCadmin_email_subscribe_notification', array('0' => $newsubscribe));
 						}
 					}
 
@@ -661,7 +664,7 @@ class CWMPrayerControllerPrayer extends CWMPrayerController
 			{
 				if (JPluginHelper::isEnabled('system', 'prayercenteremail'))
 				{
-					$results = plgSystemPrayerEmail::pcEmailTask(
+					$plugin->pcEmailTask(
 						'PCconfirm_unsub_notification',
 						array(
 							'0' => $newsubscribe,
@@ -758,8 +761,7 @@ class CWMPrayerControllerPrayer extends CWMPrayerController
 		$date    = $dateset->format('Y-m-d');
 		$id      = $app->input->getInt('id');
 		$request = $app->input->getString('newrequest');
-		$db->setQuery("UPDATE #__cwmprayer SET request=" . $db->q($request) . ", date=" . $db->q($date) . ", time=" .
-			$db->q($time) . " WHERE id=" . (int) $id
+		$db->setQuery("UPDATE #__cwmprayer SET request=" . $db->q($request) . ", date=" . $db->q($date . ' ' . $time) . " WHERE id=" . (int) $id
 		);
 
 		if (!$db->execute())
@@ -904,7 +906,7 @@ class CWMPrayerControllerPrayer extends CWMPrayerController
 
 		while (list($key, $val) = each($cid))
 		{
-			$pubreq = "UPDATE #__cwmprayer SET publishstate='1' WHERE id=" . (int) $key;
+			$pubreq = "UPDATE #__cwmprayer SET state='1' WHERE id=" . (int) $key;
 			$db->setQuery($pubreq);
 
 			if (!$db->execute())
@@ -949,7 +951,7 @@ class CWMPrayerControllerPrayer extends CWMPrayerController
 		$db       = JFactory::getDBO();
 		$itemid   = $this->prayer->PCgetItemid();
 		$id       = $app->input->getInt('id');
-		$unpubreq = "UPDATE #__cwmprayer SET publishstate='0' WHERE id=" . (int) $id;
+		$unpubreq = "UPDATE #__cwmprayer SET state='0' WHERE id=" . (int) $id;
 		$db->setQuery($unpubreq);
 
 		if (!$db->execute())
