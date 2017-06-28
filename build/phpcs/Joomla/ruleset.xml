@@ -6,7 +6,7 @@
 	<exclude-pattern type="relative">*/fpdf/*</exclude-pattern>
 	<exclude-pattern type="relative">*S3.class.php</exclude-pattern>
 	<exclude-pattern type="relative">*/tmpl/*</exclude-pattern>
-	<exclude-pattern type="relative">*/plupload/*</exclude-pattern>
+	<exclude-pattern type="relative">feedcreator.php</exclude-pattern>
 	<exclude-pattern type="relative">*/build/*</exclude-pattern>
 	<exclude-pattern type="relative">vendor/*</exclude-pattern>
 	<exclude-pattern type="relative">bin/*</exclude-pattern>
