@@ -318,7 +318,6 @@ class Com_CWMPrayerInstallerScript
 			$this->updateSendTo();
 
 			$parent->getParent()->setRedirectURL('index.php?option=com_installer&view=update');
-
 		}
 		elseif ($type == 'install')
 		{
