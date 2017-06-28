@@ -1,1 +1,29 @@
-<?xml version="1.0" encoding="utf-8"?><form>	<fieldset addfieldpath="/administrator/components/com_cwmprayer/models/fields">		<field name="id" type="hidden" default="0" label="JGLOBAL_FIELD_ID_LABEL"		       readonly="true" class="readonly"		       description="JGLOBAL_FIELD_ID_DESC"/>		<field name="requester" type="text" class="inputbox"		       size="40" label="COM_CWMPRAYER_REQUESTER"		       description="" required="true"/>		<field name="email" type="email" class="inputbox"		       size="30" label="COM_CWMPRAYER_EMAIL_ADDRESS"		       description="CWMPRAYERENTEREMAIL" required="true" validate="email"/>		<field name="date" type="calendar" default="NOW"		       class="input-medium" required="true" filter="user_utc" format="%Y-%m-%d %l:%M %p"		       singleheader="true" showtime="true" timeformat="12" todaybutton="true"		       filltable="true" minyear="-3" maxyear="5"		       label="JDATE" description=""/>		<field name="topic" type="reqtopic"		       label="COM_CWMPRAYER_TOPIC" description=""		       class="inputbox" size="1" default="1"/>		<field name="title" type="text" class="inputbox"		       size="40" label="CWMPRAYERREQTITLE"		       description="" required="true"/>		<field name="request" type="editor" buttons="true" hide="pagebreak,readmore"		       class="inputbox"		       filter="JComponentHelper::filterText"		       label="COM_CWMPRAYER_REQUEST" description="COM_CWMPRAYER_PRAYER_REQUEST"/>	</fieldset></form>
+<?xml version="1.0" encoding="utf-8"?>
+<form>
+	<fieldset addfieldpath="/administrator/components/com_cwmprayer/models/fields">
+		<field name="id" type="hidden" default="0" label="JGLOBAL_FIELD_ID_LABEL"
+		       readonly="true" class="readonly"
+		       description="JGLOBAL_FIELD_ID_DESC"/>
+		<field name="requester" type="text" class="inputbox"
+		       size="40" label="COM_CWMPRAYER_REQUESTER"
+		       description="" required="true"/>
+		<field name="email" type="email" class="inputbox"
+		       size="30" label="COM_CWMPRAYER_EMAIL_ADDRESS"
+		       description="CWMPRAYERENTEREMAIL" required="true" validate="email"/>
+		<field name="date" type="calendar" default="NOW"
+		       class="input-medium" required="true" filter="user_utc" format="%Y-%m-%d %l:%M %p"
+		       singleheader="true" showtime="true" timeformat="12" todaybutton="true"
+		       filltable="true" minyear="-3" maxyear="5"
+		       label="JDATE" description=""/>
+		<field name="topic" type="reqtopic"
+		       label="COM_CWMPRAYER_TOPIC" description=""
+		       class="inputbox" size="1" default="1"/>
+		<field name="title" type="text" class="inputbox"
+		       size="40" label="CWMPRAYERREQTITLE"
+		       description="" required="true"/>
+		<field name="request" type="editor" buttons="true" hide="pagebreak,readmore"
+		       class="inputbox"
+		       filter="JComponentHelper::filterText"
+		       label="COM_CWMPRAYER_REQUEST" description="COM_CWMPRAYER_PRAYER_REQUEST"/>
+	</fieldset>
+</form>

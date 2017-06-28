@@ -1,1 +1,8 @@
-<?phpdefined('_JEXEC') or die;class ModCWMPrayerSubscribeHelper{}
+<?php
+
+defined('_JEXEC') or die;
+
+class ModCWMPrayerSubscribeHelper
+{
+
+}

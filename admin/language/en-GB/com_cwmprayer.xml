@@ -1,1 +1,15 @@
-<?xml version="1.0" encoding="utf-8"?><extension type="language" version="3.3" method="upgrade">	<name>COM_CWMPRAYER</name>	<creationDate>March 23 2017</creationDate>	<author>Joomla Bible Study Team</author>	<copyright>This component in released under the GNU/GPL License</copyright>	<authorEmail>info@joomlabiblesutdy.com</authorEmail>	<authorUrl>http://www.joomlabiblesutdy.com</authorUrl>	<version>4.0.0</version>	<description>COM_CWMPRAYER_XML_DESCRIPTION</description>	<files folder="en-GB">		<filename>en-GB.com_cwmprayer.ini</filename>		<filename>en-GB.com_cwmprayer.sys.ini</filename>	</files></extension>
+<?xml version="1.0" encoding="utf-8"?>
+<extension type="language" version="3.3" method="upgrade">
+	<name>COM_CWMPRAYER</name>
+	<creationDate>March 23 2017</creationDate>
+	<author>Joomla Bible Study Team</author>
+	<copyright>This component in released under the GNU/GPL License</copyright>
+	<authorEmail>info@joomlabiblesutdy.com</authorEmail>
+	<authorUrl>http://www.joomlabiblesutdy.com</authorUrl>
+	<version>4.0.0</version>
+	<description>COM_CWMPRAYER_XML_DESCRIPTION</description>
+	<files folder="en-GB">
+		<filename>en-GB.com_cwmprayer.ini</filename>
+		<filename>en-GB.com_cwmprayer.sys.ini</filename>
+	</files>
+</extension>

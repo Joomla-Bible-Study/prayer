@@ -1,1 +1,81 @@
-<?xml version="1.0" encoding="utf-8"?><extension type="component" version="3.7" method="upgrade">	<name>COM_CWMPRAYER</name>	<creationDate>June 22 2017</creationDate>	<author>Christion Web Ministires</author>	<copyright>This component in released under the GNU/GPL License</copyright>	<authorEmail>info@christianwebministries.org</authorEmail>	<authorUrl>https://www.christianwebministries.org</authorUrl>	<version>4.0.0</version>	<description>COM_CWMPRAYER_XML_DESCRIPTION</description>	<files folder="site">		<filename>controller.php</filename>		<filename>cwmprayer.php</filename>		<filename>metadata.xml</filename>		<filename>router.php</filename>		<folder>controllers</folder>		<folder>helpers</folder>		<folder>models</folder>		<folder>tables</folder>		<folder>views</folder>	</files>	<scriptfile>cwmprayer.script.php</scriptfile>	<media destination="com_cwmprayer" folder="media">		<folder>css</folder>		<folder>fe-images</folder>		<folder>fpdf</folder>		<folder>images</folder>		<folder>js</folder>		<folder>rss</folder>	</media>	<!-- Install Database Section -->	<install>		<sql>			<file driver="mysql" charset="utf8">sql/install.mysql.utf8.sql</file>		</sql>	</install>	<!-- Uninstall Database Section -->	<uninstall>		<sql>			<file driver="mysql" charset="utf8">sql/uninstall.mysql.utf8.sql</file>		</sql>	</uninstall>	<administration>		<menu img="class:component">COM_CWMPRAYER</menu>		<submenu>			<menu img="class:cpanel" alt="CPanel">COM_CWMPRAYER_CPANEL</menu>			<menu img="class:article" task="manage_req" alt="Manage Requests">COM_CWMPRAYER_MANAGE_REQUESTS</menu>			<menu img="class:user" task="manage_sub" alt="Manage Subscribers">COM_CWMPRAYER_MANAGE_SUBSCRIBERS</menu>			<menu img="class:themes" task="manage_css" alt="Manage CSS">COM_CWMPRAYER_MANAGE_CSS</menu>			<menu img="class:category" task="manage_files" alt="Manage Files">COM_CWMPRAYER_MANAGE_FILES</menu>			<menu img="class:stats" task="manage_dev" alt="Manage Devotionals">COM_CWMPRAYER_MANAGE_DEVOTIONALS</menu>			<menu img="class:weblinks" task="manage_link" alt="Manage Links">COM_CWMPRAYER_MANAGE_LINKS</menu>			<menu img="class:language" task="manage_lang" alt="Manage Languages">COM_CWMPRAYER_MANAGE_LANGUAGES			</menu>		</submenu>		<files folder="admin">			<filename>access.xml</filename>			<filename>api.php</filename>			<filename>config.xml</filename>			<filename>controller.php</filename>			<filename>cwmprayer.php</filename>			<folder>controllers</folder>			<folder>elements</folder>			<folder>help</folder>			<folder>helpers</folder>			<folder>language</folder>			<folder>logs</folder>			<folder>models</folder>			<folder>pms</folder>			<folder>sql</folder>			<folder>tables</folder>			<folder>views</folder>		</files>	</administration></extension>
+<?xml version="1.0" encoding="utf-8"?>
+<extension type="component" version="3.7" method="upgrade">
+	<name>COM_CWMPRAYER</name>
+	<creationDate>June 22 2017</creationDate>
+	<author>Christion Web Ministires</author>
+	<copyright>This component in released under the GNU/GPL License</copyright>
+	<authorEmail>info@christianwebministries.org</authorEmail>
+	<authorUrl>https://www.christianwebministries.org</authorUrl>
+	<version>4.0.0</version>
+	<description>COM_CWMPRAYER_XML_DESCRIPTION</description>
+	<files folder="site">
+		<filename>controller.php</filename>
+		<filename>cwmprayer.php</filename>
+		<filename>metadata.xml</filename>
+		<filename>router.php</filename>
+		<folder>controllers</folder>
+		<folder>helpers</folder>
+		<folder>models</folder>
+		<folder>tables</folder>
+		<folder>views</folder>
+	</files>
+
+	<scriptfile>cwmprayer.script.php</scriptfile>
+
+	<media destination="com_cwmprayer" folder="media">
+		<folder>css</folder>
+		<folder>fe-images</folder>
+		<folder>fpdf</folder>
+		<folder>images</folder>
+		<folder>js</folder>
+		<folder>rss</folder>
+	</media>
+
+	<!-- Install Database Section -->
+	<install>
+		<sql>
+			<file driver="mysql" charset="utf8">sql/install.mysql.utf8.sql</file>
+		</sql>
+	</install>
+
+	<!-- Uninstall Database Section -->
+	<uninstall>
+		<sql>
+			<file driver="mysql" charset="utf8">sql/uninstall.mysql.utf8.sql</file>
+		</sql>
+	</uninstall>
+
+	<administration>
+		<menu img="class:component">COM_CWMPRAYER</menu>
+		<submenu>
+			<menu img="class:cpanel" alt="CPanel">COM_CWMPRAYER_CPANEL</menu>
+			<menu img="class:article" task="manage_req" alt="Manage Requests">COM_CWMPRAYER_MANAGE_REQUESTS</menu>
+			<menu img="class:user" task="manage_sub" alt="Manage Subscribers">COM_CWMPRAYER_MANAGE_SUBSCRIBERS</menu>
+			<menu img="class:themes" task="manage_css" alt="Manage CSS">COM_CWMPRAYER_MANAGE_CSS</menu>
+			<menu img="class:category" task="manage_files" alt="Manage Files">COM_CWMPRAYER_MANAGE_FILES</menu>
+			<menu img="class:stats" task="manage_dev" alt="Manage Devotionals">COM_CWMPRAYER_MANAGE_DEVOTIONALS</menu>
+			<menu img="class:weblinks" task="manage_link" alt="Manage Links">COM_CWMPRAYER_MANAGE_LINKS</menu>
+			<menu img="class:language" task="manage_lang" alt="Manage Languages">COM_CWMPRAYER_MANAGE_LANGUAGES
+			</menu>
+		</submenu>
+
+		<files folder="admin">
+			<filename>access.xml</filename>
+			<filename>api.php</filename>
+			<filename>config.xml</filename>
+			<filename>controller.php</filename>
+			<filename>cwmprayer.php</filename>
+			<folder>controllers</folder>
+			<folder>elements</folder>
+			<folder>help</folder>
+			<folder>helpers</folder>
+			<folder>language</folder>
+			<folder>logs</folder>
+			<folder>models</folder>
+			<folder>pms</folder>
+			<folder>sql</folder>
+			<folder>tables</folder>
+			<folder>views</folder>
+		</files>
+	</administration>
+</extension>
