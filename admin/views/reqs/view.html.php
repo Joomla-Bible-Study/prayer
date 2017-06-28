@@ -79,7 +79,6 @@ class CWMPrayerViewReqs extends JViewLegacy
 			JToolBarHelper::editList("req.edit");
 		}
 
-
 		if ($canDo->get('core.edit.state'))
 		{
 			JToolBarHelper::publishList("reqs.publish", 'JTOOLBAR_PUBLISH');

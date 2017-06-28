@@ -208,7 +208,7 @@ class CWMPrayerModelDevotions extends JModelList
 		if (is_numeric($categoryId))
 		{
 			/** @var \JTableCategory $categoryTable */
-			$categoryTable= JTable::getInstance('Category', 'JTable');
+			$categoryTable = JTable::getInstance('Category', 'JTable');
 			$categoryTable->load($categoryId);
 			$rgt = $categoryTable->rgt;
 			$lft = $categoryTable->lft;

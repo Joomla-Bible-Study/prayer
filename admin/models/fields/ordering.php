@@ -29,7 +29,8 @@ class JFormFieldOrdering extends JFormField
 	/**
 	 * Method to get the field input markup.
 	 *
-	 * @return    string    The field input markup.
+	 * @return  string  The field input markup.
+	 *
 	 * @since    1.6
 	 */
 	protected function getInput()
@@ -47,8 +48,6 @@ class JFormFieldOrdering extends JFormField
 
 		// Get some field values from the form.
 		$planId = (int) $this->form->getValue('id');
-
-//		$categoryId	= (int) $this->form->getValue('catid');
 
 		// Build the query for the ordering list.
 		$query = 'SELECT ordering AS value' .
