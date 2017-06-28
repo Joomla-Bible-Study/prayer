@@ -1,11 +1,23 @@
 <?php
+/**
+ * Core Site CWMPrayer file
+ *
+ * @package    CWMPrayer.Site
+ * @copyright  2007 - 2015 (C) CWM Team All rights reserved
+ * @license    http://www.gnu.org/copyleft/gpl.html GNU/GPL
+ * @link       https://www.christianwebministries.org/
+ * */
+defined('_JEXEC') or die;
 
-defined('_JEXEC') or die('Restricted access');
-
+/**
+ * CWM Prayer Site Helper Class
+ *
+ * @package  CWMPrayer.Site
+ *
+ * @since    4.0
+ */
 class CWMPrayerSitePrayer extends CWMPrayerAdmin
 {
-	public $pcConfig;
-
 	/** @var \JObject
 	 * @since 4.0
 	 */
@@ -280,6 +292,7 @@ class CWMPrayerSitePrayer extends CWMPrayerAdmin
 		$requester = ucfirst($requestarr->requester);
 		$reqemail  = $requestarr->email;
 		$reqid     = $requestarr->requesterid;
+		$results   = null;
 
 		// Community Builder Profile
 		if ($this->pcConfig['config_community'] == 1)
@@ -699,15 +712,13 @@ class CWMPrayerSitePrayer extends CWMPrayerAdmin
 						'&searchrequesterid=' . $reqid) . "\">" . $reqcount . "</a>" : $results .= "<br />";
 
 				// Send message
-				include_once(JPATH_ROOT . '/components/com_community/libraries/messaging.php');
+				include_once JPATH_ROOT . '/components/com_community/libraries/messaging.php';
 				$onclick = CMessaging::getPopup($reqid);
 				$results .= '<br /><a href="javascript:void(0)" onclick="' . $onclick . '">Send message</a>';
 			}
-
-			return $results;
 		}
 
-		return null;
+		return $results;
 	}
 
 	/**
@@ -2284,7 +2295,7 @@ class CWMPrayerSitePrayer extends CWMPrayerAdmin
 		if ($this->pcConfig['config_show_credit'])
 		{
 			$return .= '<div class="footer" style="clear:both;text-align:center;font-size:x-small;">' .
-				JText::_('CWMPRAYERFOOTER') . ' <a href="https://www.joomlabiblestudy.com/" title="JBSM">Joomla Bible Study</a></div>';
+				JText::_('CWMPRAYERFOOTER') . ' <a href="https://www.christianwebministries.org/" title="CWM">Christion Web Ministries</a></div>';
 		}
 
 		if ($this->pcConfig['config_show_rss'] && $this->pc_rights->get('pc.view'))
@@ -2342,7 +2353,7 @@ class CWMPrayerSitePrayer extends CWMPrayerAdmin
 		$conf               = JFactory::getConfig();
 		$config_offset      = $conf->get('offset');
 		$dateTime           = [];
-		$dateset            = new DateTime($data->date . ' ' . $data->time, new DateTimeZone('UTC'));
+		$dateset            = new DateTime($data->date, new DateTimeZone('UTC'));
 		$config_offset_user = $conf->get('offset_user');
 
 		if (isset($usertz))

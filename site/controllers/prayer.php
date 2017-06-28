@@ -1,26 +1,34 @@
 <?php
-/* *************************************************************************************
-Title          prayer Component for Joomla
-Author         Mike Leeper
-License        This program is free software: you can redistribute it and/or modify
-               it under the terms of the GNU General Public License as published by
-               the Free Software Foundation, either version 3 of the License, or
-               (at your option) any later version.
-               This program is distributed in the hope that it will be useful,
-               but WITHOUT ANY WARRANTY; without even the implied warranty of
-               MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
-               GNU General Public License for more details.
-               You should have received a copy of the GNU General Public License
-               along with this program.  If not, see <http://www.gnu.org/licenses/>.
-Copyright      2006-2014 - Mike Leeper (MLWebTechnologies) 
-****************************************************************************************
-No direct access*/
-defined('_JEXEC') or die('Restricted access');
+/**
+ * Core Site CWMPrayer file
+ *
+ * @package    CWMPrayer.Site
+ * @copyright  2007 - 2015 (C) CWM Team All rights reserved
+ * @license    http://www.gnu.org/copyleft/gpl.html GNU/GPL
+ * @link       https://www.christianwebministries.org/
+ * */
+defined('_JEXEC') or die;
 
+/**
+ * CWM Prayer Controller Prayer Class
+ *
+ * @package  Prayer.Site
+ *
+ * @since    4.0
+ */
 class CWMPrayerControllerPrayer extends CWMPrayerController
 {
 	private $prayer;
 
+	/**
+	 * Constructor.
+	 *
+	 * @param   array  $config  An optional associative array of configuration settings.
+	 *                          Recognized key values include 'name', 'default_task', 'model_path', and
+	 *                          'view_path' (this list is not meant to be comprehensive).
+	 *
+	 * @since   4.0
+	 */
 	public function __construct($config = array())
 	{
 		$this->prayer = new CWMPrayerSitePrayer;
@@ -28,6 +36,13 @@ class CWMPrayerControllerPrayer extends CWMPrayerController
 		parent::__construct($config);
 	}
 
+	/**
+	 * New Request Submit
+	 *
+	 * @return void
+	 *
+	 * @since 4.0
+	 */
 	public function newreqsubmit()
 	{
 		JSession::checkToken() or jexit('Invalid Token');
@@ -177,7 +192,7 @@ class CWMPrayerControllerPrayer extends CWMPrayerController
 				{
 					if ($this->prayer->pcConfig['config_admin_distrib_type'] > 1 && $this->prayer->pcConfig['config_pms_plugin'])
 					{
-						$this->prayer->PCsendPM($newrequesterid, $newrequester, $newrequest, $newemail, $sendpriv, $lastId, $sessionid, true);
+						$this->prayer->PCsendPM($newrequester, $newrequest, $newemail, $sendpriv, $lastId, $sessionid, true);
 					}
 				}
 				elseif ($this->prayer->pcConfig['config_use_admin_alert'] < 2)
@@ -186,7 +201,8 @@ class CWMPrayerControllerPrayer extends CWMPrayerController
 					{
 						if (JPluginHelper::isEnabled('system', 'prayercenteremail'))
 						{
-							$results = plgSystemPrayerEmail::pcEmailTask('PCconfirm_notification', array('0' => $lastId));
+							$plugin = new plgSystemCWMPrayerEmail((object) 'com_cwmprayer');
+							$plugin->EmailTask('confirm_notification', array('0' => $lastId));
 						}
 
 						if (isset($_GET['modtype']))
@@ -209,14 +225,14 @@ class CWMPrayerControllerPrayer extends CWMPrayerController
 						{
 							if ($this->prayer->pcConfig['config_distrib_type'] > 1 && $this->prayer->pcConfig['config_pms_plugin'])
 							{
-								$this->prayer->PCsendPM($newrequesterid, $newrequester, $newrequest, $newemail, $sendpriv);
+								$this->prayer->PCsendPM($newrequester, $newrequest, $newemail, $sendpriv);
 							}
 						}
 						elseif (!$sendpriv)
 						{
 							if ($this->prayer->pcConfig['config_distrib_type'] > 1 && $this->prayer->pcConfig['config_pms_plugin'])
 							{
-								$this->prayer->PCsendPM($newrequesterid, $newrequester, $newrequest, $newemail, $sendpriv, $lastId, $sessionid);
+								$this->prayer->PCsendPM($newrequester, $newrequest, $newemail, $sendpriv, $lastId, $sessionid);
 							}
 						}
 					}
@@ -279,13 +295,27 @@ class CWMPrayerControllerPrayer extends CWMPrayerController
 		}
 	}
 
+	/**
+	 * Validate Captcha
+	 *
+	 * @param   string  $returnto  URL to return to.
+	 * @param   int     $itemid    ID of Item
+	 * @param   string  $modtype   Model type
+	 * @param   string  $task      Task to complete
+	 *
+	 * @return bool
+	 *
+	 * @since 4.0
+	 */
 	public function pcCaptchaValidate($returnto, $itemid, $modtype, $task)
 	{
-		$JVersion = new JVersion();
+		$JVersion = new JVersion;
+
+		$input = JFactory::getApplication()->input;
 
 		if ($this->prayer->pcConfig['config_captcha'] == '1')
 		{
-			$scode = JRequest::getVar('security_code', null, 'post');
+			$scode = $input->get('security_code', null);
 
 			if (!$this->prayer->PCCaptchaValidate($scode, 'newreq'))
 			{
@@ -304,7 +334,7 @@ class CWMPrayerControllerPrayer extends CWMPrayerController
 		}
 		elseif ($this->prayer->pcConfig['config_captcha'] == '3' && JPluginHelper::isEnabled('system', 'crosscheck'))
 		{
-			$results = plgSystemCrossCheck::checkCrossChk(JRequest::getVar('user_code', null, 'method'));
+			$results = plgSystemCrossCheck::checkCrossChk($input->get('user_code', null));
 
 			if ($results !== true)
 			{
@@ -378,6 +408,13 @@ class CWMPrayerControllerPrayer extends CWMPrayerController
 		return true;
 	}
 
+	/**
+	 * Subscribe Submit
+	 *
+	 * @return void
+	 *
+	 * @since 4.0
+	 */
 	public function subscribesubmit()
 	{
 		JSession::checkToken() or jexit('Invalid Token');
@@ -496,7 +533,7 @@ class CWMPrayerControllerPrayer extends CWMPrayerController
 				{
 					if (JPluginHelper::isEnabled('system', 'prayercenteremail'))
 					{
-						$plugin->EmailTask('CWMPRAYERconfirm_sub_notification',
+						$plugin->EmailTask('confirm_sub_notification',
 							array('0' => $newsubscribe, '1' => $lastId, '2' => $sessionid)
 						);
 					}
@@ -519,7 +556,7 @@ class CWMPrayerControllerPrayer extends CWMPrayerController
 				{
 					if (JPluginHelper::isEnabled('system', 'prayercenteremail'))
 					{
-						$plugin->EmailTask('CWMPRAYERconfirm_sub_notification', array('0' => $newsubscribe, '1' => $lastId, '2' => $sessionid));
+						$plugin->EmailTask('confirm_sub_notification', array('0' => $newsubscribe, '1' => $lastId, '2' => $sessionid));
 					}
 
 					if (isset($_GET['modtype']))
@@ -540,11 +577,11 @@ class CWMPrayerControllerPrayer extends CWMPrayerController
 				{
 					if (JPluginHelper::isEnabled('system', 'prayercenteremail'))
 					{
-						$plugin->EmailTask('PCemail_subscribe', array('0' => $newsubscribe));
+						$plugin->EmailTask('email_subscribe', array('0' => $newsubscribe));
 
 						if ($this->prayer->pcConfig['config_email_subscribe'])
 						{
-							$plugin->pcEmailTask('PCadmin_email_subscribe_notification', array('0' => $newsubscribe));
+							$plugin->EmailTask('admin_email_subscribe_notification', array('0' => $newsubscribe));
 						}
 					}
 
@@ -596,6 +633,13 @@ class CWMPrayerControllerPrayer extends CWMPrayerController
 		}
 	}
 
+	/**
+	 * Unsubsidised Submit
+	 *
+	 * @return void
+	 *
+	 * @since 4.0
+	 */
 	public function unsubscribesubmit()
 	{
 		$app = JFactory::getApplication();
@@ -609,6 +653,7 @@ class CWMPrayerControllerPrayer extends CWMPrayerController
 		jimport('joomla.filter.output');
 		$itemid = $this->prayer->PCgetItemid();
 		$user   = JFactory::getUser();
+		$plugin = new PlgSystemCWMPrayerEmail((object) 'com_cwmprayer');
 
 		if (!$this->prayer->pcConfig['config_captcha_bypass_4member'] || $this->prayer->pcConfig['config_captcha_bypass_4member'] && $user->guest)
 		{
@@ -664,8 +709,8 @@ class CWMPrayerControllerPrayer extends CWMPrayerController
 			{
 				if (JPluginHelper::isEnabled('system', 'prayercenteremail'))
 				{
-					$plugin->pcEmailTask(
-						'PCconfirm_unsub_notification',
+					$plugin->EmailTask(
+						'confirm_unsub_notification',
 						array(
 							'0' => $newsubscribe,
 							'1' => $readq[0]->id,
@@ -700,7 +745,7 @@ class CWMPrayerControllerPrayer extends CWMPrayerController
 
 					if (JPluginHelper::isEnabled('system', 'prayercenteremail'))
 					{
-						$results = plgSystemPrayerEmail::pcEmailTask('PCemail_unsubscribe', array('0' => $newsubscribe));
+						$plugin->EmailTask('email_unsubscribe', array('0' => $newsubscribe));
 					}
 
 					if (isset($_GET['modtype']))
@@ -750,6 +795,13 @@ class CWMPrayerControllerPrayer extends CWMPrayerController
 		}
 	}
 
+	/**
+	 * Edit Request
+	 *
+	 * @return void
+	 *
+	 * @since 4.0
+	 */
 	public function editrequest()
 	{
 		$itemid = $this->prayer->PCgetItemid();
@@ -769,26 +821,40 @@ class CWMPrayerControllerPrayer extends CWMPrayerController
 			JError::raiseError(500, $db->stderr());
 		}
 
-		$db->setQuery("SELECT * FROM #__cwmprayer WHERE id=" . (int) ($id));
-		$readresult = $db->loadObjectList();
-		$model      = $this->getModel('prayer');
+		/** @var CWMPrayerModelPrayer $model */
+		$model      = $this->getModel('CWMPrayerModelPrayer');
 		$model->checkin();
 		$returnurl = JRoute::_("index.php?option=com_cwmprayer&task=" . $_POST['last'] . "&Itemid=" . (int) $itemid);
 		$this->setRedirect(JRoute::_($returnurl, false));
 	}
 
+	/**
+	 * Close Edit
+	 *
+	 * @return void
+	 *
+	 * @since version
+	 */
 	public function closeedit()
 	{
 		$app = JFactory::getApplication();
 		$itemid = $this->prayer->PCgetItemid();
 		$last   = $app->input->getString('last');
-		$id     = $app->input->getInt('id');
-		$model  = $this->getModel('prayer');
+
+		/** @var CWMPrayerModelPrayer $model */
+		$model  = $this->getModel('CWMPrayerModelPrayer');
 		$model->checkin();
 		$returnurl = JRoute::_('index.php?option=com_cwmprayer&task=' . $last . '&Itemid=' . (int) $itemid);
 		$this->setRedirect(JRoute::_($returnurl, false));
 	}
 
+	/**
+	 * Delete Request
+	 *
+	 * @return void
+	 *
+	 * @since 4.0
+	 */
 	public function delrequest()
 	{
 		$app = JFactory::getApplication();
@@ -844,6 +910,13 @@ class CWMPrayerControllerPrayer extends CWMPrayerController
 		$this->setRedirect(JRoute::_($returnurl, false));
 	}
 
+	/**
+	 * Edit Delete Request
+	 *
+	 * @return void
+	 *
+	 * @since 4.0
+	 */
 	public function editdelrequest()
 	{
 		$app = JFactory::getApplication();
@@ -894,6 +967,13 @@ class CWMPrayerControllerPrayer extends CWMPrayerController
 		$this->setRedirect(JRoute::_($returnurl, false));
 	}
 
+	/**
+	 * Publish Request
+	 *
+	 * @return void
+	 *
+	 * @since 4.0
+	 */
 	public function pubrequest()
 	{
 		jimport('joomla.plugin.helper');
@@ -914,9 +994,10 @@ class CWMPrayerControllerPrayer extends CWMPrayerController
 				JError::raiseError(500, $db->stderr());
 			}
 
-			$model = $this->getModel('prayer');
+			/** @var CWMPrayerModelPrayer $model */
+			$model  = $this->getModel('CWMPrayerModelPrayer');
 			$model->checkin();
-			$query        = $db->setQuery("SELECT * FROM #__cwmprayer WHERE id=" . (int) $key);
+			$db->setQuery("SELECT * FROM #__cwmprayer WHERE id=" . (int) $key);
 			$result       = $db->loadObjectList();
 			$newrequester = $result[0]->requester;
 			$newrequest   = stripslashes($result[0]->request);
@@ -940,10 +1021,19 @@ class CWMPrayerControllerPrayer extends CWMPrayerController
 			}
 		}
 
-		$returnurl = JRoute::_('index.php?option=com_cwmprayer&task=moderate&Itemid=' . $itemid . '&return_msg=' . htmlentities(JText::_('CWMPRAYERREQSUBMIT')));
+		$returnurl = JRoute::_('index.php?option=com_cwmprayer&task=moderate&Itemid=' . $itemid . '&return_msg=' .
+			htmlentities(JText::_('CWMPRAYERREQSUBMIT'))
+		);
 		$this->setRedirect(JRoute::_($returnurl, false));
 	}
 
+	/**
+	 * Unpublished Request
+	 *
+	 * @return void
+	 *
+	 * @since 4.0
+	 */
 	public function unpubrequest()
 	{
 		JSession::checkToken() or jexit('Invalid Token');
@@ -959,7 +1049,8 @@ class CWMPrayerControllerPrayer extends CWMPrayerController
 			JError::raiseError(500, $db->stderr());
 		}
 
-		$model = $this->getModel('prayer');
+		/** @var CWMPrayerModelPrayer $model */
+		$model  = $this->getModel('CWMPrayerModelPrayer');
 		$model->checkin();
 		$returnurl = JRoute::_('index.php?option=com_cwmprayer&task=moderate&Itemid=' . $itemid);
 		$this->setRedirect(JRoute::_($returnurl, false));

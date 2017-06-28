@@ -35,6 +35,11 @@ $language->load('com_cwmprayer',  JPATH_ADMINISTRATOR . '/components/com_cwmpray
 $language->load('com_cwmprayer', JPATH_SITE . '/components/com_cwmprayer', 'en-GB', true);
 $language->load('com_cwmprayer',  JPATH_SITE . '/components/com_cwmprayer', null, true);
 
+// If phrase is not found in specific language file, load english language file:
+$language = JFactory::getLanguage();
+$language->load('com_cwmprayer', JPATH_ADMINISTRATOR . '/components/com_cwmprayer', 'en-GB', true);
+$language->load('com_cwmprayer', JPATH_ADMINISTRATOR . '/components/com_cwmprayer', null, true);
+
 // Include the JLog class.
 jimport('joomla.log.log');
 JLog::addLogger(
