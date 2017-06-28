@@ -10,3 +10,6 @@ gen
 /admin/cwmprayer.xml
 /build/packages/
 /docs/
+/libraries/vendor/
+admin/logs/
+bin/
