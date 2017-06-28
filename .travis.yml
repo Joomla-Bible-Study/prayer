@@ -1,0 +1,30 @@
+# Forces new Travis-CI Infrastructure
+sudo: false
+
+language: php
+
+env:
+  global:
+    - RUN_PHPCS="yes"
+    - INSTALL_MEMCACHE="yes"
+    - INSTALL_MEMCACHED="yes"
+    - INSTALL_REDIS="yes"
+
+matrix:
+  fast_finish: true
+  include:
+    - php: 5.4
+
+services:
+  - memcache
+  - memcached
+  - redis-server
+
+before_script:
+  - phpenv config-rm xdebug.ini
+  # Make sure all dev dependencies are installed
+  - composer install
+
+script:
+  #- libraries/vendor/bin/phpunit --configuration travisci-phpunit.xml
+  - sh -c "if [ '$TRAVIS_PHP_VERSION' != '7.0' ]; then bin/phpcs --report=full --extensions=php -p --standard=build/phpcs/Joomla .; fi"
