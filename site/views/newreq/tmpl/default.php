@@ -17,6 +17,7 @@ Copyright      Christian Web Ministries
 No direct access*/
 defined('_JEXEC') or die('Restricted access');
 
+JHtml::_('behavior.formvalidator');
 jimport('joomla.filesystem.folder');
 
 $app = JFactory::getApplication();
@@ -175,6 +176,10 @@ else
 		$editorcontent . $js_script . ";return false;\">";
 }
 echo JText::_('CWMPRAYERSEND') . '</button>';
+echo '<button type="submit" class="btn btn-primary validate">'.JText::_('CWMPRAYERSUBMIT').'</button>';
+?> <input type="hidden" name="option" value="com_cwmprayer" />
+    <input type="hidden" name="task" value="registration.register" />
+<?php
 echo '</div>';
 echo '</fieldset>';
 echo '<input type="hidden" name="sendpriv" id="sendpriv" size="5" class="inputbox" value="1" />';
