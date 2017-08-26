@@ -38,7 +38,6 @@ class CWMPrayerController extends JControllerLegacy
 		$this->prayer->intializePCRights();
 
 		$this->pcConfig = $this->prayer->pcConfig;
-
 	}
 
 	/**

@@ -1669,10 +1669,10 @@ class CWMPrayerSitePrayer extends CWMPrayerAdmin
 	 * @return bool
 	 *
 	 * @since 4.0
+	 * @deprecated 4.0
 	 */
 	public function PCcheckEmail($email)
 	{
-		jexit('Find usage of checkEmail');
 		$config_domain_list = $this->pcConfig['config_domain_list'];
 		$domArray           = preg_split('/[,]/', $config_domain_list, -1, PREG_SPLIT_NO_EMPTY);
 

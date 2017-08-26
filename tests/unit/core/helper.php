@@ -37,19 +37,19 @@ class TestHelper
 			return;
 		}
 
-		$deprecations = array(
+		$deprecations = [
 			'phpCount'  => 0,
 			'userCount' => 0,
-			'php'       => array(),
-			'user'      => array(),
-		);
+			'php'       => [],
+			'user'      => [],
+		];
 
-		$deprecationHandler = function ($type, $msg, $file, $line, $context) use (&$deprecations)
+		$deprecationHandler = function ($type, $msg, $file, $line) use (&$deprecations)
 		{
 			// Check if the type is E_DEPRECATED or E_USER_DEPRECATED
-			if (!in_array($type, array(E_DEPRECATED, E_USER_DEPRECATED)))
+			if (!in_array($type, [E_DEPRECATED, E_USER_DEPRECATED]))
 			{
-				return PHPUnit_Util_ErrorHandler::handleError($type, $msg, $file, $line, $context);
+				return PHPUnit_Util_ErrorHandler::handleError($type, $msg, $file, $line);
 			}
 
 			$trace = debug_backtrace(PHP_VERSION_ID >= 50400 ? DEBUG_BACKTRACE_IGNORE_ARGS | DEBUG_BACKTRACE_PROVIDE_OBJECT : true);
@@ -88,10 +88,9 @@ class TestHelper
 		{
 			restore_error_handler();
 
-			if (array('PHPUnit_Util_ErrorHandler', 'handleError') === $oldErrorHandler)
+			if (['PHPUnit_Util_ErrorHandler', 'handleError'] === $oldErrorHandler)
 			{
 				restore_error_handler();
-				self::register();
 			}
 		}
 		else
@@ -115,51 +114,53 @@ class TestHelper
 				};
 			}
 
-			register_shutdown_function(function () use (&$deprecations, $deprecationHandler, $colorize)
-			{
-				$currErrorHandler = set_error_handler('var_dump');
-				restore_error_handler();
-
-				if ($currErrorHandler !== $deprecationHandler)
+			register_shutdown_function(
+				function () use (&$deprecations, $deprecationHandler, $colorize)
 				{
-					echo "\n", $colorize('THE ERROR HANDLER HAS CHANGED!', true), "\n";
-				}
+					$currErrorHandler = set_error_handler('var_dump');
+					restore_error_handler();
 
-				$cmp = function ($a, $b)
-				{
-					return $b['count'] - $a['count'];
-				};
-
-				foreach (array('php', 'user') as $group)
-				{
-					if ($deprecations[$group . 'Count'])
+					if ($currErrorHandler !== $deprecationHandler)
 					{
-						echo "\n", $colorize(sprintf('%s deprecation notices (%d)', ucfirst($group), $deprecations[$group . 'Count']), true), "\n";
+						echo "\n", $colorize('THE ERROR HANDLER HAS CHANGED!', true), "\n";
+					}
 
-						uasort($deprecations[$group], $cmp);
+					$cmp = function ($a, $b)
+					{
+						return $b['count'] - $a['count'];
+					};
 
-						foreach ($deprecations[$group] as $msg => $notices)
+					foreach (['php', 'user'] as $group)
+					{
+						if ($deprecations[$group . 'Count'])
 						{
-							echo "\n", rtrim($msg, '.'), ': ', $notices['count'], "x\n";
+							echo "\n", $colorize(sprintf('%s deprecation notices (%d)', ucfirst($group), $deprecations[$group . 'Count']), true), "\n";
 
-							arsort($notices);
+							uasort($deprecations[$group], $cmp);
 
-							foreach ($notices as $method => $count)
+							foreach ($deprecations[$group] as $msg => $notices)
 							{
-								if ('count' !== $method)
+								echo "\n", rtrim($msg, '.'), ': ', $notices['count'], "x\n";
+
+								arsort($notices);
+
+								foreach ($notices as $method => $count)
 								{
-									echo '    ', $count, 'x in ', preg_replace('/(.*)\\\\(.*?::.*?)$/', '$2 from $1', $method), "\n";
+									if ('count' !== $method)
+									{
+										echo '    ', $count, 'x in ', preg_replace('/(.*)\\\\(.*?::.*?)$/', '$2 from $1', $method), "\n";
+									}
 								}
 							}
 						}
 					}
-				}
 
-				if (!empty($notices))
-				{
-					echo "\n";
+					if (!empty($notices))
+					{
+						echo "\n";
+					}
 				}
-			});
+			);
 		}
 	}
 
@@ -173,15 +174,15 @@ class TestHelper
 	public static function registerDeprecationLogger()
 	{
 		JLog::addLogger(
-			array(
+			[
 				'logger'   => 'callback',
 				'callback' => function (JLogEntry $entry)
 				{
 					@trigger_error($entry->message, E_USER_DEPRECATED);
 				},
-			),
+			],
 			JLog::ALL,
-			array('deprecated')
+			['deprecated']
 		);
 	}
 
@@ -197,11 +198,11 @@ class TestHelper
 		if (defined('JOOMLA_TEST_LOGGING') && JOOMLA_TEST_LOGGING === 'yes')
 		{
 			JLog::addLogger(
-				array(
+				[
 					'logger'         => 'formattedtext',
 					'text_file'      => 'unit_test.php',
 					'text_file_path' => dirname(dirname(__DIR__)) . '/tmp'
-				)
+				]
 			);
 		}
 	}

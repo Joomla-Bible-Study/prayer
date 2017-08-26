@@ -15,24 +15,37 @@ License        This program is free software: you can redistribute it and/or mod
 Copyright      2006-2014 - Mike Leeper (MLWebTechnologies) 
 ****************************************************************************************
 No direct access*/
-defined('_JEXEC') or die('Restricted access');
+defined('_JEXEC') or die;
 
 jimport('joomla.filesystem.folder');
 
-$app = JFactory::getApplication();
+JHtml::_('behavior.tabstate');
+JHtml::_('behavior.keepalive');
+JHtml::_('behavior.formvalidator');
+JHtml::_('formbehavior.chosen', '#jform_catid', null, ['disable_search_threshold' => 0]);
+JHtml::_('formbehavior.chosen', 'select');
+
+$app   = JFactory::getApplication();
 $input = $app->input;
+
+JFactory::getDocument()->addScriptDeclaration("
+	Joomla.submitbutton = function(task)
+	{
+		if (task == 'prayer.cancel' || document.formvalidator.isValid(document.getElementById('adminForm')))
+		{
+			Joomla.submitform(task);
+		}
+	}
+");
 
 /** @var \CWMPrayerSitePrayer $prayer */
 $prayer = $this->prayer;
-$prayer->PCgetAuth('post');
 
 $document = JFactory::getDocument();
 $document->addScript('media/com_cwmprayer/js/pc.js');
 
 $conf          = JFactory::getConfig();
 $config_editor = $this->config_editor;
-
-$editorcontent = '';
 
 if ($config_editor == 'default')
 {
@@ -60,18 +73,8 @@ $erequired              = "";
 
 if ($config_use_admin_alert == 1)
 {
-	$erequired = "javascript:PCchgClassNameOnBlur('newemail');";
+	$erequired = "PCchgClassNameOnBlur('newemail');";
 }
-$js_script = "";
-?>
-    <script type="text/javascript">
-		var enter_req = "<?php echo JText::_('CWMPRAYERENTERREQ');?>";
-		var confirm_enter_email = "<?php echo JText::_('CWMPRAYERCONFIRMENTEREMAIL');?>";
-		var enter_sec_code = "<?php echo JText::_('CWMPRAYERENTERSECCODE');?>";
-		var editor = "<?php echo $config_editor;?>";
-		var livesite = "<?php echo $livesite;?>";
-    </script>
-<?php
 
 if (session_id() == "")
 {
@@ -83,7 +86,7 @@ if ($input->getString('return_msg'))
 	$prayer->PCReturnMsg($input->getString('return_msg'));
 }
 echo '<div>';
-echo '<form method="post" action="' . $this->action . '" name="adminForm">';
+echo '<form action="' . $this->action . '" method="post" name="adminForm" id="adminForm" class="form-validate form-vertical">';
 
 if ($this->config_show_page_headers)
 {
@@ -135,57 +138,34 @@ if ($this->show_priv_option == '1')
 {
 	echo '<div style="white-space:nowrap;margin-left:5px;padding-left:0;padding-bottom:8px;text-align:left;font-weight:bold;">';
 	echo '<input type="checkbox" name="psend" id="psend"' .
-	' onClick="javascript:if(document.adminForm.psend.checked){document.adminForm.sendpriv.value=0;}else{document.adminForm.sendpriv.value=1;}" />';
+		' onClick="if(document.adminForm.psend.checked){document.adminForm.sendpriv.value=0;}else{document.adminForm.sendpriv.value=1;}" />';
 	echo '<span style="font-size: small; padding-left: 5px;">' . JText::_('CWMPRAYERPRIV') . '</span>';
 	echo '</div>';
 }
-if (!$this->config_captcha_bypass || ($this->config_captcha_bypass && $user->guest))
-{
-	echo $prayer->PCgetCaptchaImg();
-	if ($this->config_use_admin_alert == 1)
-	{
-		$js_script = "return validateNewE(" . $this->config_captcha . ",'" . $config_editor . "', livesite, this.form, 'pccomp')";
-	}
-	else
-	{
-		$js_script = "return validateNew(" . $this->config_captcha . ",'" . $config_editor . "', livesite, this.form, 'pccomp')";
-	}
-}
-else
-{
-	if ($this->config_use_admin_alert == 1)
-	{
-		$js_script = "return validateNewE(0,'" . $config_editor . "', livesite, this.form, 'pccomp')";
-	}
-	else
-	{
-		$js_script = "return validateNew(0,'" . $config_editor . "', livesite, this.form, 'pccomp')";
-	}
-}
 
-if ($config_editor == 'none' || !$editorenabled)
-{
-	echo "<div style=\"padding-left:10px;\"><br />" .
-		"<button type=\"button\" class='btn' onclick=\"javascript:document.adminForm.valreq.value=document.adminForm.newrequest.value;" .
-		$js_script . ";return false;\">";
-}
-else
-{
-	echo "<div style=\"padding-left:10px;\"><br /><button type=\"button\" class='btn' onclick=\"javascript:document.adminForm.valreq.value=" .
-		$editorcontent . $js_script . ";return false;\">";
-}
-echo JText::_('CWMPRAYERSEND') . '</button>';
-echo '</div>';
+?>
+	<div class="btn-toolbar">
+		<div class="btn-group">
+			<button type="button" class="btn btn-primary" onclick="Joomla.submitbutton('prayer.newreqsubmit')">
+				<span class="icon-ok"></span><?php echo JText::_('CWMPRAYERSEND') ?>
+			</button>
+		</div>
+		<div class="btn-group">
+			<button type="button" class="btn" onclick="Joomla.submitbutton('prayer.cancel')">
+				<span class="icon-cancel"></span><?php echo JText::_('JCANCEL') ?>
+			</button>
+		</div>
+	</div>
+<?php
 echo '</fieldset>';
 echo '<input type="hidden" name="sendpriv" id="sendpriv" size="5" class="inputbox" value="1" />';
-echo '<span style="display:none;visibility:hidden;">';
-echo '<input type="text" name="temail" size="5" class="inputbox" value="" />';
-echo '<input type="text" name="formtime" size="5" class="inputbox" value="' . time() . '" />';
-echo '</span>';
+//echo '<span style="display:none;visibility:hidden;">';
+//echo '<input type="hidden" name="temail" size="5" class="inputbox" value="" />';
+//echo '<input type="hidden" name="formtime" size="5" class="inputbox" value="' . time() . '" />';
+//echo '</span>';
 echo '<input type="hidden" name="valreq" size="5" class="inputbox" value="" />';
 echo '<input type="hidden" name="requesterid" size="5" class="inputbox" value="' . $user->get('id') . '" />';
 echo '<input type="hidden" name="jcap" id="jcap" class="inputbox" value="' . JFactory::getConfig()->get('captcha') . '" />';
-echo '<input type="hidden" name="option" value="COM_CWMPRAYER" />';
 echo '<input type="hidden" name="controller" value="prayer" />';
 echo '<input type="hidden" name="task" value="newreqsubmit" />';
 echo JHTML::_('form.token');

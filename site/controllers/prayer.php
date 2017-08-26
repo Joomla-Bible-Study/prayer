@@ -16,7 +16,7 @@ defined('_JEXEC') or die;
  *
  * @since    4.0
  */
-class CWMPrayerControllerPrayer extends CWMPrayerController
+class CWMPrayerControllerPrayer extends JControllerForm
 {
 	private $prayer;
 

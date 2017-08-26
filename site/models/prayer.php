@@ -118,7 +118,7 @@ class CWMPrayerModelPrayer extends JModelLegacy
 		$query->select('*,request AS text')
 			->from('#__cwmprayer')
 			->where('state=1')
-			->where('displaystate=0');
+			->where('displaystate=1');
 
 		if ($sort == "99")
 		{

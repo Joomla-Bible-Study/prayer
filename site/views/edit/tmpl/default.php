@@ -41,20 +41,20 @@ $status = 'status=no,toolbar=no,scrollbars=yes,titlebar=no,menubar=no,resizable=
 
 $imgpath = JURI::base() . 'media/system/images/';
 
-$image = JHTML::_('image', $imgpath . 'printButton.png', JText::_('PCPRINT'), 'style=border:0;');
+$image = JHTML::_('image', $imgpath . 'printButton.png', JText::_('CWMPRAYERPRINT'), 'style=border:0;');
 
-$attribs['title'] = JText::_('PCPRINT');
+$attribs['title'] = JText::_('CWMPRAYERPRINT');
 
 if ($this->config_use_gb)
 {
 	JHtml::_('behavior.modal');
-	$attribs['rel'] = "{handler: 'iframe', size: {x: 800, y: 450}}";
+	$attribs['rel']   = "{handler: 'iframe', size: {x: 800, y: 450}}";
 	$attribs['class'] = 'modal';
 }
 else
 {
 	$attribs['onclick'] = "window.open(this.href,'win2','" . $status . "'); return false;";
-	$attribs['rel'] = 'nofollow';
+	$attribs['rel']     = 'nofollow';
 }
 
 $attribs['style'] = 'float:right;margin-left:35px;vertical-align:middle;';

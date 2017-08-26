@@ -1,7 +1,21 @@
 <?php
+/**
+ * Core Site CWMPrayer file
+ *
+ * @package    CWMPrayer.Site
+ * @copyright  2007 - 2015 (C) CWM Team All rights reserved
+ * @license    http://www.gnu.org/copyleft/gpl.html GNU/GPL
+ * @link       https://www.christianwebministries.org/
+ * */
+defined('_JEXEC') or die;
 
-defined('_JEXEC') or die('Restricted access');
-
+/**
+ * View Edit Class
+ *
+ * @package  Prayer.Site
+ *
+ * @since    4.0
+ */
 class CWMPrayerViewEdit extends JViewLegacy
 {
 	protected $prayer;

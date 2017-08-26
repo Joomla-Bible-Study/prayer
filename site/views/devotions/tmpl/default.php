@@ -11,6 +11,7 @@ defined('_JEXEC') or die;
 
 $JVersion = new JVersion;
 
+$prayer = new CWMPrayerSitePrayer;
 $prayer->PCgetAuth('view_devotional');
 $k = 0;
 
@@ -26,7 +27,7 @@ echo '<div>';
 
 if ($this->config_show_page_headers)
 {
-	echo '<div class="componentheading"><h2>' . htmlentities($this->title . ' - ' . JText::_('PCDEVOTIONALS')) . '</h2></div>';
+	echo '<div class="componentheading"><h2>' . htmlentities($this->title . ' - ' . JText::_('CWMPRAYERDEVOTIONALS')) . '</h2></div>';
 }
 
 echo '<div>';
@@ -34,7 +35,7 @@ $prayer->buildPCMenu();
 echo '</div><div>';
 echo $prayer->writePCImage() . '</div><div>';
 echo $prayer->writePCHeader($this->intro) . '</div>';
-echo '<fieldset class="pcmod"><legend>' . htmlentities(JText::_('PCDEVOTIONALS')) . '</legend>';
+echo '<fieldset class="pcmod"><legend>' . htmlentities(JText::_('CWMPRAYERDEVOTIONALS')) . '</legend>';
 echo '<div class="moddevotion">';
 
 if (count($this->feed_array) > 0)
@@ -197,7 +198,7 @@ if (count($this->feed_array) > 0)
 }
 else
 {
-	echo '<br /><div><strong><div class="content"><br />' . htmlentities(JText::_('PCNODEVOTIONS')) . '</div></strong>
+	echo '<br /><div><strong><div class="content"><br />' . htmlentities(JText::_('CWMPRAYERNODEVOTIONS')) . '</div></strong>
             </div><tfoot><tr><td colspan="2">&nbsp;</div><br /></fieldset></div><br />';
 }
 

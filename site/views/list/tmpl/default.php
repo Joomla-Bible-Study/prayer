@@ -1,53 +1,6 @@
 <?php
 
-
-/***************************************************************************************
- *
- *
- * Title          prayer Component for Joomla
- *
- *
- * Author         Mike Leeper
- *
- *
- * License        This program is free software: you can redistribute it and/or modify
- *
- *
- * it under the terms of the GNU General Public License as published by
- *
- *
- * the Free Software Foundation, either version 3 of the License, or
- *
- *
- * (at your option) any later version.
- *
- *
- * This program is distributed in the hope that it will be useful,
- *
- *
- * but WITHOUT ANY WARRANTY; without even the implied warranty of
- *
- *
- * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
- *
- *
- * GNU General Public License for more details.
- *
- *
- * You should have received a copy of the GNU General Public License
- *
- *
- * along with this program.  If not, see <http://www.gnu.org/licenses/>.
- *
- *
- * Copyright      2006-2014 - Mike Leeper (MLWebTechnologies)
- ****************************************************************************************
- *
- *
- * No direct access*/
-
-
-defined('_JEXEC') or die('Restricted access');
+defined('_JEXEC') or die;
 
 $JVersion = new JVersion;
 
@@ -71,18 +24,21 @@ $dispatcher = JEventDispatcher::getInstance();
 
 
 $pageNav = new JPagination($this->total, $this->limitstart, $this->limit);
+$app = JFactory::getApplication();
+$mess = $app->input->getString('return_msg', null);
 
-
-if (JRequest::getVar('return_msg', null, 'get', 'string'))
+if ($mess)
 {
-	$this->prayer->PCReturnMsg(JRequest::getVar('return_msg', null, 'get', 'string'));
+	echo '<h3>' . $mess . '</h3>';
+	$this->prayer->PCReturnMsg($mess);
 }
 
 echo '<div>';
 
 if ($this->prayer->pcConfig['config_show_page_headers'])
 {
-	echo '<div class="componentheading"><h2>' . htmlentities($this->title . ' - ' . JText::_('PRAYERVIEWLIST')) . '</h2></div>';
+	echo '<div class="componentheading"><h2>' . htmlentities($this->title . ' - ' . JText::_('CWMPRAYERVIEWLIST')) .
+		'</h2></div>';
 }
 
 
@@ -101,7 +57,7 @@ echo $this->prayer->writePCImage() . '</div><div>';
 echo $this->prayer->writePCHeader($this->intro) . '</div>';
 
 
-echo '<fieldset class="pcmod"><legend>' . htmlentities(JText::_('PRAYERVIEWLIST')) . '</legend>';
+echo '<fieldset class="pcmod"><legend>' . htmlentities(JText::_('CWMPRAYERVIEWLIST')) . '</legend>';
 
 
 if ($this->total < 1)
@@ -114,7 +70,7 @@ if ($this->total < 1)
 		echo $this->prayer->PCgetSearchbox();
 		echo '</th></tr></thead>';
 		echo '<tbody><tr><td colspan="2"><strong><center><br /><br />' .
-			htmlentities(JText::_('PRAYERNOREQUESTSORT')) . '<br /><br /></center></strong><br /></td></tr></tbody>';
+			htmlentities(JText::_('CWMPRAYERNOREQUESTSORT')) . '<br /><br /></center></strong><br /></td></tr></tbody>';
 		echo '<tfoot><tr><td style="width:25%;font-size:x-small;">';
 		echo $this->prayer->PCgetSortbox($this->action, $this->sort);
 		echo '</td><td>&nbsp;';
@@ -129,7 +85,7 @@ if ($this->total < 1)
 		echo '</tr></thead>';
 
 		echo '<tbody><tr><td colspan="2"><strong><center><br /><br />' .
-			htmlentities(JText::_('PRAYERNOREQUEST')) . '<br /><br /></center></strong><br /></td></tr></tbody>';
+			htmlentities(JText::_('CWMPRAYERNOREQUEST')) . '<br /><br /></center></strong><br /></td></tr></tbody>';
 
 		echo '<tfoot><tr><td>&nbsp;<br />';
 
@@ -182,7 +138,7 @@ if ($this->total > 0)
 		$newtopicarray = $this->prayer->PCgetTopics();
 
 
-		$header = htmlentities(JText::_('PRAYERREQTOPIC')) . ':</b><br />' . $newtopicarray[$showrequest->topic + 1]['text'];
+		$header = htmlentities(JText::_('CWMPRAYERREQTOPIC')) . ':</b><br />' . $newtopicarray[$showrequest->topic + 1]['text'];
 
 
 		echo '<table width="100%" border="1" cellspacing="0" cellpadding="2"><tbody><tr class="profilerow"><td><b>' . $header . '&nbsp;&nbsp;</b>';
@@ -193,7 +149,7 @@ if ($this->total > 0)
 
 		if ($this->prayer->pcConfig['config_show_requester'] == "1")
 		{
-			echo '<b>' . htmlentities(JText::_('PRAYEROVERLIBSUBBY')) . '</b><br />';
+			echo '<b>' . htmlentities(JText::_('CWMPRAYEROVERLIBSUBBY')) . '</b><br />';
 
 			echo $this->prayer->PCgetProfileLink($showrequest, true);
 		}
@@ -210,7 +166,7 @@ if ($this->total > 0)
 		{
 			echo '<b><i><a href="' .
 				JRoute::_("index.php?option=com_cwmprayer&task=view_request&id=" . $showrequest->id . "&pop=0&Itemid=" . $itemid) . '" />' .
-				htmlentities(rtrim(JText::_('PRAYERPRAYERREQUEST'), ":")) . '</a></i></b>';
+				htmlentities(rtrim(JText::_('CWMPRAYERPRAYERREQUEST'), ":")) . '</a></i></b>';
 		}
 		else
 		{
@@ -238,7 +194,7 @@ if ($this->total > 0)
 
 			$plugparams = new JObject();
 
-			$tresults = $dispatcher->trigger('onContentPrepare', array('text', &$showrequest, &$plugparams, 0));
+			$tresults = $dispatcher->trigger('onContentPrepare', ['text', &$showrequest, &$plugparams, 0]);
 		}
 
 		if ($this->prayer->pcConfig['config_use_wordfilter'] > 0)
@@ -258,7 +214,7 @@ if ($this->total > 0)
 
 			if ($this->prayer->pcConfig['config_show_viewed'])
 			{
-				echo htmlentities(JText::_('PRAYERVIEWED')) . '&nbsp;(' . $showrequest->hits . ')';
+				echo htmlentities(JText::_('CWMPRAYERVIEWED')) . '&nbsp;(' . $showrequest->hits . ')';
 			}
 
 			if ($this->prayer->pcConfig['config_show_viewed']
@@ -287,7 +243,7 @@ if ($this->total > 0)
 
 			if ($this->prayer->pcConfig['config_show_viewed'])
 			{
-				echo htmlentities(JText::_('PRAYERVIEWED')) . '&nbsp;(' . $showrequest->hits . ')';
+				echo htmlentities(JText::_('CWMPRAYERVIEWED')) . '&nbsp;(' . $showrequest->hits . ')';
 			}
 
 			if ($this->prayer->pcConfig['config_show_viewed']
