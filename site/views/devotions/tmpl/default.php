@@ -40,6 +40,8 @@ echo '<div class="moddevotion">';
 
 if (count($this->feed_array) > 0)
 {
+	$simplepie = new SimplePie();
+
 	foreach ($this->feed_array as $feedfile)
 	{
 		$k++;
@@ -58,11 +60,12 @@ if (count($this->feed_array) > 0)
 				$options['cache_time'] = null;
 			}
 
-			$rssDoc = JFactory::getFeedParser($options['rssUrl'], $options['cache_time']);
+			$simplepie->enable_cache(false);
+			$simplepie->set_feed_url($options['rssUrl']);
+			$simplepie->force_feed(true);
+			$simplepie->init();
 
-			// Clearing feed_parser cache may be a temporary fix for non-visible feeds (cache corruption?)
-			$cache = JFactory::getCache('feed_parser');
-			$cache->clean();
+			$rssDoc = $simplepie;
 		}
 
 		if ($rssDoc != false)
@@ -71,6 +74,7 @@ if (count($this->feed_array) > 0)
 			$feed->title = $rssDoc->get_title();
 			$feed->link = $rssDoc->get_link();
 			$feed->description = $rssDoc->get_description();
+			$feed->image = new stdclass;
 			$feed->image->url = $rssDoc->get_image_url();
 			$feed->image->title = $rssDoc->get_image_title();
 			$items = $rssDoc->get_items();
@@ -82,6 +86,7 @@ if (count($this->feed_array) > 0)
 			$feed->title = JText::_('ERROR LOADING FEED DATA');
 			$feed->link = null;
 			$feed->description = $feedfile->feed;
+			$feed->image = new stdclass;
 			$feed->image->url = null;
 			$feed->image->title = null;
 			$items = null;

@@ -454,7 +454,15 @@ class CWMPrayerAdmin
 		$options['rssUrl']     = 'http://www.mlwebtechnologies.com/index.php?option=com_content&view=category&id=53&format=feed';
 		$options['cache_time'] = 86400;
 
-		$rssDoc = New JFeedFactory($options['rssUrl']);
+		$simplepie = new SimplePie();
+
+
+		$simplepie->enable_cache(false);
+		$simplepie->set_feed_url($options['rssUrl']);
+		$simplepie->force_feed(true);
+		$simplepie->init();
+
+		$rssDoc = $simplepie;
 
 		if ($rssDoc == false)
 		{

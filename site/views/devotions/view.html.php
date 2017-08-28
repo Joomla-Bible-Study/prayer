@@ -39,7 +39,7 @@ class CWMPrayerViewDevotions extends JViewLegacy
 		$feed_array = $db->loadObjectList();
 
 		// Set pathway information
-		$this->afeed_array              = $feed_array;
+		$this->feed_array              = $feed_array;
 		$this->config_show_page_headers = $pcConfig['config_show_page_headers'];
 		$this->config_update_time       = $pcConfig['config_update_time'];
 		$this->config_enable_cache      = $pcConfig['config_enable_cache'];
