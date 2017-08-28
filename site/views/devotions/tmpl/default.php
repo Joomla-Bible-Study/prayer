@@ -41,6 +41,7 @@ echo '<div class="moddevotion">';
 if (count($this->feed_array) > 0)
 {
 	$simplepie = new SimplePie();
+	$rssDoc    = null;
 
 	foreach ($this->feed_array as $feedfile)
 	{
