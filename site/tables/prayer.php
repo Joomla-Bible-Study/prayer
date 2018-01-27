@@ -23,6 +23,7 @@ class TablePrayer extends JTable
 
 	public $checked_out_time = null;
 
+	public $created;
 
 	/**
 	 * Object constructor to set table and key fields.  In most cases this will

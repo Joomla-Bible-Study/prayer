@@ -1,11 +1,35 @@
 <?php
-/** No direct access */
+/**
+ * Core Site CWMPrayer file
+ *
+ * @package    CWMPrayer.Site
+ * @copyright  2007 - 2015 (C) Joomla Bible Study Team All rights reserved
+ * @license    http://www.gnu.org/copyleft/gpl.html GNU/GPL
+ * @link       http://www.JoomlaBibleStudy.org
+ * */
 defined('_JEXEC') or die;
 
+/**
+ * Class view for New Request
+ *
+ * @package  Prayer.Admin
+ *
+ * @since    4.0
+ */
 class CWMPrayerViewNewReq extends JViewLegacy
 {
 	protected $prayer;
 
+	/**
+	 * Execute and display a template script.
+	 *
+	 * @param   string  $tpl  The name of the template file to parse; automatically searches through the template paths.
+	 *
+	 * @return  mixed  A string if successful, otherwise an Error object.
+	 *
+	 * @see     JViewLegacy::loadTemplate()
+	 * @since   3.0
+	 */
 	public function display($tpl = null)
 	{
 		$lang = Jfactory::getLanguage();
