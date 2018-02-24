@@ -153,8 +153,9 @@ class CWMPrayerControllerPrayer extends JControllerForm
 
 				if ($this->prayer->pcConfig['config_use_admin_alert'] == 0 && $pc_rights->get('pc.publish'))
 				{
-					$sql = "INSERT INTO #__cwmprayer (id,requesterid,requester,date,request,state,displaystate," .
-					"sendto,email,adminsendto,sessionid,title,topic) VALUES (''," .
+					$sql = "INSERT INTO #__cwmprayer (id,requesterid,requester,date,request,publishstate,displaystate," .
+					"sendto,email,adminsendto,
+sessionid,title,topic) VALUES (''," .
 						(int) $newrequesterid . "," . $db->q($newrequester) . "," . $db->q($date . ' ' . $time) . "," . $db->q($newrequest) .
 						",'1'," . (int) $sendpriv . ",'0000-00-00 00:00:00'," . $db->q($newemail) .
 						",'0000-00-00 00:00:00'," . (int) $db->q($sessionid) . "," .
@@ -171,8 +172,9 @@ class CWMPrayerControllerPrayer extends JControllerForm
 				}
 				elseif ($this->prayer->pcConfig['config_use_admin_alert'] > 0)
 				{
-					$sql = "INSERT INTO #__cwmprayer (id,requesterid,requester,date,request,state,displaystate,sendto" .
-						",email,adminsendto,sessionid,title,topic) VALUES (''," . (int) $newrequesterid . "," .
+					$sql = "INSERT INTO #__cwmprayer (id,requesterid,requester,date,request,publishstate,displaystate,sendto" .
+						",email,adminsendto,
+sessionid,title,topic) VALUES (''," . (int) $newrequesterid . "," .
 						$db->q($newrequester) . "," . $db->q($date . ' ' . $time) . "," . $db->q($newrequest) .
 						",'0'," . (int) $sendpriv . ",'0000-00-00 00:00:00'," . $db->q($newemail) .
 						",'0000-00-00 00:00:00'," . (int) $db->q($sessionid) . "," .

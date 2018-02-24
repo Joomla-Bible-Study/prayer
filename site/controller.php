@@ -656,7 +656,7 @@ publishstate='0'");
 			}
 
 			$db->setQuery("SELECT * FROM #__cwmprayer "
-				. "\n WHERE state = 1 "
+				. "\n WHERE publishstate = 1 "
 				. "\n AND displaystate = 1 "
 				. "\n ORDER BY id DESC "
 				. "\n LIMIT " . $config_rss_num
