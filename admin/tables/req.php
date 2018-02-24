@@ -41,7 +41,7 @@ class CWMPrayerTableReq extends JTable
 
 	public $created;
 
-	public $state;
+	public $publishstate;
 
 	public $version;
 
@@ -60,7 +60,7 @@ class CWMPrayerTableReq extends JTable
 	 */
 	public function __construct(&$db)
 	{
-		$this->_columnAlias = array('published' => 'state');
+		$this->_columnAlias = array('published' => 'publishstate');
 
 		parent::__construct('#__cwmprayer', 'id', $db);
 	}

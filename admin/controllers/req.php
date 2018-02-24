@@ -121,11 +121,13 @@ class CWMPrayerControllerReq extends JControllerForm
 	/**
 	 * Purge
 	 *
+	 * @param   string  $option  Component
+	 *
 	 * @return void|\JException
 	 *
 	 * @since 4.0
 	 */
-	public function purge()
+	public function purge($option = 'com_cwmprayer')
 	{
 		/** @var \CWMPrayerModelReq $model */
 		$model = $this->getModel();

@@ -152,12 +152,14 @@ if ($saveOrder)
 						</td>
 						<td class="center">
 							<div class="btn-group">
-								<?php echo JHtml::_('jgrid.published', $item->state, $i, 'reqs.', $canChange, 'cb'); ?>
+								<?php echo JHtml::_('jgrid.published', $item->publishstate, $i, 'reqs.', $canChange,
+									'cb'); ?>
 								<?php // Create dropdown items and render the dropdown list.
 								if ($canChange)
 								{
-									JHtml::_('actionsdropdown.' . ((int) $item->state === 2 ? 'un' : '') . 'archive', 'cb' . $i, 'reqs');
-									JHtml::_('actionsdropdown.' . ((int) $item->state === -2 ? 'un' : '') . 'trash', 'cb' . $i, 'reqs');
+									JHtml::_('actionsdropdown.' . ((int) $item->publishstate === 2 ? 'un' : '') . 'archive', 'cb' . $i, 'reqs');
+									JHtml::_('actionsdropdown.' . ((int) $item->publishstate === -2 ? 'un' : '') .
+										'trash', 'cb' . $i, 'reqs');
 									echo JHtml::_('actionsdropdown.render', $this->escape($item->title));
 								}
 								?>

@@ -44,7 +44,7 @@ class CWMPrayerModelReqs extends JModelList
 				'requester', 'a.requester',
 				'request', 'a.request',
 				'date', 'a.date',
-				'state', 'a.state',
+				'publishstate', 'a.publishstate',
 				'displaystate', 'a.displaystate',
 				'sendto', 'a.sendto',
 				'email', 'a.email',
@@ -129,7 +129,7 @@ class CWMPrayerModelReqs extends JModelList
 			$this->getState(
 				'list.select',
 				'a.id, a.requesterid, a.requester, a.request, a.date,' .
-				'a.state, a.displaystate, a.sendto, a.email, a.adminsendto,' .
+				'a.publishstate, a.displaystate, a.sendto, a.email, a.adminsendto,' .
 				'a.checked_out_time, a.checked_out, a.sessionid, a.title, a.topic, a.hits'
 			)
 		);
@@ -146,11 +146,11 @@ class CWMPrayerModelReqs extends JModelList
 
 		if (is_numeric($published))
 		{
-			$query->where('a.state = ' . (int) $published);
+			$query->where('a.publishstate = ' . (int) $published);
 		}
 		elseif ($published === '')
 		{
-			$query->where('(a.state = 0 OR a.state = 1)');
+			$query->where('(a.publishstate = 0 OR a.publishstate = 1)');
 		}
 
 		// Filter by search in name.

@@ -36,6 +36,7 @@ class CWMPrayerViewReqs extends JViewLegacy
 	 *
 	 * @see     JViewLegacy::loadTemplate()
 	 * @since   3.0
+	 * @throws  \Exception
 	 */
 	public function display($tpl = null)
 	{
@@ -87,7 +88,7 @@ class CWMPrayerViewReqs extends JViewLegacy
 			JToolBarHelper::unarchiveList("reqs.unarchive");
 		}
 
-		if ($this->state->get('filter.state') == -2 && $canDo->get('core.delete'))
+		if ($this->state->get('filter.published') == -2 && $canDo->get('core.delete'))
 		{
 			JToolBarHelper::deleteList('JGLOBAL_CONFIRM_DELETE', "reqs.delete", 'JTOOLBAR_EMPTY_TRASH');
 		}

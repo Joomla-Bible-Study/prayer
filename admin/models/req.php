@@ -125,6 +125,7 @@ class CWMPrayerModelReq extends JModelAdmin
 	 *
 	 * @note    Calling getState in this method will result in recursion.
 	 * @since   4.0
+	 * @throws  \Exception
 	 */
 	protected function populateState()
 	{
@@ -287,7 +288,7 @@ class CWMPrayerModelReq extends JModelAdmin
 		$query->select('*')
 			->from('#__cwmprayer')
 			->where('DATEDIFF(CURDATE(),date) >= ' . $db->q($config_request_retention))
-			->where('state = 0');
+			->where('publishstate = 0');
 		$db->setQuery($query);
 
 		$result = $db->loadObjectList();
@@ -295,7 +296,7 @@ class CWMPrayerModelReq extends JModelAdmin
 		$query->select('*')
 			->from('#__cwmprayer')
 			->where('DATEDIFF(CURDATE(),date) >= ' . $db->q($config_request_retention))
-			->where('state = 2');
+			->where('publishstate = 2');
 		$db->setQuery($query);
 
 		$archiveresult = $db->loadObjectList();
