@@ -45,6 +45,9 @@ class PlgSystemCWMPrayerEmail extends JPlugin
 		{
 			require_once $api;
 		}
+
+		$prayer = new CWMPrayerSitePrayer;
+		$this->pcConfig     = $prayer->pcConfig;
 	}
 
 	/**
@@ -305,11 +308,12 @@ class PlgSystemCWMPrayerEmail extends JPlugin
 
 		if ($admin)
 		{
-			$this->db->setQuery("SELECT * FROM #__cwmprayer WHERE adminsendto='0000-00-00 00:00:00' AND state=1" . $idstr);
+			$this->db->setQuery("SELECT * FROM #__cwmprayer WHERE adminsendto='0000-00-00 00:00:00' AND publishstate=1" . $idstr);
 		}
 		else
 		{
-			$this->db->setQuery("SELECT * FROM #__cwmprayer WHERE sendto='0000-00-00 00:00:00' AND state=1" . $idstr);
+			$this->db->setQuery("SELECT * FROM #__cwmprayer WHERE sendto='0000-00-00 00:00:00' AND publishstate=1" .
+				$idstr);
 		}
 
 		return $this->db->loadObjectList();
@@ -366,6 +370,7 @@ class PlgSystemCWMPrayerEmail extends JPlugin
 	 * @return void
 	 *
 	 * @since 4.0
+	 * @throws \Exception
 	 */
 	public function confirm_notification($items)
 	{
@@ -421,6 +426,7 @@ class PlgSystemCWMPrayerEmail extends JPlugin
 	 * @return mixed|string
 	 *
 	 * @since 4.0
+	 * @throws \Exception
 	 */
 	public function getReturnAddress()
 	{
@@ -472,6 +478,7 @@ class PlgSystemCWMPrayerEmail extends JPlugin
 	 * @return void
 	 *
 	 * @since 4.0
+	 * @throws \Exception
 	 */
 	public function sendmail(
 		$mail_from,
@@ -638,6 +645,7 @@ class PlgSystemCWMPrayerEmail extends JPlugin
 	 * @return void
 	 *
 	 * @since 4.0
+	 * @throws \Exception
 	 */
 	public function confirm_sub_notification($item)
 	{
@@ -882,6 +890,7 @@ class PlgSystemCWMPrayerEmail extends JPlugin
 	 * @return void
 	 *
 	 * @since 4.0
+	 * @throws \Exception
 	 */
 	public function confirm_unsub_notification($item)
 	{
@@ -930,6 +939,7 @@ class PlgSystemCWMPrayerEmail extends JPlugin
 	 * @return void
 	 *
 	 * @since 4.0
+	 * @throws \Exception
 	 */
 	public function email_notification($items)
 	{
@@ -1147,6 +1157,7 @@ class PlgSystemCWMPrayerEmail extends JPlugin
 	 * @return void
 	 *
 	 * @since 4.0
+	 * @throws \Exception
 	 */
 	public function email_prayer_chain($items)
 	{
@@ -1299,6 +1310,7 @@ class PlgSystemCWMPrayerEmail extends JPlugin
 	 * @return void
 	 *
 	 * @since 4.0
+	 * @throws \Exception
 	 */
 	public function admin_email_notification($items)
 	{
@@ -1544,6 +1556,7 @@ class PlgSystemCWMPrayerEmail extends JPlugin
 	 * @return void
 	 *
 	 * @since 4.0
+	 * @throws \Exception
 	 */
 	public function Admin_Email_Subscribe_Notification($item)
 	{
@@ -1593,6 +1606,7 @@ class PlgSystemCWMPrayerEmail extends JPlugin
 	 * @return void
 	 *
 	 * @since 4.0
+	 * @throws \Exception
 	 */
 	public function email_subscribe($item)
 	{
@@ -1642,6 +1656,7 @@ class PlgSystemCWMPrayerEmail extends JPlugin
 	 * @return void
 	 *
 	 * @since 4.0
+	 * @throws \Exception
 	 */
 	public function Email_Unsubscribe($item)
 	{

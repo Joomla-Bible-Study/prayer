@@ -128,7 +128,7 @@ class CWMPrayerModelRequests extends JModelLegacy
 		$query = $db->getQuery(true);
 		$query->select('*')
 			->from('#__cwmprayer')
-			->where('state=' . 0)
+			->where('publishstate=' . 0)
 			->order('id DESC');
 
 		return $query;
@@ -165,7 +165,7 @@ class CWMPrayerModelRequests extends JModelLegacy
 		$query = $db->getQuery(true);
 		$query->select('id')
 			->from('#__cwmprayer')
-			->where('state=' . 1)
+			->where('publishstate=' . 1)
 			->where('displaystate=' . 1);
 
 		return $query;

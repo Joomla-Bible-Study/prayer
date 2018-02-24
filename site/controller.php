@@ -62,13 +62,14 @@ class CWMPrayerController extends JControllerLegacy
 		if (is_numeric($id) && $this->prayer->PCSIDvalidate($sessionid))
 		{
 			$db->setQuery("SELECT request,requester,email,displaystate FROM #__cwmprayer WHERE id='" . $id .
-				"' AND sessionid='" . $sessionid . "' AND state='0'");
+				"' AND sessionid='" . $sessionid . "' AND publishstate='0'");
 
 			$cresults = $db->loadObjectList();
 
 			if (count($cresults) > 0)
 			{
-				$db->setQuery("UPDATE #__cwmprayer SET state='1' WHERE id='" . $id . "' AND sessionid='" . $sessionid . "'");
+				$db->setQuery("UPDATE #__cwmprayer SET publishstate='1' WHERE id='" . $id . "' AND sessionid='" .
+					$sessionid . "'");
 
 				if (!$db->execute())
 				{
@@ -139,13 +140,15 @@ class CWMPrayerController extends JControllerLegacy
 		if (is_numeric($id) && $this->prayer->PCSIDvalidate($sessionid))
 		{
 			$db->setQuery("SELECT request,requester,email,displaystate FROM #__cwmprayer WHERE id='" . $id .
-				"' AND sessionid='" . $sessionid . "' AND state='0'");
+				"' AND sessionid='" . $sessionid . "' AND 
+publishstate='0'");
 
 			$cresults = $db->loadObjectList();
 
 			if (count($cresults) > 0)
 			{
-				$db->setQuery("UPDATE #__cwmprayer SET state='1' WHERE id='" . $id . "' AND sessionid='" . $sessionid . "'");
+				$db->setQuery("UPDATE #__cwmprayer SET publishstate='1' WHERE id='" . $id . "' AND sessionid='" .
+					$sessionid . "'");
 
 				if (!$db->execute())
 				{
@@ -214,7 +217,8 @@ class CWMPrayerController extends JControllerLegacy
 
 		if (is_numeric($id) && $this->prayer->PCSIDvalidate($sessionid))
 		{
-			$db->setQuery("SELECT COUNT(id) FROM #__cwmprayer WHERE id='" . $id . "' AND sessionid='" . $sessionid . "' AND state='0'");
+			$db->setQuery("SELECT COUNT(id) FROM #__cwmprayer WHERE id='" . $id . "' AND sessionid='" . $sessionid .
+				"' AND publishstate='0'");
 
 			$cresults = $db->loadResult();
 
@@ -452,21 +456,23 @@ class CWMPrayerController extends JControllerLegacy
 			{
 				$id = $this->input->getInt('id', null);
 
-				$pdf->Table($headerarr, "SELECT * FROM #__cwmprayer WHERE id='$id' AND state='1' AND displaystate='1'");
+				$pdf->Table($headerarr, "SELECT * FROM #__cwmprayer WHERE id='$id' AND publishstate='1' AND displaystate='1'");
 
 			}
 			elseif ($listtype == 1)
 			{
 				$pdf->Table(
-					$headerarr, "SELECT * FROM #__cwmprayer WHERE state='1' AND displaystate='1' AND date=CURDATE()" .
-					" ORDER BY topic,DATE_FORMAT(CONCAT_WS(' ',date,time),'%Y-%m-%d %T') DESC");
+					$headerarr, "SELECT * FROM #__cwmprayer WHERE publishstate='1' AND displaystate='1' AND date=CURDATE()" .
+					" ORDER BY topic,DATE_FORMAT
+(CONCAT_WS(' ',date,time),'%Y-%m-%d %T') DESC");
 
 			}
 			elseif ($listtype == 2)
 			{
 				$pdf->Table(
-					$headerarr, "SELECT topic,request,requester FROM #__cwmprayer WHERE state='1' AND displaystate='1'" .
-					" AND WEEKOFYEAR(date)=WEEKOFYEAR(CURDATE()) AND YEAR(date)=YEAR(CURDATE()) ORDER BY topic," .
+					$headerarr, "SELECT topic,request,requester FROM #__cwmprayer WHERE publishstate='1' AND displaystate='1'" .
+					" AND WEEKOFYEAR(date)
+=WEEKOFYEAR(CURDATE()) AND YEAR(date)=YEAR(CURDATE()) ORDER BY topic," .
 						"DATE_FORMAT(CONCAT_WS(' ',date,time),'%Y-%m-%d %T') DESC");
 
 			}

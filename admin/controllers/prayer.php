@@ -786,7 +786,7 @@ class CWMPrayerControllerPrayer extends JControllerLegacy
 		{
 			$db = JFactory::getDBO();
 
-			$db->setQuery("UPDATE #__cwmprayer SET state='" . (int) $archive . "'"
+			$db->setQuery("UPDATE #__cwmprayer SET publishstate='" . (int) $archive . "'"
 
 				. "\nWHERE id='" . (int) $cid[$i] . "'");
 

@@ -117,7 +117,7 @@ class CWMPrayerModelPrayer extends JModelLegacy
 
 		$query->select('*,request AS text')
 			->from('#__cwmprayer')
-			->where('state=1')
+			->where('publishstate=1')
 			->where('displaystate=1');
 
 		if ($sort == "99")
@@ -164,7 +164,7 @@ class CWMPrayerModelPrayer extends JModelLegacy
 		$query = $this->_db->getQuery(true);
 		$query->select('*')
 			->from('#__cwmprayer')
-			->where('state=' . $this->_db->q('0'))
+			->where('publishstate=' . $this->_db->q('0'))
 			->order('id DESC');
 
 		return $query;
@@ -201,7 +201,7 @@ class CWMPrayerModelPrayer extends JModelLegacy
 		$query = $this->_db->getQuery(true);
 		$query->select('id')
 			->from('#__cwmprayer')
-			->where('state=' . $this->_db->q('1'))
+			->where('publishstate=' . $this->_db->q('1'))
 			->where('displaystate=' . $this->_db->q('1'));
 
 		return $query;

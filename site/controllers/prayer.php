@@ -986,7 +986,7 @@ class CWMPrayerControllerPrayer extends JControllerForm
 
 		while (list($key, $val) = each($cid))
 		{
-			$pubreq = "UPDATE #__cwmprayer SET state='1' WHERE id=" . (int) $key;
+			$pubreq = "UPDATE #__cwmprayer SET publishstate='1' WHERE id=" . (int) $key;
 			$db->setQuery($pubreq);
 
 			if (!$db->execute())
@@ -1041,7 +1041,7 @@ class CWMPrayerControllerPrayer extends JControllerForm
 		$db       = JFactory::getDBO();
 		$itemid   = $this->prayer->PCgetItemid();
 		$id       = $app->input->getInt('id');
-		$unpubreq = "UPDATE #__cwmprayer SET state='0' WHERE id=" . (int) $id;
+		$unpubreq = "UPDATE #__cwmprayer SET publishstate='0' WHERE id=" . (int) $id;
 		$db->setQuery($unpubreq);
 
 		if (!$db->execute())

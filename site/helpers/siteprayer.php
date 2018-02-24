@@ -1866,7 +1866,7 @@ class CWMPrayerSitePrayer extends CWMPrayerAdmin
 		$config_request_retention = (86400 * $config_request_retention);
 		$config_archive_retention = (86400 * $config_archive_retention);
 		$db                       = JFactory::getDBO();
-		$db->setQuery("SELECT * FROM #__cwmprayer WHERE state='1'");
+		$db->setQuery("SELECT * FROM #__cwmprayer WHERE publishstate='1'");
 		$purgeresult = $db->loadObjectList();
 
 		if (count($purgeresult) > 0)
@@ -1890,7 +1890,7 @@ class CWMPrayerSitePrayer extends CWMPrayerAdmin
 			}
 		}
 
-		$db->setQuery("SELECT * FROM #__cwmprayer WHERE state='2'");
+		$db->setQuery("SELECT * FROM #__cwmprayer WHERE publishstate='2'");
 		$archivepurgeresult = $db->loadObjectList();
 
 		if (count($archivepurgeresult) > 0)

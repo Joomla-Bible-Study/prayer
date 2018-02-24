@@ -401,6 +401,7 @@ class CWMPrayerAdmin
 	 * @return void
 	 *
 	 * @since 4.0
+	 * @throws \Exception
 	 */
 	public function PCquickiconButton($link, $image, $text, $attrib = "")
 	{
@@ -454,8 +455,7 @@ class CWMPrayerAdmin
 		$options['rssUrl']     = 'http://www.mlwebtechnologies.com/index.php?option=com_content&view=category&id=53&format=feed';
 		$options['cache_time'] = 86400;
 
-		$simplepie = new SimplePie();
-
+		$simplepie = new SimplePie;
 
 		$simplepie->enable_cache(false);
 		$simplepie->set_feed_url($options['rssUrl']);
@@ -470,8 +470,6 @@ class CWMPrayerAdmin
 		}
 		else
 		{
-			$title    = $rssDoc->get_title();
-			$link     = $rssDoc->get_link();
 			$output   = '<table class="adminlist">';
 			$items    = array_slice($rssDoc->get_items(), 0, 3);
 			$numItems = count($items);
@@ -584,6 +582,7 @@ class CWMPrayerAdmin
 	 * @return void
 	 *
 	 * @since 4.0
+	 * @throws \Exception
 	 */
 	public function PCRedirect($str, $msg = null)
 	{
