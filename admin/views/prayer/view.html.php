@@ -31,25 +31,15 @@ class CWMPrayerViewPrayer extends JViewLegacy
 	 *
 	 * @see     JViewLegacy::loadTemplate()
 	 * @since   4.0
+	 * @throws  \Exception
 	 */
 	public function display($tpl = null)
 	{
 		$this->state      = $this->get('State');
 
-		// Check for errors.
-		if (count($errors = $this->get('Errors')))
-		{
-			JFactory::getApplication()->enqueueMessage(implode("\n", $errors), 'error');
-
-			return false;
-		}
-
-		if ($this->getLayout() !== 'modal')
-		{
 			CWMPrayerHelper::addSubmenu('prayer');
 			$this->addToolbar();
 			$this->sidebar = JHtmlSidebar::render();
-		}
 
 		return parent::display($tpl);
 	}

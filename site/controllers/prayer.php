@@ -28,6 +28,7 @@ class CWMPrayerControllerPrayer extends JControllerForm
 	 *                          'view_path' (this list is not meant to be comprehensive).
 	 *
 	 * @since   4.0
+	 * @throws  \Exception
 	 */
 	public function __construct($config = array())
 	{
@@ -42,6 +43,7 @@ class CWMPrayerControllerPrayer extends JControllerForm
 	 * @return void
 	 *
 	 * @since 4.0
+	 * @throws \Exception
 	 */
 	public function newreqsubmit()
 	{
@@ -52,9 +54,6 @@ class CWMPrayerControllerPrayer extends JControllerForm
 		$modtype       = $app->input->getString('modtype');
 		$returntoarray = preg_split('/\&return/', $_SERVER['HTTP_REFERER'], -1, PREG_SPLIT_NO_EMPTY);
 		$returnto      = $returntoarray[0];
-		jimport('joomla.date.date');
-		jimport('joomla.mail.helper');
-		jimport('joomla.filter.output');
 		$user           = JFactory::getUser();
 		$db             = JFactory::getDBO();
 		$itemid         = $this->prayer->PCgetItemid();

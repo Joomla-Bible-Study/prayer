@@ -167,6 +167,7 @@ class CWMPrayerSitePrayer extends CWMPrayerAdmin
 	 * @return void
 	 *
 	 * @since 4.0
+	 * @throws \Exception
 	 */
 	public function PCgetButtons($showrequest, $editonly = false)
 	{
@@ -1217,7 +1218,7 @@ class CWMPrayerSitePrayer extends CWMPrayerAdmin
 	/**
 	 * Check Editor
 	 *
-	 * @param $config_editor
+	 * @param   string  $config_editor  ?
 	 *
 	 * @return bool
 	 *
@@ -1283,7 +1284,7 @@ class CWMPrayerSitePrayer extends CWMPrayerAdmin
 		$html    = false;
 		$string  = (string) $string;
 
-		for ($i = 0; $i < strlen($string); $i += 1)
+		for ($i = 0; $i < strlen($string); $i++)
 		{
 			$char = $string[$i];
 
@@ -1535,14 +1536,15 @@ class CWMPrayerSitePrayer extends CWMPrayerAdmin
 	}
 
 	/**
-	 * Get Auther
+	 * Get Author
 	 *
-	 * @param   string $page
-	 * @param   string $edit_own
+	 * @param   string  $page      ?
+	 * @param   string  $edit_own  ?
 	 *
 	 * @return bool
 	 *
-	 * @since version
+	 * @since 1.2
+	 * @throws \Exception
 	 */
 	public function PCgetAuth($page = null, $edit_own = null)
 	{
@@ -1584,6 +1586,7 @@ class CWMPrayerSitePrayer extends CWMPrayerAdmin
 	 * @return void
 	 *
 	 * @since 4.0
+	 * @throws \Exception
 	 */
 	public function PCRedirect($str, $msg = null)
 	{
@@ -1594,7 +1597,7 @@ class CWMPrayerSitePrayer extends CWMPrayerAdmin
 	/**
 	 * Return Message HTML format
 	 *
-	 * @param $ret_msg
+	 * @param   string  $ret_msg  Message to display
 	 *
 	 * @return string
 	 *
@@ -1669,14 +1672,13 @@ class CWMPrayerSitePrayer extends CWMPrayerAdmin
 	 * @return bool
 	 *
 	 * @since 4.0
-	 * @deprecated 4.0
 	 */
 	public function PCcheckEmail($email)
 	{
 		$config_domain_list = $this->pcConfig['config_domain_list'];
-		$domArray           = preg_split('/[,]/', $config_domain_list, -1, PREG_SPLIT_NO_EMPTY);
+		$domArray = array_map('trim', explode(',', $config_domain_list));
 
-		list($username, $domaintld) = preg_split("@", $email);
+		list($username, $domaintld) = explode("@", $email);
 		$domaintld = strtolower($domaintld);
 
 		if (!empty($domArray))
@@ -1703,12 +1705,12 @@ class CWMPrayerSitePrayer extends CWMPrayerAdmin
 	 *
 	 * @return bool
 	 *
-	 * @since version
+	 * @since 4.0
 	 */
 	public function PCcheckBlockedEmail($email)
 	{
 		$config_emailblock_list = $this->pcConfig['config_emailblock_list'];
-		$ebArray                = preg_split('/[,]/', strtolower($config_emailblock_list), -1, PREG_SPLIT_NO_EMPTY);
+		$ebArray = array_map('trim', explode(',', $config_emailblock_list));
 
 		if (!empty($ebArray))
 		{
@@ -1961,7 +1963,7 @@ class CWMPrayerSitePrayer extends CWMPrayerAdmin
 	/**
 	 * Clean Text String
 	 *
-	 * @param   string  $text  ?
+	 * @param   string  &$text  ?
 	 *
 	 * @return mixed
 	 *

@@ -18,6 +18,7 @@ class PlgSystemCWMPrayerEmail extends JPlugin
 {
 	public $pcConfig;
 
+	/** @var \JDatabaseDriver */
 	private $db;
 
 	/**
@@ -312,8 +313,10 @@ class PlgSystemCWMPrayerEmail extends JPlugin
 		}
 		else
 		{
-			$this->db->setQuery("SELECT * FROM #__cwmprayer WHERE sendto='0000-00-00 00:00:00' AND publishstate=1" .
-				$idstr);
+			$this->db->setQuery(
+				"SELECT * FROM #__cwmprayer WHERE sendto='0000-00-00 00:00:00' AND publishstate=1" .
+				$idstr
+			);
 		}
 
 		return $this->db->loadObjectList();

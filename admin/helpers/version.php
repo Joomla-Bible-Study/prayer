@@ -175,7 +175,11 @@ class CWMPrayerVersion
 		if ($data)
 		{
 			$xmlObj  = simplexml_load_string($data);
-			$xmlObj->upglink = $xmlObj->update->downloads->downloadurl;
+
+			if (isset($xmlObj->update))
+			{
+				$xmlObj->upglink = $xmlObj->update->downloads->downloadurl;
+			}
 		}
 		else
 		{
