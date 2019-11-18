@@ -1,7 +1,7 @@
 {
     "_readme": [
         "This file locks the dependencies of your project to a known state",
-        "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#composer-lock-the-lock-file",
+        "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#installing-dependencies",
         "This file is @generated automatically"
     ],
     "content-hash": "b407593e265acd6851b7b947de99f1ed",
@@ -680,9 +680,7 @@
             "version": "1.4.3",
             "dist": {
                 "type": "file",
-                "url": "https://pear.php.net/get/Archive_Tar-1.4.3.tgz",
-                "reference": null,
-                "shasum": null
+                "url": "https://pear.php.net/get/Archive_Tar-1.4.3.tgz"
             },
             "require": {
                 "php": ">=5.2.0.0"
@@ -702,16 +700,14 @@
             "license": [
                 "New BSD License"
             ],
-            "description": "This class provides handling of tar files in PHP.\nIt supports creating, listing, extracting and adding to tar files.\nGzip support is available if PHP has the zlib extension built-in or\nloaded. Bz2 compression is also supported with the bz2 extension loaded."
+            "description": "This class provides handling of tar files in PHP.\nIt supports creating, listing, extracting and adding to tar files.\nGzip support is available if PHP has the zlib extension built-in or\nloaded. Bz2 compression is also supported with the bz2 extension loaded.\nAlso Lzma2 compressed archives are supported with xz extension."
         },
         {
             "name": "pear-pear.php.net/Console_Getopt",
             "version": "1.4.1",
             "dist": {
                 "type": "file",
-                "url": "https://pear.php.net/get/Console_Getopt-1.4.1.tgz",
-                "reference": null,
-                "shasum": null
+                "url": "https://pear.php.net/get/Console_Getopt-1.4.1.tgz"
             },
             "require": {
                 "php": ">=5.4.0.0"
@@ -731,16 +727,14 @@
             "license": [
                 "BSD-2-Clause"
             ],
-            "description": "This is a PHP implementation of \"getopt\" supporting both\nshort and long options."
+            "description": "This is a PHP implementation of &quot;getopt&quot; supporting both\nshort and long options."
         },
         {
             "name": "pear-pear.php.net/PEAR",
             "version": "1.10.5",
             "dist": {
                 "type": "file",
-                "url": "https://pear.php.net/get/PEAR-1.10.5.tgz",
-                "reference": null,
-                "shasum": null
+                "url": "https://pear.php.net/get/PEAR-1.10.5.tgz"
             },
             "require": {
                 "ext-pcre": "*",
@@ -777,9 +771,7 @@
             "version": "1.1.1",
             "dist": {
                 "type": "file",
-                "url": "https://pear.php.net/get/Structures_Graph-1.1.1.tgz",
-                "reference": null,
-                "shasum": null
+                "url": "https://pear.php.net/get/Structures_Graph-1.1.1.tgz"
             },
             "require": {
                 "php": ">=5.3.0.0"
@@ -806,9 +798,7 @@
             "version": "1.4.3",
             "dist": {
                 "type": "file",
-                "url": "https://pear.php.net/get/XML_Util-1.4.3.tgz",
-                "reference": null,
-                "shasum": null
+                "url": "https://pear.php.net/get/XML_Util-1.4.3.tgz"
             },
             "require": {
                 "ext-pcre": "*",
@@ -1892,6 +1882,7 @@
                 "testing",
                 "xunit"
             ],
+            "abandoned": true,
             "time": "2015-08-07T04:57:38+00:00"
         },
         {
@@ -2268,6 +2259,7 @@
                 "mock",
                 "xunit"
             ],
+            "abandoned": true,
             "time": "2015-10-02T06:51:40+00:00"
         },
         {
@@ -2978,16 +2970,16 @@
         },
         {
             "name": "symfony/dependency-injection",
-            "version": "v2.8.25",
+            "version": "v2.8.52",
             "source": {
                 "type": "git",
                 "url": "https://github.com/symfony/dependency-injection.git",
-                "reference": "db8bdcfc6f54c6968756f31c8a9ea77ac10d08d7"
+                "reference": "c306198fee8f872a8f5f031e6e4f6f83086992d8"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/symfony/dependency-injection/zipball/db8bdcfc6f54c6968756f31c8a9ea77ac10d08d7",
-                "reference": "db8bdcfc6f54c6968756f31c8a9ea77ac10d08d7",
+                "url": "https://api.github.com/repos/symfony/dependency-injection/zipball/c306198fee8f872a8f5f031e6e4f6f83086992d8",
+                "reference": "c306198fee8f872a8f5f031e6e4f6f83086992d8",
                 "shasum": ""
             },
             "require": {
@@ -3037,7 +3029,7 @@
             ],
             "description": "Symfony DependencyInjection Component",
             "homepage": "https://symfony.com",
-            "time": "2017-07-17T14:02:19+00:00"
+            "time": "2019-04-16T11:33:46+00:00"
         },
         {
             "name": "symfony/event-dispatcher",
